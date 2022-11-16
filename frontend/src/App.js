@@ -1,23 +1,36 @@
-import logo from './logo.svg';
-import './App.css';
+import logo from "./logo.svg";
+import "./App.css";
 
 function App() {
+  const allowDrop = (e) => {
+    e.preventDefault();
+  };
+
+  const drop = (e) => {
+    e.preventDefault();
+    console.log(e);
+
+    var data = e.dataTransfer.getData("text");
+    e.target.appendChild(document.getElementById(data));
+  };
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div className="grid-container">
+        <div className="grid-item structure1">
+          <h2> Structure 1</h2>
+          <div className="high-level">
+            <div draggable="true"> High Level</div>
+          </div>
+        </div>
+        <div className="grid-item structure2">
+          <h2> Structure 2</h2>
+          <div onDragOver={allowDrop} onDrop={drop}></div>
+        </div>
+        <div className="grid-item structure3">
+          <h2> Structure 3</h2>
+        </div>
+      </div>
     </div>
   );
 }
