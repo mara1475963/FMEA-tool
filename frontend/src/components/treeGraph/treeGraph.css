@@ -1,0 +1,21 @@
+.node-buttton {
+  width: 100px;
+  float: left;
+}
+
+.node__root g > rect {
+  fill: #c5c2c2;
+}
+
+.node__branch g > rect {
+  fill: #6bed28;
+}
+
+.node__leaf g > rect {
+  fill: #b8f39a;
+}
+
+.tree-graph {
+  grid-column-start: 2;
+  grid-column-end: 3;
+}

@@ -1,0 +1,87 @@
+{
+  "id": 0,
+  "name": "Wheel Flange",
+  "functions": [
+    {
+      "name": "Fitment Flush with Substrate",
+      "failureEffects": ["Fitment loose", "Fitment cannot be done"],
+      "severity": 5,
+      "severity2": 5
+    }
+  ],
+  "children": [
+    {
+      "id": 1,
+      "name": "Rough Turn",
+      "attributes": {
+        "department": "Production"
+      },
+      "functions": [
+        {
+          "name": "Maintain sufficient stock for downstream machining",
+          "failureEffects": ["Inadequate Stock for machining"]
+        }
+      ],
+      "children": [
+        {
+          "id": 2,
+          "name": "Machine",
+          "functions": [
+            {
+              "name": "asdasd",
+              "FailureCauses": [
+                {
+                  "name": "chyba",
+                  "PreventionControl": "String",
+                  "Occurance": "Number",
+                  "DetectionControl": "String",
+                  "Detection": "Number",
+                  "ActionPriority": "String",
+                  "PreventionAction": "String",
+                  "DetectionAction": "String",
+                  "ResposiblePersons": ["String"],
+                  "TargetDate": "asdsa",
+                  "Status": "String,",
+                  "ActionTaken": "String,",
+                  "CompletionDate": "String,",
+                  "Occurance2": "Number",
+                  "Detection2": "Number",
+                  "ActionPriority2": "String,",
+                  "Remarks": "String"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": 3,
+          "name": "Coolant system"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "name": "Facing"
+    },
+    {
+      "id": 7,
+      "name": "Finish turn",
+      "children": [
+        {
+          "id": 5,
+          "name": "Tool Stop",
+          "attributes": {
+            "department": "Fabrication"
+          }
+        },
+        {
+          "id": 6,
+          "name": "Live Center",
+          "attributes": {
+            "department": "Assembly"
+          }
+        }
+      ]
+    }
+  ]
+}

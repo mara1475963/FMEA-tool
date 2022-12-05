@@ -1,0 +1,11 @@
+.node-functions > li {
+  color: green;
+}
+.node-effects > li {
+  color: red;
+}
+
+ul {
+  list-style-type: none;
+  text-align: left;
+}
