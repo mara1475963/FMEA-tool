@@ -4,7 +4,7 @@
   "functions": [
     {
       "name": "Fitment Flush with Substrate",
-      "failureEffects": ["Fitment loose", "Fitment cannot be done"],
+      "failures": ["Fitment loose", "Fitment cannot be done"],
       "severity": 5,
       "severity2": 5
     }
@@ -13,25 +13,22 @@
     {
       "id": 1,
       "name": "Rough Turn",
-      "attributes": {
-        "department": "Production"
-      },
       "functions": [
         {
           "name": "Maintain sufficient stock for downstream machining",
-          "failureEffects": ["Inadequate Stock for machining"]
+          "failures": [{ "name": "Inadequate Stock for machining" }]
         }
       ],
       "children": [
         {
           "id": 2,
-          "name": "Machine",
+          "name": "Tool Holder",
           "functions": [
             {
-              "name": "asdasd",
-              "FailureCauses": [
+              "name": "Maintain Accuracy of engagement position",
+              "failures": [
                 {
-                  "name": "chyba",
+                  "name": "Variation in engagement position",
                   "PreventionControl": "String",
                   "Occurance": "Number",
                   "DetectionControl": "String",
@@ -69,17 +66,11 @@
       "children": [
         {
           "id": 5,
-          "name": "Tool Stop",
-          "attributes": {
-            "department": "Fabrication"
-          }
+          "name": "Tool Stop"
         },
         {
           "id": 6,
-          "name": "Live Center",
-          "attributes": {
-            "department": "Assembly"
-          }
+          "name": "Live Center"
         }
       ]
     }

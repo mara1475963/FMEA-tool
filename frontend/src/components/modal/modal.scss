@@ -1,0 +1,79 @@
+.add-recipe-window {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80rem;
+  background-color: white;
+  border-radius: 9px;
+  height: 40rem;
+  padding: 5rem 6rem;
+  box-shadow: 0 4rem 6rem rgba(0, 0, 0, 0.25);
+  z-index: 1000;
+  transition: all 0.5s;
+  overflow-y: scroll;
+
+  .btn--close-modal {
+    font-family: inherit;
+    color: inherit;
+    position: absolute;
+    top: 0.5rem;
+    right: 1.6rem;
+    font-size: 3.5rem;
+    cursor: pointer;
+    border: none;
+    background: none;
+  }
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(4px);
+  z-index: 100;
+  transition: all 0.5s;
+}
+
+.hidden {
+  visibility: hidden;
+  opacity: 0;
+}
+
+.upload {
+  display: grid;
+  gap: 4rem;
+
+  & input {
+    font-size: 1.5rem;
+    padding: 0.8rem 1rem;
+    border: 1px solid #ddd;
+    border-radius: 0.5rem;
+    transition: all 0.2s;
+
+    &:focus {
+      outline: none;
+      border: 1px solid grey;
+    }
+  }
+}
+
+.modal-header {
+  display: grid;
+}
+
+.node-functions > li {
+  color: green;
+}
+.node-effects > li {
+  color: red;
+}
+
+ul {
+  list-style-type: none;
+  text-align: left;
+  padding: 0;
+}

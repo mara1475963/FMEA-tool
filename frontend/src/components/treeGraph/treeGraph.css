@@ -8,14 +8,19 @@
 }
 
 .node__branch g > rect {
-  fill: #6bed28;
+  fill: #ebeaea;
 }
 
-.node__leaf g > rect {
+/* .node__leaf g > rect {
   fill: #b8f39a;
-}
+} */
 
 .tree-graph {
   grid-column-start: 2;
   grid-column-end: 3;
+}
+
+.tree-graph button {
+  width: 150px;
+  font-size: 3rem;
 }

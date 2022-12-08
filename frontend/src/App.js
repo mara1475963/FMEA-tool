@@ -5,6 +5,7 @@ import Sidebar from "./components/sidebar/sidebar";
 import TreeGraph from "./components/treeGraph/treeGraph";
 import Table from "./components/table/table";
 import Header from "./components/header/header";
+import ModalWindow from "./components/modal/modal";
 
 function App() {
   const allowDrop = (e) => {
@@ -28,6 +29,7 @@ function App() {
         <TreeGraph />
         <Table />
       </div>
+      <ModalWindow />
     </div>
   );
 }

@@ -1,6 +1,8 @@
 import React from "react";
-import "./node.css";
+import "./node.scss";
 import "../treeGraph/treeGraph.css";
+import { useContext } from "react";
+import { ModalContext } from "../../context/modalWindowContext";
 
 const Node = ({
   nodeDatum,
@@ -9,8 +11,22 @@ const Node = ({
   addHandler,
   deleteHandler,
 }) => {
+  const { setNode } = useContext(ModalContext);
+
+  const window = document.querySelector(".add-recipe-window");
+  const overlay = document.querySelector(".overlay");
+  const toggleWindow = () => {
+    setNode({ ...nodeDatum });
+    overlay.classList.toggle("hidden");
+    window.classList.toggle("hidden");
+  };
+
   return (
-    <g onClick={(e) => console.log(e)}>
+    <g
+      onClick={(e) => {
+        toggleWindow();
+      }}
+    >
       <rect width="500" height="500" />
       <foreignObject {...foreignObjectProps}>
         <div style={{ width: "500px", height: "500px" }}>
@@ -19,13 +35,13 @@ const Node = ({
             {nodeDatum.functions &&
               nodeDatum.functions.map((f) => {
                 return (
-                  <>
+                  <div>
                     <li>{f.name}</li>
                     <ul className="node-effects">
-                      {f.failureEffects &&
-                        f.failureEffects.map((e) => <li>{e}</li>)}
+                      {f.failures &&
+                        f.failures.map((e) => <li>{e.name ? e.name : e}</li>)}
                     </ul>
-                  </>
+                  </div>
                 );
               })}
           </ul>
