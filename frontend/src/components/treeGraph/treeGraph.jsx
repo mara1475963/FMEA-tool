@@ -6,7 +6,7 @@ import "./treeGraph.css";
 import { findObject } from "../../helpers.js";
 import Node from "../node/node";
 import { useContext } from "react";
-import { FMEADataContext } from "../../context/fmeaDataContext";
+import { FMEADataContext } from "../../contexts/fmeaDataContext";
 
 const TreeGraph = () => {
   //State init
@@ -66,7 +66,7 @@ const TreeGraph = () => {
         renderCustomNodeElement={(rd3tProps) => {
           return renderForeignObjectNode({ ...rd3tProps, foreignObjectProps });
         }}
-        translate={{ x: 369, y: 201 }}
+     
         zoom="0.16493848884661172"
         orientation="vertical"
         pathFunc={straightPathFunc}
@@ -81,6 +81,7 @@ const TreeGraph = () => {
 export default TreeGraph;
 
 /*
+   translate={{ x: 369, y: 201 }}
 "children": [
   {
     "id": 8,

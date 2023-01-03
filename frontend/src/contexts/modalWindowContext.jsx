@@ -15,6 +15,7 @@ export const ModalWindowContextProvider = ({ children }) => {
   const add = (newNode) => {
     setNode(addA(newNode));
   };
+  console.log('context node' , node)
 
   const value = { node, setNode, add };
 

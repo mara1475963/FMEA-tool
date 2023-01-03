@@ -18,7 +18,7 @@ code {
   overflow: hidden;
   display: grid;
   grid-template-columns: 15% 85%;
-  grid-template-rows: 75px 100px auto 302px;
+  grid-template-rows: 5% 100px auto 30%;
   gap: 10px;
 }
 .grid-item {

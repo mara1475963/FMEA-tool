@@ -3,25 +3,33 @@ import "./modal.scss";
 import { useEffect } from "react";
 import { useState } from "react";
 import { useContext } from "react";
-import { ModalContext } from "../../context/modalWindowContext";
-import { FMEADataContext } from "../../context/fmeaDataContext";
+import { ModalContext } from "../../contexts/modalWindowContext";
+import { FMEADataContext } from "../../contexts/fmeaDataContext";
+import { useSelector } from "react-redux";
 
 const ModalWindow = () => {
-  const { node, setNode, add } = useContext(ModalContext);
+  //const { node, setNode, add } = useContext(ModalContext);
   const { data, update } = useContext(FMEADataContext);
+  const node = useSelector(state => state.nodeReducer.node)
 
-  console.log(data);
+  
   const toggleWindow = () => {
     document.querySelector(".add-recipe-window").classList.toggle("hidden");
     document.querySelector(".overlay").classList.toggle("hidden");
     update(data, node);
   };
 
+  useEffect(()=>{
+    console.log('modal node', node)
+
+  },[node])
+
+
+
   const onChangeHandler = (e) => {
     const element = e.target;
     console.log(e.target);
     node[element.name] = element.value;
-    add(node);
   };
 
   return (
@@ -47,7 +55,7 @@ const ModalWindow = () => {
               {node.functions &&
                 node.functions.map((f) => {
                   return (
-                    <>
+                    <div key={f.name}>
                       <li>
                         <input
                           defaultValue={f.name}
@@ -67,7 +75,7 @@ const ModalWindow = () => {
                             />
                           </div>
                         ))}
-                    </>
+                    </div>
                   );
                 })}
             </ul>

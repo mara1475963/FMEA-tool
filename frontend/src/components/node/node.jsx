@@ -2,7 +2,9 @@ import React from "react";
 import "./node.scss";
 import "../treeGraph/treeGraph.css";
 import { useContext } from "react";
-import { ModalContext } from "../../context/modalWindowContext";
+import { ModalContext } from "../../contexts/modalWindowContext";
+import { useDispatch } from "react-redux";
+import { setNodeModal } from "../../slices/node-slice";
 
 const Node = ({
   nodeDatum,
@@ -11,12 +13,14 @@ const Node = ({
   addHandler,
   deleteHandler,
 }) => {
-  const { setNode } = useContext(ModalContext);
+  const { setNode,add } = useContext(ModalContext);
 
   const window = document.querySelector(".add-recipe-window");
   const overlay = document.querySelector(".overlay");
+const dispatch = useDispatch();
+
   const toggleWindow = () => {
-    setNode({ ...nodeDatum });
+    dispatch(setNodeModal(nodeDatum));
     overlay.classList.toggle("hidden");
     window.classList.toggle("hidden");
   };
@@ -24,7 +28,7 @@ const Node = ({
   return (
     <g
       onClick={(e) => {
-        toggleWindow();
+        //toggleWindow();
       }}
     >
       <rect width="500" height="500" />
