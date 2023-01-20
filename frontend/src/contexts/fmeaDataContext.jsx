@@ -1,33 +1,39 @@
 import { createContext, useState } from "react";
-import { useEffect } from "react";
-import dataChart from "../data/data.json";
 import { findObject } from "../helpers";
 import { structure1 as treeData } from "../data/dataJS";
+import { v4 as uuid } from "uuid";
 
 export const FMEADataContext = createContext({
   data: [],
   addNodeToData: () => {},
   deleteNode: () => {},
-  count: null,
   // toggleWindow: () => {},
 });
 
-const add = (nodes, setToNodeId, count) => {
+const add = (nodes, setToNodeId) => {
   const [result] = findObject(nodes, "id", setToNodeId);
-  let newid = count;
-  newid++;
+  let newid = uuid();
+
   !result["children"]
-    ? (result.children = [{ id: newid, name: "newone" }])
+    ? (result.children = [
+        {
+          id: newid,
+          depth: result.depth + 1,
+          name: "Structure " + (result.depth + 2),
+        },
+      ])
     : result["children"].push({
         id: newid,
-        name: "newone",
+        depth: result.depth + 1,
+        name: "Structure " + (result.depth + 2),
       });
-
+  console.log(nodes);
   return [...nodes];
 };
 const deleteN = (nodes, nodeID, depth) => {
+  console.log(nodeID);
   const [result] = findObject(nodes, "id", nodeID);
-
+  console.log(nodes, result);
   let [nodeObj] = nodes;
   console.log(nodeObj.children.indexOf(result));
 
@@ -44,8 +50,6 @@ const deleteN = (nodes, nodeID, depth) => {
 };
 
 const updateNode = (nodes, node) => {
-  const [result] = findObject(nodes, "id", node.id);
-
   const test = nodes.map((v) => {
     if (v.id === node.id) return node;
     return v;
@@ -58,14 +62,10 @@ const updateNode = (nodes, node) => {
 
 export const FMEADataContextProvider = ({ children }) => {
   const [data, setData] = useState([treeData]);
-  const [count, setCount] = useState(4);
 
   const addNodeToData = (nodes, setToNodeId) => {
-    setData(add(nodes, setToNodeId, count));
-    setCount(++count);
+    setData(add(nodes, setToNodeId));
   };
-
-  console.log(data);
 
   const deleteNode = (nodes, nodeID, depth) => {
     setData(deleteN(nodes, nodeID, depth));
@@ -74,8 +74,8 @@ export const FMEADataContextProvider = ({ children }) => {
   const update = (nodes, node) => {
     setData(updateNode(nodes, node));
   };
-
   const value = { data, setData, addNodeToData, deleteNode, update };
+
   return (
     <FMEADataContext.Provider value={value}>
       {children}

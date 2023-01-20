@@ -1,3 +1,5 @@
+import { v4 as uuid } from "uuid";
+
 export const findObject = (obj = {}, key, value) => {
   const result = [];
   const recursiveSearch = (obj = {}) => {
@@ -13,4 +15,8 @@ export const findObject = (obj = {}, key, value) => {
   };
   recursiveSearch(obj);
   return result;
+};
+
+export const getNewId = () => {
+  return uuid();
 };

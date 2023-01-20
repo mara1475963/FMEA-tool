@@ -182,7 +182,8 @@ functions.push({
 
 const structure3 = [
   {
-    id: 0,
+    id: '0',
+    depth:2,
     name: "Structuer 3",
     functions: [functions[1]],
   },
@@ -190,14 +191,16 @@ const structure3 = [
 
 const structure2 = [
   {
-    id: 1,
+    id: '1',
+    depth:1,
     name: "Strucutre 2",
     functions: [functions[2]],
     children: [structure3[0]],
   },
 ];
 export const structure1 = {
-  id: 2,
+  id: '2',
+  depth:0,
   name: "Structure 1",
   functions: [functions[0]],
   children: [structure2[0]],

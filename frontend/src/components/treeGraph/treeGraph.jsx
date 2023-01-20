@@ -1,26 +1,42 @@
 import React, { useState, useEffect } from "react";
 import Tree from "react-d3-tree";
-import dataChart from "../../data/data.json";
 
 import "./treeGraph.css";
-import { findObject } from "../../helpers.js";
-import Node from "../node/node";
-import { useContext } from "react";
-import { FMEADataContext } from "../../contexts/fmeaDataContext";
 
+import Node from "../node/node";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  addNodeToData,
+  deleteNodeFromData,
+} from "../../store/fmea/fmea.actions";
+import Spinner from "../spinner/spinner.component";
 const TreeGraph = () => {
   //State init
 
-  const { data, setData, addNodeToData, deleteNode } =
-    useContext(FMEADataContext);
+  // const { data, setData, addNodeToData, deleteNode } =
+  //   useContext(FMEADataContext);
+
+  const dispatch = useDispatch();
+  const data = useSelector((state) => state.fmea.data);
+  const isLoading = useSelector((state) => state.fmea.isLoading);
+
+  const [treeData, setTreeData] = useState(data);
+
+  useEffect(() => {
+    setTreeData(data);
+  }, [data]);
 
   //Event handlers
   const AddNode = (e) => {
-    addNodeToData(data, +e.target.dataset.id);
+    dispatch(addNodeToData(treeData, e.target.dataset.id));
+    setTreeData({ ...treeData });
   };
 
   const DeleteNode = (e) => {
-    deleteNode(data, +e.target.dataset.id, +e.target.dataset.depth);
+    dispatch(
+      deleteNodeFromData(treeData, e.target.dataset.id, +e.target.dataset.depth)
+    );
+    setTreeData({ ...treeData });
   };
 
   //Graph modifications
@@ -46,9 +62,6 @@ const TreeGraph = () => {
 
     return `M${source.x + 250},${source.y + 500}L${target.x + 250},${target.y}`;
   };
-  const click = (e) => {
-    console.log(e);
-  };
 
   //RETURN
   const nodeSize = { x: 600, y: 700 };
@@ -60,20 +73,27 @@ const TreeGraph = () => {
 
   return (
     <div className="grid-item tree-graph">
-      <Tree
-        data={data}
-        nodeSize={nodeSize}
-        renderCustomNodeElement={(rd3tProps) => {
-          return renderForeignObjectNode({ ...rd3tProps, foreignObjectProps });
-        }}
-     
-        zoom="0.16493848884661172"
-        orientation="vertical"
-        pathFunc={straightPathFunc}
-        rootNodeClassName="node__root"
-        branchNodeClassName="node__branch"
-        leafNodeClassName="node__leaf"
-      />
+      {isLoading ? (
+        <Spinner />
+      ) : (
+        // <Skeleton variant="rectangular" width={210} height={60} />
+        <Tree
+          data={treeData}
+          nodeSize={nodeSize}
+          renderCustomNodeElement={(rd3tProps) => {
+            return renderForeignObjectNode({
+              ...rd3tProps,
+              foreignObjectProps,
+            });
+          }}
+          zoom="0.16493848884661172"
+          orientation="vertical"
+          pathFunc={straightPathFunc}
+          rootNodeClassName="node__root"
+          branchNodeClassName="node__branch"
+          leafNodeClassName="node__leaf"
+        />
+      )}
     </div>
   );
 };

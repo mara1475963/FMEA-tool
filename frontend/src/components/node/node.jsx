@@ -1,10 +1,8 @@
 import React from "react";
 import "./node.scss";
 import "../treeGraph/treeGraph.css";
-import { useContext } from "react";
-import { ModalContext } from "../../contexts/modalWindowContext";
-import { useDispatch } from "react-redux";
-import { setNodeModal } from "../../slices/node-slice";
+import { useDispatch, useSelector } from "react-redux";
+import { setModalData, setModalIsOpen } from "../../store/modal/modal.actions";
 
 const Node = ({
   nodeDatum,
@@ -13,24 +11,16 @@ const Node = ({
   addHandler,
   deleteHandler,
 }) => {
-  const { setNode,add } = useContext(ModalContext);
-
-  const window = document.querySelector(".add-recipe-window");
-  const overlay = document.querySelector(".overlay");
-const dispatch = useDispatch();
+  const dispatch = useDispatch();
+  const opened = useSelector((state) => state.modal.isOpen);
 
   const toggleWindow = () => {
-    dispatch(setNodeModal(nodeDatum));
-    overlay.classList.toggle("hidden");
-    window.classList.toggle("hidden");
+    dispatch(setModalIsOpen(!opened));
+    dispatch(setModalData(nodeDatum));
   };
 
   return (
-    <g
-      onClick={(e) => {
-        //toggleWindow();
-      }}
-    >
+    <g>
       <rect width="500" height="500" />
       <foreignObject {...foreignObjectProps}>
         <div style={{ width: "500px", height: "500px" }}>
@@ -39,11 +29,13 @@ const dispatch = useDispatch();
             {nodeDatum.functions &&
               nodeDatum.functions.map((f) => {
                 return (
-                  <div>
+                  <div key={f.name}>
                     <li>{f.name}</li>
                     <ul className="node-effects">
                       {f.failures &&
-                        f.failures.map((e) => <li>{e.name ? e.name : e}</li>)}
+                        f.failures.map((e) => (
+                          <li key={e.name}>{e.name ? e.name : e}</li>
+                        ))}
                     </ul>
                   </div>
                 );
@@ -76,6 +68,19 @@ const dispatch = useDispatch();
               Delete
             </button>
           )}
+          {
+            //<Button onClick={toggleWindow}>Open modal</Button>
+            <button
+              className="node-buttton"
+              onClick={(e) => {
+                toggleWindow();
+              }}
+              data-id={nodeDatum.id}
+              data-depth={nodeDatum.__rd3t.depth}
+            >
+              Edit
+            </button>
+          }
         </div>
       </foreignObject>
     </g>

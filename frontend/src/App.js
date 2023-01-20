@@ -6,19 +6,16 @@ import TreeGraph from "./components/treeGraph/treeGraph";
 import Table from "./components/table/table";
 import Header from "./components/header/header";
 import ModalWindow from "./components/modal/modal";
+import { useDispatch } from "react-redux";
+import { useEffect } from "react";
+import { fetchFMEAData, fetchFMEADataAsync } from "./store/fmea/fmea.actions";
 
 function App() {
-  const allowDrop = (e) => {
-    e.preventDefault();
-  };
+  const dispatch = useDispatch();
 
-  const drop = (e) => {
-    e.preventDefault();
-    console.log(e);
-
-    var data = e.dataTransfer.getData("text");
-    e.target.appendChild(document.getElementById(data));
-  };
+  useEffect(() => {
+    dispatch(fetchFMEAData());
+  }, []);
 
   return (
     <div className="App">
