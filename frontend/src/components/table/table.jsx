@@ -9,12 +9,15 @@ const Table = () => {
   const dispatch = useDispatch();
   const data = useSelector((state) => state.fmea.data);
   const isLoading = useSelector((state) => state.fmea.isLoading);
+  const functions = useSelector((state) => state.fmea.lvl2Functions);
 
   const [treeData, setTreeData] = useState(data);
 
   useEffect(() => {
-    setTreeData(data);
+    setTreeData({ ...data });
   }, [data]);
+
+  // console.log(data, treeData);
 
   const generateStrcutureHTML = () => {
     let result = "";
@@ -43,7 +46,9 @@ const Table = () => {
           <table>
             <thead>
               <tr>
-                <th colSpan={3}>Structure analysis(Step 2)</th>
+                <th style={{ backgroundColor: "gray" }} colSpan={3}>
+                  Structure analysis(Step 2)
+                </th>
               </tr>
             </thead>
             <thead>
@@ -54,38 +59,25 @@ const Table = () => {
               </tr>
             </thead>
             <tbody>
-              {/* <tr>
-                <td rowSpan={20}> MAIN</td>
-              </tr>
-              <tr>
-                <td rowSpan={4}>Second</td>
-              </tr>
-              <tr>
-                <td>Third</td>
-              </tr>
-              <tr>
-                <td>Third</td>
-              </tr>
-              <tr>
-                <td>Third</td>
-              </tr>
-              <tr>
-                <td rowSpan={4}>Second</td>
-              </tr>
-              <tr>
-                <td>Third</td>
-              </tr>
-              <tr>
-                <td>Third</td>
-              </tr>
-              <tr>
-                <td>Third</td>
-              </tr> */}
               <tr>
                 <td rowSpan={20}>{treeData.name}</td>
               </tr>
               {parse(generateStrcutureHTML())}
             </tbody>
+            <thead>
+              <tr>
+                <th style={{ backgroundColor: "green" }} colSpan={3}>
+                  Function analysis(Step 3)
+                </th>
+              </tr>
+            </thead>
+            <thead>
+              <tr>
+                <th>1. Next Higher Level Function</th>
+                <th>2. Focus Element</th>
+                <th>3. Next Lower Level Function</th>
+              </tr>
+            </thead>
           </table>
         )
       )}

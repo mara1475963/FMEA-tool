@@ -21,7 +21,7 @@ const addNode = (nodes, setToNodeId) => {
         depth: result.depth + 1,
         name: "Structure " + (result.depth + 2),
       });
-  return nodes;
+  return { ...nodes };
 };
 
 const deleteNode = (nodes, nodeID, depth) => {
@@ -38,7 +38,7 @@ const deleteNode = (nodes, nodeID, depth) => {
     });
   }
 
-  return nodes;
+  return { ...nodes };
 };
 
 const updateNode = (nodes, node) => {

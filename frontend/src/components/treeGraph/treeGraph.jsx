@@ -24,10 +24,10 @@ const TreeGraph = () => {
     setTreeData(data);
   }, [data]);
 
+  // console.log(data, treeData);
   //Event handlers
   const AddNode = (e) => {
     dispatch(addNodeToData(treeData, e.target.dataset.id));
-    console.log(treeData);
     setTreeData({ ...treeData });
   };
 

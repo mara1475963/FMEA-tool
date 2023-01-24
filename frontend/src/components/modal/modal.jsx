@@ -6,6 +6,10 @@ import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
+import TreeView from "@mui/lab/TreeView";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import TreeItem from "@mui/lab/TreeItem";
 import { Autocomplete } from "@mui/material";
 import {
   setMainFailures,
@@ -84,7 +88,7 @@ const ModalWindow = () => {
 
     if (node.depth === 1) {
       functions.push(newFunction);
-      dispatch(setMainFunctions(functions));
+      dispatch(setMainFunctions(...functions));
       console.log(functions);
     } else {
       const [result] = findObject(nodes, "id", selectedFunction.id);
@@ -126,7 +130,6 @@ const ModalWindow = () => {
         : result["failures"].push(newFailure);
       console.log(result);
     }
-    console.log(node);
 
     setNode({ ...node });
   };
@@ -141,127 +144,156 @@ const ModalWindow = () => {
       >
         <Box sx={{ ...style, width: 400 }}>
           <form id="failureForm" onSubmit={(e) => e.preventDefault()}></form>
-          <form onSubmit={(e) => e.preventDefault()}>
+          <form>
             <div className="modal-header">
-              <input
-                className="title"
+              <TextField
                 defaultValue={node.name}
-                type="text"
-                data-type="title"
                 onChange={onChangeHandler}
+                size="small"
+                inputProps={{
+                  className: "form-input title",
+                  "data-type": "title",
+                }}
               />
             </div>
-            <span>Functions</span>
-            <ul className="node-functions">
-              {node.functions &&
-                node.functions.map((f, f_idx) => {
-                  return (
-                    <div key={f.name}>
-                      <li>
-                        <input
-                          defaultValue={f.name}
-                          type="text"
-                          data-type="function"
-                          data-id={f.id}
-                          data-index={f_idx}
-                          onChange={onChangeHandler}
-                        />
-                      </li>
-                      <span>Failures</span>
-
-                      {f.failures &&
-                        f.failures.map((e, e_idx) => (
-                          <li className="modal-header" key={e.name}>
-                            <input
-                              defaultValue={e.name ? e.name : e}
+            <div className="function-container">
+              <TreeView
+                aria-label="file system navigator"
+                defaultCollapseIcon={<ExpandMoreIcon />}
+                defaultExpandIcon={<ChevronRightIcon />}
+                defaultExpanded={["1"]}
+                sx={{
+                  overflowY: "none",
+                }}
+              >
+                <TreeItem nodeId="1" label="Functions">
+                  {node.functions &&
+                    node.functions.map((f, f_idx) => {
+                      return (
+                        <div key={f.name}>
+                          <div className="input-container">
+                            <div style={{ color: "green" }}>Func</div>
+                            <TextField
+                              defaultValue={f.name}
+                              type="text"
+                              size="small"
+                              className="form-input"
+                              onChange={onChangeHandler}
+                              inputProps={{
+                                "data-type": "function",
+                                "data-id": f.id,
+                                "data-index": f_idx,
+                              }}
+                            />
+                          </div>
+                          <TreeItem nodeId="2" label="Failures">
+                            {f.failures &&
+                              f.failures.map((e, e_idx) => (
+                                <div className="input-container">
+                                  <div style={{ color: "red" }}>Fail</div>
+                                  <TextField
+                                    defaultValue={e.name ? e.name : e}
+                                    type="text"
+                                    size="small"
+                                    inputProps={{
+                                      "data-type": "failure",
+                                      "data-id": e.id,
+                                      "data-findex": f_idx,
+                                      "data-index": e_idx,
+                                    }}
+                                    onChange={onChangeHandler}
+                                  />
+                                </div>
+                              ))}
+                          </TreeItem>
+                          <div className="add-container">
+                            <TextField
+                              id="new-failure"
+                              size="small"
+                              inputProps={{
+                                "data-findex": f_idx,
+                              }}
+                              defaultValue={""}
+                              name="newFailure"
                               type="text"
                               data-type="failure"
-                              data-id={e.id}
-                              data-findex={f_idx}
-                              data-index={e_idx}
-                              onChange={onChangeHandler}
+                              form="failureForm"
                             />
-                          </li>
-                        ))}
 
-                      <span>Add failure</span>
-                      <div className="add-container">
-                        <input
-                          id="new-failure"
-                          data-findex={f_idx}
-                          defaultValue={""}
-                          name="newFailure"
-                          type="text"
-                          data-type="failure"
-                          form="failureForm"
-                        />
-                        <Button
-                          type="submit"
-                          variant="text"
-                          form="failureForm"
-                          onClick={(e) => {
-                            const input = e.target.previousElementSibling;
-                            addFailureHandler(
-                              input.dataset.findex,
-                              input.value
-                            );
-                            console.log(e.target.previousElementSibling);
-                          }}
-                        >
-                          Add
-                        </Button>
-                        {node.depth !== 1 && (
-                          <Autocomplete
-                            disablePortal
-                            id="combo-box-demo"
-                            name="toFunction2"
-                            data-fid={0}
-                            isOptionEqualToValue={(option, value) =>
-                              option.id === value.id
-                            }
-                            onChange={(event, value) =>
-                              setSelectedFailure(value)
-                            }
-                            options={failures.map((f) => {
-                              return { label: f.name, id: f.id };
-                            })}
-                            sx={{ width: 150 }}
-                            renderInput={(params) => (
-                              <TextField
-                                {...params}
-                                name="toFunction"
-                                label="Failure Mode"
+                            {node.depth !== 1 && (
+                              <Autocomplete
+                                disablePortal
+                                id="combo-box-demo"
+                                name="toFunction2"
+                                size="small"
+                                data-fid={0}
+                                isOptionEqualToValue={(option, value) =>
+                                  option.id === value.id
+                                }
+                                onChange={(event, value) =>
+                                  setSelectedFailure(value)
+                                }
+                                options={failures.map((f) => {
+                                  return { label: f.name, id: f.id };
+                                })}
+                                sx={{ width: 150 }}
+                                renderInput={(params) => (
+                                  <TextField
+                                    {...params}
+                                    name="toFunction"
+                                    label=""
+                                  />
+                                )}
                               />
                             )}
-                          />
-                        )}
-                      </div>
-
-                      <span>---------------------------</span>
-                    </div>
-                  );
-                })}
-            </ul>
+                            <Button
+                              type="submit"
+                              variant="text"
+                              form="failureForm"
+                              onClick={(e) => {
+                                const input =
+                                  document.getElementById("new-failure");
+                                addFailureHandler(
+                                  input.dataset.findex,
+                                  input.value
+                                );
+                              }}
+                            >
+                              Add
+                            </Button>
+                          </div>
+                        </div>
+                      );
+                    })}
+                </TreeItem>
+              </TreeView>
+            </div>
           </form>
+
           <form className="upload" onSubmit={addFunctionHandler}>
+            <span>
+              -------------------------------------------------------------
+            </span>
             <span>Add function</span>
             <div className="add-container">
-              <input
+              <TextField
                 id="new-function"
+                size="small"
                 defaultValue={""}
                 name="newFunction"
                 type="text"
-                data-type="failure"
+                inputProps={{
+                  "data-type": "function",
+                }}
               />
-              <Button type="submit" variant="text">
-                Add
-              </Button>
+
               {node.depth !== 1 && (
                 <Autocomplete
                   disablePortal
                   id="combo-box-demo"
                   name="toFunction2"
                   data-fid={0}
+                  size="small"
                   isOptionEqualToValue={(option, value) =>
                     option.id === value.id
                   }
@@ -271,10 +303,13 @@ const ModalWindow = () => {
                   })}
                   sx={{ width: 150 }}
                   renderInput={(params) => (
-                    <TextField {...params} name="toFunction" label="Function" />
+                    <TextField {...params} name="toFunction" label="" />
                   )}
                 />
               )}
+              <Button type="submit" variant="text">
+                Add
+              </Button>
             </div>
           </form>
         </Box>

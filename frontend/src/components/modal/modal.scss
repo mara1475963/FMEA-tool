@@ -29,3 +29,16 @@ ul {
 .add-container #new-failure {
   color: red;
 }
+
+.form-input {
+  text-align: center;
+}
+.input-container {
+  display: flex;
+  flex-direction: row;
+  column-gap: 10px;
+}
+
+.MuiInputBase-input {
+  height: 5px !important;
+}
