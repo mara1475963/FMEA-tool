@@ -12,12 +12,10 @@ import {
 import Spinner from "../spinner/spinner.component";
 const TreeGraph = () => {
   //State init
-
-  // const { data, setData, addNodeToData, deleteNode } =
-  //   useContext(FMEADataContext);
-
   const dispatch = useDispatch();
   const data = useSelector((state) => state.fmea.data);
+  // const functions = useSelector((state) => state.fmea.lvl2Functions);
+  // const failures = useSelector((state) => state.fmea.lvl2Failures);
   const isLoading = useSelector((state) => state.fmea.isLoading);
 
   const [treeData, setTreeData] = useState(data);
@@ -29,6 +27,7 @@ const TreeGraph = () => {
   //Event handlers
   const AddNode = (e) => {
     dispatch(addNodeToData(treeData, e.target.dataset.id));
+    console.log(treeData);
     setTreeData({ ...treeData });
   };
 
@@ -68,7 +67,6 @@ const TreeGraph = () => {
   const foreignObjectProps = {
     width: nodeSize.x,
     height: nodeSize.y,
-    x: 0,
   };
 
   return (
@@ -86,7 +84,8 @@ const TreeGraph = () => {
               foreignObjectProps,
             });
           }}
-          zoom="0.16493848884661172"
+          translate={{ x: 336, y: 5.56 }}
+          zoom="0.19614602447418766"
           orientation="vertical"
           pathFunc={straightPathFunc}
           rootNodeClassName="node__root"
@@ -99,30 +98,3 @@ const TreeGraph = () => {
 };
 
 export default TreeGraph;
-
-/*
-   translate={{ x: 369, y: 201 }}
-"children": [
-  {
-    "id": 8,
-    "name": "Tool Setter",
-    "attributes": {
-      "department": "Fabrication"
-    }
-  },
-  {
-    "id": 9,
-    "name": "Slide Stop",
-    "attributes": {
-      "department": "Fabrication"
-    }
-  },
-  {
-    "id": 10,
-    "name": "Coolant system",
-    "attributes": {
-      "department": "Fabrication"
-    }
-  }
-]
-*/

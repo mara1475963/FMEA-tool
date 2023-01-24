@@ -6,7 +6,7 @@ export const findObject = (obj = {}, key, value) => {
     if (!obj || typeof obj !== "object") {
       return;
     }
-    if (obj[key] === value) {
+    if (obj[key] == value) {
       result.push(obj);
     }
     Object.keys(obj).forEach(function (k) {

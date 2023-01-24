@@ -94,8 +94,26 @@ export const fetchFMEASuccess = (data) =>
 export const fetchFMEAFailure = (error) =>
   createAction(FMEA_ACTION_TYPES.FETCH_FMEA_FAIL, error);
 
-export const fetchFMEAData = () =>
-  createAction(FMEA_ACTION_TYPES.FETCH_FMEA_SUCCESS, treeData);
+export const fetchFMEAData = () => {
+  return async (dispatch) => {
+    try {
+      dispatch(setMainData(treeData));
+      dispatch(setMainFunctions(treeData.children[0].functions));
+      dispatch(setMainFailures(treeData.children[0].functions[0].failures));
+    } catch (error) {
+      dispatch(fetchFMEAFailure(error));
+    }
+  };
+};
+
+export const setMainFunctions = (functions) =>
+  createAction(FMEA_ACTION_TYPES.SET_LVL2_FUNCTIONS, functions);
+
+export const setMainFailures = (failures) =>
+  createAction(FMEA_ACTION_TYPES.SET_LVL2_FAILURES, failures);
+
+export const setMainData = (data) =>
+  createAction(FMEA_ACTION_TYPES.SET_FMEA_DATA, data);
 
 export const fetchFMEADataAsync = () => {
   return async (dispatch) => {

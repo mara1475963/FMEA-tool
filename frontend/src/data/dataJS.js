@@ -130,7 +130,7 @@ const failures = [
     name: "failureEffect",
   },
   {
-    id: 0,
+    id: 1,
     depth: 2,
     name: "Failure Cause",
     PreventionControl: "String",
@@ -152,20 +152,20 @@ const failures = [
   },
 ];
 failures.push({
-  id: 0,
+  id: 2,
   depth: 1,
   name: "FailureMode",
   failures: [failures[0], failures[1]],
 });
 const functions = [
   {
-    id: 0,
+    id: 3,
     depth: 0,
     name: "Function lvl1",
     failures: [failures[0]],
   },
   {
-    id: 0,
+    id: 4,
     depth: 2,
     name: "Function lvl3",
     failures: [failures[1]],
@@ -173,7 +173,7 @@ const functions = [
 ];
 
 functions.push({
-  id: 0,
+  id: 5,
   depth: 1,
   name: "Function lvl2",
   functions: [functions[0], functions[1]],
@@ -182,8 +182,8 @@ functions.push({
 
 const structure3 = [
   {
-    id: '0',
-    depth:2,
+    id: 6,
+    depth: 2,
     name: "Structuer 3",
     functions: [functions[1]],
   },
@@ -191,16 +191,16 @@ const structure3 = [
 
 const structure2 = [
   {
-    id: '1',
-    depth:1,
+    id: 7,
+    depth: 1,
     name: "Strucutre 2",
     functions: [functions[2]],
     children: [structure3[0]],
   },
 ];
 export const structure1 = {
-  id: '2',
-  depth:0,
+  id: 8,
+  depth: 0,
   name: "Structure 1",
   functions: [functions[0]],
   children: [structure2[0]],
