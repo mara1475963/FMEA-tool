@@ -1,0 +1,29 @@
+.sidebar {
+  grid-row-start: 2;
+  grid-row-end: 4;
+  overflow-y: scroll;
+
+  .tables-container {
+    grid-column-start: 1;
+    grid-column-end: 3;
+
+    table {
+      font-size: 1rem;
+    }
+    table td,
+    th {
+      border: solid 1px black;
+    }
+    .tables-container {
+      display: flex;
+    }
+    .results {
+      .result-container {
+      }
+      position: relative;
+      top: 205px;
+      left: -2px;
+      height: fit-content;
+    }
+  }
+}

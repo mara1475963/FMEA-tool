@@ -9,6 +9,7 @@ import ModalWindow from "./components/modal/modal";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { fetchFMEAData, fetchFMEADataAsync } from "./store/fmea/fmea.actions";
+import FormPropsTextFields from "./components/test";
 
 function App() {
   const dispatch = useDispatch();

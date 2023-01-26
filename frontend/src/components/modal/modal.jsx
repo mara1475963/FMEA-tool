@@ -29,13 +29,14 @@ const ModalWindow = () => {
   };
   const dispatch = useDispatch();
   const nodes = useSelector((state) => state.fmea.data);
-  const functions = useSelector((state) => state.fmea.lvl2Functions);
-  const failures = useSelector((state) => state.fmea.lvl2Failures);
+  let functions = useSelector((state) => state.fmea.lvl2Functions);
+  let failures = useSelector((state) => state.fmea.lvl2Failures);
   let nodeModal = useSelector((state) => state.modal.node);
   const [node, setNode] = useState(nodeModal);
   const [selectedFunction, setSelectedFunction] = useState([]);
   const [selectedFailure, setSelectedFailure] = useState([]);
 
+  //console.log("1", functions);
   const style = {
     position: "absolute",
     top: "50%",
@@ -82,23 +83,31 @@ const ModalWindow = () => {
       depth: node.depth,
       name: value,
     };
+
     !node["functions"]
       ? (node.functions = [newFunction])
       : node["functions"].push(newFunction);
 
     if (node.depth === 1) {
       functions.push(newFunction);
-      dispatch(setMainFunctions(...functions));
-      console.log(functions);
+      dispatch(setMainFunctions(functions));
     } else {
-      const [result] = findObject(nodes, "id", selectedFunction.id);
+      const [result] = functions.filter((f) => f.id === selectedFunction.id);
       !result["functions"]
         ? (result.functions = [newFunction])
         : result["functions"].push(newFunction);
-      result.functions.push(newFunction);
-      console.log(result);
+      //console.log("functions", functions);
+      functions = functions.map((f) => {
+        if (selectedFunction.id === f.id) {
+          return result;
+        }
+        return f;
+      });
+      //console.log("fcs", fcs);
+      //console.log("result", result);
+      dispatch(setMainFunctions(functions));
     }
-    console.log(node);
+    console.log(functions);
     e.target.newFunction.value = "";
     setNode({ ...node });
   };
@@ -124,13 +133,20 @@ const ModalWindow = () => {
       dispatch(setMainFailures(failures));
       console.log(failures);
     } else {
-      const [result] = findObject(nodes, "id", selectedFailure.id);
+      const [result] = failures.filter((f) => f.id === selectedFailure.id);
       !result["failures"]
         ? (result.failures = [newFailure])
         : result["failures"].push(newFailure);
+      failures = failures.map((f) => {
+        if (selectedFunction.id === f.id) {
+          return result;
+        }
+        return f;
+      });
+      dispatch(setMainFailures(failures));
       console.log(result);
     }
-
+    console.log(failures);
     setNode({ ...node });
   };
 
@@ -161,7 +177,6 @@ const ModalWindow = () => {
                 aria-label="file system navigator"
                 defaultCollapseIcon={<ExpandMoreIcon />}
                 defaultExpandIcon={<ChevronRightIcon />}
-                defaultExpanded={["1"]}
                 sx={{
                   overflowY: "none",
                 }}
@@ -170,10 +185,11 @@ const ModalWindow = () => {
                   {node.functions &&
                     node.functions.map((f, f_idx) => {
                       return (
-                        <div key={f.name}>
+                        <div key={f.id}>
                           <div className="input-container">
                             <div style={{ color: "green" }}>Func</div>
                             <TextField
+                              key={f.id}
                               defaultValue={f.name}
                               type="text"
                               size="small"
@@ -189,9 +205,10 @@ const ModalWindow = () => {
                           <TreeItem nodeId="2" label="Failures">
                             {f.failures &&
                               f.failures.map((e, e_idx) => (
-                                <div className="input-container">
+                                <div className="input-container" key={e.id}>
                                   <div style={{ color: "red" }}>Fail</div>
                                   <TextField
+                                    key={e.id}
                                     defaultValue={e.name ? e.name : e}
                                     type="text"
                                     size="small"
@@ -271,9 +288,8 @@ const ModalWindow = () => {
           </form>
 
           <form className="upload" onSubmit={addFunctionHandler}>
-            <span>
-              -------------------------------------------------------------
-            </span>
+            <span>-----------------------</span>
+            <br />
             <span>Add function</span>
             <div className="add-container">
               <TextField

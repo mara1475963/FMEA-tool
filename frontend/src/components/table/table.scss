@@ -9,5 +9,17 @@
   table td,
   th {
     border: solid 1px black;
+    padding: 0px;
+  }
+  .tables-container {
+    display: flex;
+  }
+  .results {
+    .result-container {
+    }
+    position: relative;
+    top: 205px;
+    left: -2px;
+    height: fit-content;
   }
 }

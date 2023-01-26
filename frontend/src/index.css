@@ -12,19 +12,17 @@ code {
     monospace;
 }
 .grid-container {
-  padding: 20px;
+  padding: 5px;
   box-sizing: border-box;
   height: 100vh;
   overflow: hidden;
   display: grid;
-  grid-template-columns: 15% 85%;
-  grid-template-rows: 5% 100px auto 30%;
+  grid-template-columns: 480px auto;
+  grid-template-rows: 50px 50px auto 30%;
   gap: 10px;
 }
 .grid-item {
   background-color: rgba(255, 255, 255, 0.8);
-  border: 1px solid rgba(0, 0, 0, 0.8);
-  padding: 20px;
   font-size: 30px;
   text-align: center;
 }

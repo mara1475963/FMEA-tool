@@ -155,6 +155,7 @@ failures.push({
   id: 2,
   depth: 1,
   name: "FailureMode",
+  severity: 5,
   failures: [failures[0], failures[1]],
 });
 const functions = [

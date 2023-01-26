@@ -1,4 +1,9 @@
 .navigation {
   grid-column-start: 1;
   grid-column-end: 3;
+  font-size: 1rem;
+}
+
+nav {
+  background-color: rgb(240 240 240) !important;
 }
