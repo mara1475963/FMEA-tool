@@ -25,6 +25,8 @@ const ModalWindow = () => {
   const handleOpen = () => setOpen();
   const handleClose = () => {
     dispatch(updateNodeData(nodes, node));
+    dispatch(setMainFunctions(functions));
+    dispatch(setMainFailures(failures));
     return setOpen(false);
   };
   const dispatch = useDispatch();
@@ -59,12 +61,61 @@ const ModalWindow = () => {
 
     switch (element.dataset.type) {
       case "function":
+        //node
         node.functions[e.target.dataset.index].name = element.value;
+        //function
+        if (node.depth === 1) {
+          functions = functions.map((f) => {
+            if (f.id === node.functions[e.target.dataset.index].id) {
+              f.name = element.value;
+            }
+            return f;
+          });
+        } else {
+          functions = functions.map((f) => {
+            if (f.functions) {
+              f.functions = f.functions.map((fc) => {
+                if (fc.id === node.functions[e.target.dataset.index].id) {
+                  fc.name = element.value;
+                }
+                return fc;
+              });
+            }
+
+            return f;
+          });
+        }
+
         return;
       case "failure":
-        node.functions[e.target.dataset.findex].failures[
-          e.target.dataset.index
-        ].name = element.value;
+        const failure =
+          node.functions[e.target.dataset.findex].failures[
+            e.target.dataset.index
+          ];
+        failure.name = element.value;
+
+        // failure
+        if (node.depth === 1) {
+          failures = failures.map((f) => {
+            if (f.id === failure.id) {
+              f.name = element.value;
+            }
+            return f;
+          });
+        } else {
+          failures = failures.map((f) => {
+            if (f.failures) {
+              f.failures = f.failures.map((ff) => {
+                if (ff.id === failure.id) {
+                  ff.name = element.value;
+                }
+                return ff;
+              });
+            }
+            return f;
+          });
+        }
+
         return;
       case "title":
         node.name = element.value;
@@ -177,6 +228,7 @@ const ModalWindow = () => {
                 aria-label="file system navigator"
                 defaultCollapseIcon={<ExpandMoreIcon />}
                 defaultExpandIcon={<ChevronRightIcon />}
+                defaultExpanded={["1"]}
                 sx={{
                   overflowY: "none",
                 }}
