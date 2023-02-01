@@ -14,6 +14,7 @@ const Table = () => {
   const failures = useSelector((state) => state.fmea.lvl2Failures);
   const headerData = useSelector((state) => state.fmea.header);
 
+  console.log(failures);
   const [header, setHeader] = useState(headerData);
   const [treeData, setTreeData] = useState(data);
 
@@ -25,14 +26,6 @@ const Table = () => {
     setHeader({ ...headerData });
   }, [headerData]);
 
-  //const sideTable = document.querySelector(".side-table").offsetWidth;
-  // console.log(data, treeData);
-
-  const calculateAP = () => {
-    const S = document.querySelector("#initialSeverity");
-    const O = document.querySelector("#initialOccurance");
-    const D = document.querySelector("#initialDetection");
-  };
   const handler = (e) => {
     const element = e.target;
     let result = {};
@@ -218,84 +211,82 @@ const Table = () => {
         JSON.stringify(treeData) !== "{}" && (
           <div className="scroll-container tables-container">
             <form onChange={handler}>
-              <table width={2200}>
+              <table>
                 <thead>
                   <tr>
-                    <th
-                      style={{ backgroundColor: "red" }}
-                      colSpan={4}
-                      width="760"
-                    >
+                    <th style={{ backgroundColor: "red" }} width={355}>
                       Failure Analysis (Step 4)
                     </th>
-                    <th
-                      style={{ backgroundColor: "#dcdc09" }}
-                      colSpan={6}
-                      width=""
-                    >
+                    <th width={275} style={{ backgroundColor: "#dcdc09" }}>
                       Risk Analysis (Step 5)
                     </th>
-                    <th
-                      style={{ backgroundColor: "#00ffff" }}
-                      colSpan={11}
-                      width=""
-                    >
+                    <th width={685} style={{ backgroundColor: "#00ffff" }}>
                       OPTIMIZATION (Step 6)
                     </th>
                   </tr>
                 </thead>
-                {/* <ScrollContainer className="scroll-container"> */}
+              </table>
+              {/* <ScrollContainer className="scroll-container"> */}
+              <table>
                 <thead>
                   <tr>
-                    <th>
-                      1. Failure Effects (FE) to the next higher level and/or
-                      End User
+                    <th width="140">
+                      1. Failure Effects (FE) <br /> to the next higher level
+                      and/or End User
                     </th>
-                    <th style={{ writingMode: "vertical-rl", width: "25px" }}>
+                    <th width="40" style={{ writingMode: "vertical-rl" }}>
                       Severity (S) <br /> of FE
                     </th>
-                    <th>2. Failure Mode (FM) of the Focus Element</th>
-                    <th>
+                    <th width="180">
+                      2. Failure Mode (FM) <br /> of the Focus Element
+                    </th>
+                    <th width="180">
                       {header.type.name === "DFMEA"
-                        ? "3. Failure Cause (FC) of the Next Lower Level Element or Characteristic"
-                        : "3. Failure Cause (FC) of the Work Element"}
+                        ? parse(
+                            `3. Failure Cause (FC) <br /> of the Next Lower Level Element or Characteristic`
+                          )
+                        : parse(
+                            `3. Failure Cause (FC) <br /> of the Work Element`
+                          )}
                     </th>
 
-                    <th>Current preventive control (PC) for FC</th>
-                    <th style={{ writingMode: "vertical-rl", width: "25px" }}>
+                    <th width="155">Current preventive control (PC) for FC</th>
+                    <th width="40" style={{ writingMode: "vertical-rl" }}>
                       Occurence (O) <br /> of FC
                     </th>
-                    <th>Current detection control (DC) for FC or FM</th>
-                    <th style={{ writingMode: "vertical-rl", width: "25px" }}>
+                    <th width="155">
+                      Current detection control (DC) for FC or FM
+                    </th>
+                    <th width="40" style={{ writingMode: "vertical-rl" }}>
                       Detection (D) <br /> of FC or FM
                     </th>
-                    <th style={{ writingMode: "vertical-rl", width: "25px" }}>
+                    <th width="30" style={{ writingMode: "vertical-rl" }}>
                       {header.type.name === "DFMEA" ? "D" : "P"}FMEA AP
                     </th>
 
-                    <th>
+                    <th width="155">
                       {header.type.name === "DFMEA" ? "D" : "P"}FMEA Prevention
                       Action
                     </th>
-                    <th>
+                    <th width="155">
                       {header.type.name === "DFMEA" ? "D" : "P"}FMEA Detection
                       Action
                     </th>
-                    <th>Responsible Persons Name</th>
-                    <th>Target Completion Date</th>
-                    <th>Status</th>
-                    <th>Action taken with Pointer to Evidence</th>
-                    <th>Completion Date</th>
-                    <th style={{ writingMode: "vertical-rl", width: "25px" }}>
+                    <th width="155">Responsible Persons Name</th>
+                    <th width="115">Target Completion Date</th>
+                    <th width="50">Status</th>
+                    <th width="155">Action taken with Pointer to Evidence</th>
+                    <th width="115">Completion Date</th>
+                    <th width="40" style={{ writingMode: "vertical-rl" }}>
                       Severity (S)
                     </th>
-                    <th style={{ writingMode: "vertical-rl", width: "25px" }}>
+                    <th width="40" style={{ writingMode: "vertical-rl" }}>
                       Occurence (O)
                     </th>
-                    <th style={{ writingMode: "vertical-rl", width: "25px" }}>
+                    <th width="40" style={{ writingMode: "vertical-rl" }}>
                       Detection (D)
                     </th>
-                    <th style={{ writingMode: "vertical-rl", width: "25px" }}>
+                    <th width="20" style={{ writingMode: "vertical-rl" }}>
                       {header.type.name === "DFMEA" ? "D" : "P"}FMEA AP
                     </th>
                   </tr>

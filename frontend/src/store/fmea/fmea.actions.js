@@ -31,19 +31,15 @@ const addNode = (nodes, setToNodeId) => {
 
 const deleteNode = (nodes, nodeID, depth) => {
   const [result] = findObject(nodes, "id", nodeID);
-  console.log(result);
 
   let nodeObj = nodes;
 
   if (depth === 1) {
     nodeObj.children.splice(nodeObj.children.indexOf(result), 1);
-  }
-
-  if (depth === 2) {
-    nodeObj.children = nodeObj.children.map((k) => {
+  } else {
+    nodeObj.children.forEach((k) => {
       if (!k.children) return;
-      k.children = k.children.filter((v) => v.id != nodeID);
-      return k;
+      k.children = k.children.filter((v) => v.id !== nodeID);
     });
   }
 
@@ -76,7 +72,6 @@ const updateNode = (nodes, node) => {
     });
   }
 
-  //TODO - dalsi urovne krome top level
   return { ...nodes };
 };
 
@@ -85,13 +80,7 @@ export const addNodeToData = (nodes, setToNodeId) => {
   return createAction(FMEA_ACTION_TYPES.SET_FMEA_DATA, newData);
 };
 
-export const deleteNodeFromData = (
-  nodes,
-  nodeID,
-  depth,
-  functions,
-  failures
-) => {
+export const deleteNodeFromData = (nodes, nodeID, depth) => {
   const newData = deleteNode(nodes, nodeID, depth);
   return createAction(FMEA_ACTION_TYPES.SET_FMEA_DATA, newData);
 };
@@ -120,8 +109,9 @@ export const fetchFMEAData = (type) => {
       const data = JSON.parse(JSON.stringify(treeData));
       dispatch(setHeaderData({ ...header }));
       dispatch(setMainData(data));
-      dispatch(setMainFunctions(data.children[0].functions));
-      dispatch(setMainFailures(data.children[0].functions[0].failures));
+      console.log(data);
+      dispatch(setMainFunctions([]));
+      dispatch(setMainFailures([]));
     } catch (error) {
       dispatch(fetchFMEAFailure(error));
     }

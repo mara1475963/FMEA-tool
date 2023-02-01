@@ -35,7 +35,7 @@ const Navigation = () => {
               >
                 <li>
                   <a className="dropdown-item" href="#">
-                    +New FMEA &raquo;
+                    New FMEA &raquo;
                   </a>
                   <ul className="dropdown-menu dropdown-submenu">
                     <li>

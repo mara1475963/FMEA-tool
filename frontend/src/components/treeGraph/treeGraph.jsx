@@ -17,8 +17,8 @@ const TreeGraph = () => {
   //State init
   const dispatch = useDispatch();
   const data = useSelector((state) => state.fmea.data);
-  const functions = useSelector((state) => state.fmea.lvl2Functions);
-  const failures = useSelector((state) => state.fmea.lvl2Failures);
+  // const functions = useSelector((state) => state.fmea.lvl2Functions);
+  // const failures = useSelector((state) => state.fmea.lvl2Failures);
   const isLoading = useSelector((state) => state.fmea.isLoading);
 
   const [treeData, setTreeData] = useState({});
@@ -39,8 +39,6 @@ const TreeGraph = () => {
       deleteNodeFromData(data, e.target.dataset.id, +e.target.dataset.depth)
     );
     setTreeData({ ...data });
-    dispatch(setMainFunctions(data.children[0].functions));
-    dispatch(setMainFailures(data.children[0].functions[0].failures));
   };
 
   //Graph modifications
@@ -89,8 +87,8 @@ const TreeGraph = () => {
               foreignObjectProps,
             });
           }}
-          translate={{ x: 336, y: 5.56 }}
-          zoom="0.19614602447418766"
+          translate={{ x: 610.29, y: 10.605 }}
+          zoom="0.2588162309603444"
           orientation="vertical"
           pathFunc={straightPathFunc}
           rootNodeClassName="node__root"

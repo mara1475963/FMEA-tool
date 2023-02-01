@@ -44,7 +44,7 @@ const Sidebar = () => {
       //console.log(lvl2F);
       if (!lvl2F.functions) {
         result += `<tr>
-        <td colSpan=${2}></td>
+        <td></td>
         <td>${lvl2F.name}</td>
         <td></td>
         </tr>`;
@@ -64,15 +64,13 @@ const Sidebar = () => {
         maxConnections = lvl3F.length;
       }
       result += `<tr>
-      <td colSpan=${2}>${lvl1F[0] ? lvl1F[0].name : ""}</td>
+      <td >${lvl1F[0] ? lvl1F[0].name : ""}</td>
       <td rowSpan=${maxConnections}>${lvl2F.name}</td>
       <td>${lvl3F[0] ? lvl3F[0].name : ""}</td>
     </tr>`;
       for (let i = 1; i < maxConnections; i++) {
         result += `<tr>
-                    <td colSpan=${2}>${
-          lvl1F[i] ? lvl1F[i].name : ""
-        }</td>              
+                    <td >${lvl1F[i] ? lvl1F[i].name : ""}</td>              
                     <td>${lvl3F[i] ? lvl3F[i].name : ""}</td>
                   </tr>`;
       }
@@ -80,12 +78,7 @@ const Sidebar = () => {
     }
     return result;
   };
-  const calculateAP = () => {
-    const S = document.querySelector("#initial-severity");
-    const O = document.querySelector("#initial-occurance");
-    const D = document.querySelector("#initial-detection");
-    console.log(S, O, D);
-  };
+
   const handler = (e) => {
     const element = e.target;
     if (
@@ -111,42 +104,37 @@ const Sidebar = () => {
         JSON.stringify(treeData) !== "{}" && (
           <div className="tables-container">
             <form onChange={handler}>
-              <table className="side-table" width={540}>
+              <table className="side-table">
                 <thead>
                   <tr>
-                    <th style={{ backgroundColor: "gray" }} colSpan={4}>
+                    <th style={{ backgroundColor: "gray" }} colSpan={3}>
                       Structure analysis(Step 2)
                     </th>
                   </tr>
-                </thead>
-                <thead>
-                  <tr>
-                    <th colSpan={2} width="40%">
-                      {headerData.type.structure1}
-                    </th>
 
-                    <th width="25%">{headerData.type.structure2}</th>
-                    <th width="35%">{headerData.type.structure3}</th>
+                  <tr>
+                    <th width="33%">{headerData.type.structure1}</th>
+
+                    <th width="34%">{headerData.type.structure2}</th>
+                    <th width="33%">{headerData.type.structure3}</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
-                    <td colSpan={2} rowSpan={20}>
-                      {treeData.name}
-                    </td>
+                    <td rowSpan={30}>{treeData.name}</td>
                   </tr>
                   {parse(generateStrcutureHTML())}
                 </tbody>
                 <thead>
                   <tr>
-                    <th style={{ backgroundColor: "green" }} colSpan={4}>
+                    <th style={{ backgroundColor: "green" }} colSpan={3}>
                       Function analysis(Step 3)
                     </th>
                   </tr>
                 </thead>
                 <thead>
                   <tr>
-                    <th colSpan={2}>{headerData.type.function1}</th>
+                    <th>{headerData.type.function1}</th>
                     <th>{headerData.type.function2}</th>
                     <th>{headerData.type.function3}</th>
                   </tr>
