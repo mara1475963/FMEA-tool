@@ -17,13 +17,12 @@ code {
   height: 100vh;
   overflow: hidden;
   display: grid;
-  grid-template-columns: 480px auto;
-  grid-template-rows: 50px 50px auto 26%;
-  gap: 10px;
+  grid-template-columns: 560px auto;
+  grid-template-rows: 35px 105px auto 26%;
 }
 .grid-item {
   background-color: rgba(255, 255, 255, 0.8);
-  font-size: 30px;
+  font-size: 50px;
   text-align: center;
 }
 

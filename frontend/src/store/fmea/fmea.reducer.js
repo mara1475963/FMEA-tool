@@ -1,6 +1,7 @@
 import { FMEA_ACTION_TYPES } from "./fmea.types";
 
 export const INITIAL_STATE = {
+  header: {},
   data: {},
   lvl2Functions: [],
   lvl2Failures: [],
@@ -12,6 +13,8 @@ export const fmeaReducer = (state = INITIAL_STATE, action) => {
   const { type, payload } = action;
 
   switch (type) {
+    case FMEA_ACTION_TYPES.SET_FMEA_HEADER:
+      return { ...state, header: payload };
     case FMEA_ACTION_TYPES.SET_FMEA_DATA:
       return { ...state, data: payload, isLoading: false };
     case FMEA_ACTION_TYPES.SET_LVL2_FUNCTIONS:

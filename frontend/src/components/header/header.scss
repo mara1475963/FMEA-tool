@@ -2,11 +2,25 @@
   grid-column-start: 2;
   grid-column-end: 3;
   border: none;
+
+  span {
+    background: #c5fdc5;
+    font-size: 1rem;
+    width: 100%;
+    display: block;
+    border: solid 1px gray;
+    margin-bottom: 5px;
+  }
   .header-container {
     display: grid;
-    grid-template-columns: 200px 200px 200px 200px 200px;
+    grid-template-columns: repeat(6, 1fr);
     justify-content: space-between;
     row-gap: 5px;
+    column-gap: 5px;
+    .crossFunctionalTeam {
+      grid-column-start: 5;
+      grid-column-end: 7;
+    }
     #filled-search {
       height: 10px !important;
     }

@@ -15,7 +15,7 @@ function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(fetchFMEAData());
+    dispatch(fetchFMEAData("DFMEA"));
   }, []);
 
   return (

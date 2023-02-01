@@ -12,12 +12,18 @@ const Table = () => {
   const data = useSelector((state) => state.fmea.data);
   const isLoading = useSelector((state) => state.fmea.isLoading);
   const failures = useSelector((state) => state.fmea.lvl2Failures);
+  const headerData = useSelector((state) => state.fmea.header);
 
+  const [header, setHeader] = useState(headerData);
   const [treeData, setTreeData] = useState(data);
 
   useEffect(() => {
     setTreeData({ ...data });
   }, [data]);
+
+  useEffect(() => {
+    setHeader({ ...headerData });
+  }, [headerData]);
 
   //const sideTable = document.querySelector(".side-table").offsetWidth;
   // console.log(data, treeData);
@@ -88,7 +94,6 @@ const Table = () => {
   };
 
   const generateFCform = (fc, initialSeverity) => {
-    console.log(initialSeverity);
     const FCform = `
     <td ><input id='failure-cause-id'  type='hidden' value='${
       fc.id
@@ -153,7 +158,7 @@ const Table = () => {
         <td>${lvl2F.name}</td>
         <td></td>
         </tr>`;
-        return result;
+        continue;
       }
       const lvl1F = lvl2F.failures.filter((f) => f.depth === 0);
       const lvl3F = lvl2F.failures.filter((f) => f.depth === 2);
@@ -213,27 +218,27 @@ const Table = () => {
         JSON.stringify(treeData) !== "{}" && (
           <div className="scroll-container tables-container">
             <form onChange={handler}>
-              <table width={2500}>
+              <table width={2200}>
                 <thead>
                   <tr>
                     <th
                       style={{ backgroundColor: "red" }}
                       colSpan={4}
-                      width="20%"
+                      width="760"
                     >
                       Failure Analysis (Step 4)
                     </th>
                     <th
                       style={{ backgroundColor: "#dcdc09" }}
                       colSpan={6}
-                      width="30%"
+                      width=""
                     >
                       Risk Analysis (Step 5)
                     </th>
                     <th
                       style={{ backgroundColor: "#00ffff" }}
                       colSpan={11}
-                      width="50%"
+                      width=""
                     >
                       OPTIMIZATION (Step 6)
                     </th>
@@ -242,12 +247,19 @@ const Table = () => {
                 {/* <ScrollContainer className="scroll-container"> */}
                 <thead>
                   <tr>
-                    <th>1. Failure Effects (FE)</th>
+                    <th>
+                      1. Failure Effects (FE) to the next higher level and/or
+                      End User
+                    </th>
                     <th style={{ writingMode: "vertical-rl", width: "25px" }}>
                       Severity (S) <br /> of FE
                     </th>
-                    <th>2. Failure Mode (FM)</th>
-                    <th>3. Failure Cause (FC)</th>
+                    <th>2. Failure Mode (FM) of the Focus Element</th>
+                    <th>
+                      {header.type.name === "DFMEA"
+                        ? "3. Failure Cause (FC) of the Next Lower Level Element or Characteristic"
+                        : "3. Failure Cause (FC) of the Work Element"}
+                    </th>
 
                     <th>Current preventive control (PC) for FC</th>
                     <th style={{ writingMode: "vertical-rl", width: "25px" }}>
@@ -258,11 +270,17 @@ const Table = () => {
                       Detection (D) <br /> of FC or FM
                     </th>
                     <th style={{ writingMode: "vertical-rl", width: "25px" }}>
-                      DFMEA AP
+                      {header.type.name === "DFMEA" ? "D" : "P"}FMEA AP
                     </th>
 
-                    <th>DFMEA Prevention Action</th>
-                    <th>DFMEA Detection Action</th>
+                    <th>
+                      {header.type.name === "DFMEA" ? "D" : "P"}FMEA Prevention
+                      Action
+                    </th>
+                    <th>
+                      {header.type.name === "DFMEA" ? "D" : "P"}FMEA Detection
+                      Action
+                    </th>
                     <th>Responsible Persons Name</th>
                     <th>Target Completion Date</th>
                     <th>Status</th>
@@ -278,7 +296,7 @@ const Table = () => {
                       Detection (D)
                     </th>
                     <th style={{ writingMode: "vertical-rl", width: "25px" }}>
-                      D FMEA AP
+                      {header.type.name === "DFMEA" ? "D" : "P"}FMEA AP
                     </th>
                   </tr>
                 </thead>

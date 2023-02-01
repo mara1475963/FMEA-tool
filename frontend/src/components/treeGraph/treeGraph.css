@@ -19,6 +19,8 @@
   grid-column-start: 2;
   grid-column-end: 3;
   border: 1px solid rgb(139 139 139);
+
+  margin-top: 5px;
 }
 
 .tree-graph button {

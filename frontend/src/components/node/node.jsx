@@ -20,24 +20,33 @@ const Node = ({
   };
 
   return (
-    <g>
+    <g className="test">
       <rect width="500" height="500" />
       <foreignObject {...foreignObjectProps}>
-        <div style={{ width: "500px", height: "500px" }}>
-          <h3 style={{ textAlign: "center" }}>{nodeDatum.name}</h3>
+        <div
+          style={{ width: "500px", height: "500px", border: "solid 3px black" }}
+        >
+          <span style={{ textAlign: "center" }}>
+            <b>{nodeDatum.name}</b>
+          </span>
           <ul className="node-functions">
             {nodeDatum.functions &&
-              nodeDatum.functions.map((f) => {
+              nodeDatum.functions.map((f, f_idx) => {
                 return (
-                  <div key={f.name}>
-                    <li>{f.name}</li>
-                    <ul className="node-effects">
-                      {f.failures &&
-                        f.failures.map((e) => (
-                          <li key={e.name}>{e.name ? e.name : e}</li>
-                        ))}
-                    </ul>
-                  </div>
+                  f_idx < 1 && (
+                    <div key={f.name}>
+                      <li>{f.name}</li>
+                      <ul className="node-effects">
+                        {f.failures &&
+                          f.failures.map(
+                            (e, e_idx) =>
+                              e_idx < 1 && (
+                                <li key={e.name}>{e.name ? e.name : e}</li>
+                              )
+                          )}
+                      </ul>
+                    </div>
+                  )
                 );
               })}
           </ul>

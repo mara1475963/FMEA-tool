@@ -141,6 +141,8 @@ const ModalWindow = () => {
 
     if (node.depth === 1) {
       functions.push(newFunction);
+      //console.log(functions);
+      functions = functions.map((f) => f);
       dispatch(setMainFunctions(functions));
     } else {
       const [result] = functions.filter((f) => f.id === selectedFunction.id);
@@ -154,19 +156,19 @@ const ModalWindow = () => {
         }
         return f;
       });
-      //console.log("fcs", fcs);
+
       //console.log("result", result);
       dispatch(setMainFunctions(functions));
     }
-    console.log(functions);
+
     e.target.newFunction.value = "";
     setNode({ ...node });
   };
 
   const addFailureHandler = (fid, value) => {
     const newid = getNewId();
-    console.log(fid);
-    console.log(value);
+    //console.log(fid);
+    //console.log(value);
     // const value = e.target.newFailure.value;
     // const fid = e.target.newFailure.dataset.findex;
     const newFailure = {
@@ -181,6 +183,7 @@ const ModalWindow = () => {
 
     if (node.depth === 1) {
       failures.push(newFailure);
+      failures = failures.map((f) => f);
       dispatch(setMainFailures(failures));
       console.log(failures);
     } else {
@@ -195,9 +198,9 @@ const ModalWindow = () => {
         return f;
       });
       dispatch(setMainFailures(failures));
-      console.log(result);
+      //console.log(result);
     }
-    console.log(failures);
+    //console.log(failures);
     setNode({ ...node });
   };
 
@@ -209,20 +212,20 @@ const ModalWindow = () => {
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <Box sx={{ ...style, width: 400 }}>
+        <Box sx={{ ...style, width: 600 }}>
           <form id="failureForm" onSubmit={(e) => e.preventDefault()}></form>
           <form>
-            <div className="modal-header">
-              <TextField
-                defaultValue={node.name}
-                onChange={onChangeHandler}
-                size="small"
-                inputProps={{
-                  className: "form-input title",
-                  "data-type": "title",
-                }}
-              />
-            </div>
+            <TextField
+              defaultValue={node.name}
+              onChange={onChangeHandler}
+              size="normal"
+              inputProps={{
+                className: "form-input title",
+                "data-type": "title",
+              }}
+              fullWidth
+            />
+
             <div className="function-container">
               <TreeView
                 aria-label="file system navigator"
@@ -254,7 +257,7 @@ const ModalWindow = () => {
                               }}
                             />
                           </div>
-                          <TreeItem nodeId="2" label="Failures">
+                          <TreeItem nodeId={f.id.toString()} label="Failures">
                             {f.failures &&
                               f.failures.map((e, e_idx) => (
                                 <div className="input-container" key={e.id}>
@@ -321,11 +324,15 @@ const ModalWindow = () => {
                               form="failureForm"
                               onClick={(e) => {
                                 const input =
-                                  document.getElementById("new-failure");
+                                  e.target.parentElement.querySelector(
+                                    "#new-failure"
+                                  );
+                                console.log(input);
                                 addFailureHandler(
                                   input.dataset.findex,
                                   input.value
                                 );
+                                input.value = "";
                               }}
                             >
                               Add

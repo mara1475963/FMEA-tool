@@ -4,12 +4,13 @@
   overflow: auto;
 
   table {
-    font-size: 1rem;
+    font-size: 0.8rem;
   }
   table td,
   th {
     border: solid 1px black;
     padding: 0px;
+    color: black;
   }
   .tables-container {
     display: flex;

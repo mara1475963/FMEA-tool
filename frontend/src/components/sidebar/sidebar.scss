@@ -2,17 +2,24 @@
   grid-row-start: 2;
   grid-row-end: 4;
   overflow-y: auto;
+  display: flex;
+  flex-flow: column nowrap;
+  > :first-child {
+    margin-top: auto !important;
+    /* use !important to prevent breakage from child margin settings */
+  }
 
   .tables-container {
     grid-column-start: 1;
     grid-column-end: 3;
 
     table {
-      font-size: 1rem;
+      font-size: 0.8rem;
     }
     table td,
     th {
       border: solid 1px black;
+      color: black;
     }
     .tables-container {
       display: flex;

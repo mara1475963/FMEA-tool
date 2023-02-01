@@ -2,7 +2,12 @@ import { FMEA_ACTION_TYPES } from "./fmea.types";
 import { findObject, getNewId } from "../../helpers";
 import { createAction } from "../../utils/reducer/reducer.utils";
 
-import { structure1 as treeData } from "../../data/dataJS";
+import {
+  dfmeaHeaders,
+  header,
+  pfmeaHeaders,
+  structure1 as treeData,
+} from "../../data/dataJS";
 
 const addNode = (nodes, setToNodeId) => {
   const [result] = findObject(nodes, "id", setToNodeId);
@@ -26,15 +31,19 @@ const addNode = (nodes, setToNodeId) => {
 
 const deleteNode = (nodes, nodeID, depth) => {
   const [result] = findObject(nodes, "id", nodeID);
+  console.log(result);
 
   let nodeObj = nodes;
 
   if (depth === 1) {
     nodeObj.children.splice(nodeObj.children.indexOf(result), 1);
-  } else {
-    nodeObj.children.forEach((k) => {
+  }
+
+  if (depth === 2) {
+    nodeObj.children = nodeObj.children.map((k) => {
       if (!k.children) return;
-      k.children = k.children.filter((v) => v.id !== nodeID);
+      k.children = k.children.filter((v) => v.id != nodeID);
+      return k;
     });
   }
 
@@ -75,7 +84,14 @@ export const addNodeToData = (nodes, setToNodeId) => {
   const newData = addNode(nodes, setToNodeId);
   return createAction(FMEA_ACTION_TYPES.SET_FMEA_DATA, newData);
 };
-export const deleteNodeFromData = (nodes, nodeID, depth) => {
+
+export const deleteNodeFromData = (
+  nodes,
+  nodeID,
+  depth,
+  functions,
+  failures
+) => {
   const newData = deleteNode(nodes, nodeID, depth);
   return createAction(FMEA_ACTION_TYPES.SET_FMEA_DATA, newData);
 };
@@ -94,12 +110,18 @@ export const fetchFMEASuccess = (data) =>
 export const fetchFMEAFailure = (error) =>
   createAction(FMEA_ACTION_TYPES.FETCH_FMEA_FAIL, error);
 
-export const fetchFMEAData = () => {
+export const fetchFMEAData = (type) => {
   return async (dispatch) => {
     try {
-      dispatch(setMainData(treeData));
-      dispatch(setMainFunctions(treeData.children[0].functions));
-      dispatch(setMainFailures(treeData.children[0].functions[0].failures));
+      type === "DFMEA"
+        ? (header.type = dfmeaHeaders)
+        : (header.type = pfmeaHeaders);
+
+      const data = JSON.parse(JSON.stringify(treeData));
+      dispatch(setHeaderData({ ...header }));
+      dispatch(setMainData(data));
+      dispatch(setMainFunctions(data.children[0].functions));
+      dispatch(setMainFailures(data.children[0].functions[0].failures));
     } catch (error) {
       dispatch(fetchFMEAFailure(error));
     }
@@ -113,7 +135,11 @@ export const setMainFailures = (failures) =>
   createAction(FMEA_ACTION_TYPES.SET_LVL2_FAILURES, failures);
 
 export const setMainData = (data) =>
-  createAction(FMEA_ACTION_TYPES.SET_FMEA_DATA, data);
+  createAction(FMEA_ACTION_TYPES.SET_FMEA_DATA, { ...data });
+
+export const setHeaderData = (header) => {
+  return createAction(FMEA_ACTION_TYPES.SET_FMEA_HEADER, header);
+};
 
 export const fetchFMEADataAsync = () => {
   return async (dispatch) => {

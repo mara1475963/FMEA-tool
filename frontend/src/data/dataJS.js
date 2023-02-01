@@ -185,7 +185,7 @@ const structure3 = [
   {
     id: 6,
     depth: 2,
-    name: "Structuer 3",
+    name: "Structure 3",
     functions: [functions[1]],
   },
 ];
@@ -194,7 +194,7 @@ const structure2 = [
   {
     id: 7,
     depth: 1,
-    name: "Strucutre 2",
+    name: "Structure 2",
     functions: [functions[2]],
     children: [structure3[0]],
   },
@@ -203,6 +203,45 @@ export const structure1 = {
   id: 8,
   depth: 0,
   name: "Structure 1",
-  functions: [functions[0]],
-  children: [structure2[0]],
+  functions: [],
+  children: [],
+};
+
+export const dfmeaHeaders = {
+  name: "DFMEA",
+  structure1: "1. Next Higher Level",
+  structure2: "2.Focus Element",
+  structure3: "3. Next Lower Level of Characteristic Type",
+  function1: "1. Next Higher Level Function and Requirement",
+  function2: "2. Focus Element Function and Requirement",
+  function3: "3. Next Lower Level Function and Requirement of Characteristic",
+};
+export const pfmeaHeaders = {
+  name: "PFMEA",
+  structure1:
+    "1. Process Item System, Subsystem, Part Element or Name of Process",
+  structure2: "2. Process Step No. And Name of Focus Element",
+  structure3: "3. Process Work Element 4M Type",
+  function1:
+    "1. Function of the Process Item Function of System, Subsystem, Part Element or Name of Process",
+  function2:
+    "2. Function of the Process Step and Product Characteristics (Quantitative value is optional)",
+  function3:
+    "3. Function of the Process Work Element and Process Characteristics",
+};
+
+export const header = {
+  companyName: "ABC Gmbh",
+  location: "Bratislava",
+  customerName: "VW Group",
+  modelYear: "2006",
+  subject: "instrument J77",
+  responsibility: "Product Eng.",
+  fmeaStartDate: "1.1.2023",
+  fmeaRevisionDate: "2.2.2023",
+  fmeaIDNumber: "1",
+  confidentialityLevel: "Proprietary",
+  crossfunctionalTeam: "Product Eng, AT,...",
+  type: pfmeaHeaders,
+  //analysis: structure1,
 };
