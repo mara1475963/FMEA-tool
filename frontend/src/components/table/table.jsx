@@ -72,16 +72,18 @@ const Table = () => {
 
     if (!S.value || !O.value || !D.value) {
       AP.innerHTML = "--";
+    } else {
+      const APproduct = S.value * O.value * D.value;
+      AP.innerHTML = APproduct;
+      result.initialAP = APproduct;
     }
-    const APproduct = S.value * O.value * D.value;
-    AP.innerHTML = APproduct;
-    result.initialAP = APproduct;
     if (!S2.value || !O2.value || !D2.value) {
       AP2.innerHTML = "--";
+    } else {
+      const APproduct2 = S2.value * O2.value * D2.value;
+      AP2.innerHTML = APproduct2;
+      result.finalAP = APproduct2;
     }
-    const APproduct2 = S2.value * O2.value * D2.value;
-    AP2.innerHTML = APproduct2;
-    result.finalAP = APproduct2;
 
     dispatch(updateNodeData(data, result));
   };

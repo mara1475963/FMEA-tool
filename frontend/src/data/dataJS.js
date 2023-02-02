@@ -203,10 +203,10 @@ export const structure1 = {
   id: 8,
   depth: 0,
   name: "Structure 1",
-  // functions: [functions[0]],
-  // children: [structure2[0]],
-  functions: [],
-  children: [],
+  functions: [functions[0]],
+  children: [structure2[0]],
+  // functions: [],
+  // children: [],
 };
 
 export const dfmeaHeaders = {

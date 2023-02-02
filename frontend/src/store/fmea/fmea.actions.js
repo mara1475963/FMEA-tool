@@ -75,6 +75,19 @@ const updateNode = (nodes, node) => {
   return { ...nodes };
 };
 
+const deleteFailures = (node, failures, id, fidx) => {
+  if (node.depth === 1) {
+    failures = failures.filter((f) => f.id !== id);
+  } else {
+    failures = failures.map((fm) => {
+      fm.failures = fm.failures.filter((f) => f.id !== id);
+      return fm;
+    });
+  }
+  console.log(failures);
+  return failures;
+};
+
 export const addNodeToData = (nodes, setToNodeId) => {
   const newData = addNode(nodes, setToNodeId);
   return createAction(FMEA_ACTION_TYPES.SET_FMEA_DATA, newData);
@@ -110,12 +123,17 @@ export const fetchFMEAData = (type) => {
       dispatch(setHeaderData({ ...header }));
       dispatch(setMainData(data));
       console.log(data);
-      dispatch(setMainFunctions([]));
-      dispatch(setMainFailures([]));
+      dispatch(setMainFunctions(data.children[0].functions));
+      dispatch(setMainFailures(data.children[0].functions[0].failures));
     } catch (error) {
       dispatch(fetchFMEAFailure(error));
     }
   };
+};
+
+export const deleteNodeFailures = (node, failures, id, fidx) => {
+  const newFailures = deleteFailures(node, failures, id, fidx);
+  return createAction(FMEA_ACTION_TYPES.SET_LVL2_FAILURES, newFailures);
 };
 
 export const setMainFunctions = (functions) =>
