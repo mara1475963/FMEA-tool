@@ -8,17 +8,19 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   addNodeToData,
   deleteNodeFromData,
+  deleteNodeFunctions,
   setMainFailures,
   setMainFunctions,
 } from "../../store/fmea/fmea.actions";
 import Spinner from "../spinner/spinner.component";
 import { structure1 } from "../../data/dataJS";
+import { findObject } from "../../helpers";
 const TreeGraph = () => {
   //State init
   const dispatch = useDispatch();
   const data = useSelector((state) => state.fmea.data);
-  // const functions = useSelector((state) => state.fmea.lvl2Functions);
-  // const failures = useSelector((state) => state.fmea.lvl2Failures);
+  const functions = useSelector((state) => state.fmea.lvl2Functions);
+  const failures = useSelector((state) => state.fmea.lvl2Failures);
   const isLoading = useSelector((state) => state.fmea.isLoading);
 
   const [treeData, setTreeData] = useState({});
@@ -35,9 +37,25 @@ const TreeGraph = () => {
   };
 
   const DeleteNode = (e) => {
+    const [node] = findObject(data, "id", e.target.dataset.id);
+    if (node.functions) {
+      for (let i = 0; i < node.functions.length; i++) {
+        dispatch(
+          deleteNodeFunctions(
+            node,
+            functions,
+            failures,
+            node.functions[i].id,
+            i
+          )
+        );
+      }
+    }
+
     dispatch(
       deleteNodeFromData(data, e.target.dataset.id, +e.target.dataset.depth)
     );
+    console.log(data);
     setTreeData({ ...data });
   };
 

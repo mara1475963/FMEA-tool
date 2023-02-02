@@ -39,7 +39,7 @@ const deleteNode = (nodes, nodeID, depth) => {
   } else {
     nodeObj.children.forEach((k) => {
       if (!k.children) return;
-      k.children = k.children.filter((v) => v.id !== nodeID);
+      k.children = k.children.filter((v) => v.id != nodeID);
     });
   }
 
@@ -84,8 +84,47 @@ const deleteFailures = (node, failures, id, fidx) => {
       return fm;
     });
   }
-  console.log(failures);
+  //console.log(failures);
   return failures;
+};
+
+const deleteFunctions = (node, functions, failures, id, fidx) => {
+  if (node.depth === 1) {
+    //delete failures first
+    //console.log(functions);
+    functions.forEach((f) => {
+      if (f.id === id) {
+        if (f.failures) {
+          f.failures.forEach((fa) => {
+            failures = deleteFailures(node, failures, fa.id, fidx);
+          });
+        }
+      }
+    });
+    //delete function from list
+    functions = functions.filter((f) => f.id !== id);
+  } else {
+    //delete failures first
+    functions.forEach((fc) => {
+      if (fc.functions) {
+        fc.functions.forEach((f) => {
+          if (f.id === node.functions[fidx].id) {
+            if (f.failures) {
+              f.failures.forEach((fail) => {
+                failures = deleteFailures(node, failures, fail.id, fidx);
+              });
+            }
+          }
+        });
+      }
+    });
+
+    functions = functions.map((fc) => {
+      fc.functions = fc.functions.filter((f) => f.id !== id);
+      return fc;
+    });
+  }
+  return [functions, failures];
 };
 
 export const addNodeToData = (nodes, setToNodeId) => {
@@ -122,7 +161,6 @@ export const fetchFMEAData = (type) => {
       const data = JSON.parse(JSON.stringify(treeData));
       dispatch(setHeaderData({ ...header }));
       dispatch(setMainData(data));
-      console.log(data);
       dispatch(setMainFunctions(data.children[0].functions));
       dispatch(setMainFailures(data.children[0].functions[0].failures));
     } catch (error) {
@@ -134,6 +172,25 @@ export const fetchFMEAData = (type) => {
 export const deleteNodeFailures = (node, failures, id, fidx) => {
   const newFailures = deleteFailures(node, failures, id, fidx);
   return createAction(FMEA_ACTION_TYPES.SET_LVL2_FAILURES, newFailures);
+};
+
+export const deleteNodeFunctions = (node, functions, failures, id, fidx) => {
+  return async (dispatch) => {
+    try {
+      const [newFunctions, newFailures] = deleteFunctions(
+        node,
+        functions,
+        failures,
+        id,
+        fidx
+      );
+
+      dispatch(setMainFunctions(newFunctions));
+      dispatch(setMainFailures(newFailures));
+    } catch (error) {
+      dispatch(fetchFMEAFailure(error));
+    }
+  };
 };
 
 export const setMainFunctions = (functions) =>

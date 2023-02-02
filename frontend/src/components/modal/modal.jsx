@@ -13,6 +13,7 @@ import TreeItem from "@mui/lab/TreeItem";
 import { Autocomplete } from "@mui/material";
 import {
   deleteNodeFailures,
+  deleteNodeFunctions,
   setMainFailures,
   setMainFunctions,
   updateNodeData,
@@ -256,44 +257,43 @@ const ModalWindow = () => {
   const deleteFunctionHandler = (id, fidx) => {
     console.log(id, fidx);
 
-    if (node.depth === 1) {
-      //delete failures first
-      console.log(functions);
-      functions.forEach((f) => {
-        if (f.id === id) {
-          if (f.failures) {
-            f.failures.forEach((fa) => {
-              deleteFailureHandler(fa.id, fidx);
-            });
-          }
-        }
-      });
-      //delete function from list
-      functions = functions.filter((f) => f.id !== id);
-    } else {
-      //delete failures first
-      functions.forEach((fc) => {
-        if (fc.functions) {
-          fc.functions.forEach((f) => {
-            if (f.id === node.functions[fidx].id) {
-              if (f.failures) {
-                f.failures.forEach((fail) => {
-                  deleteFailureHandler(fail.id, fidx);
-                });
-              }
-            }
-          });
-        }
-      });
+    // if (node.depth === 1) {
+    //   //delete failures first
+    //   console.log(functions);
+    //   functions.forEach((f) => {
+    //     if (f.id === id) {
+    //       if (f.failures) {
+    //         f.failures.forEach((fa) => {
+    //           deleteFailureHandler(fa.id, fidx);
+    //         });
+    //       }
+    //     }
+    //   });
+    //   //delete function from list
+    //   functions = functions.filter((f) => f.id !== id);
+    // } else {
+    //   //delete failures first
+    //   functions.forEach((fc) => {
+    //     if (fc.functions) {
+    //       fc.functions.forEach((f) => {
+    //         if (f.id === node.functions[fidx].id) {
+    //           if (f.failures) {
+    //             f.failures.forEach((fail) => {
+    //               deleteFailureHandler(fail.id, fidx);
+    //             });
+    //           }
+    //         }
+    //       });
+    //     }
+    //   });
 
-      functions = functions.map((fc) => {
-        fc.functions = fc.functions.filter((f) => f.id !== id);
-        return fc;
-      });
-    }
+    //   functions = functions.map((fc) => {
+    //     fc.functions = fc.functions.filter((f) => f.id !== id);
+    //     return fc;
+    //   });
+    // }
+    dispatch(deleteNodeFunctions(node, functions, failures, id, fidx));
     node.functions = node.functions.filter((f) => f.id !== id);
-
-    dispatch(setMainFunctions(functions));
 
     setNode({ ...node });
   };
@@ -404,7 +404,6 @@ const ModalWindow = () => {
                               type="text"
                               data-type="failure"
                               form="failureForm"
-                              disabled={failures.length === 0}
                             />
 
                             {node.depth !== 1 && (
@@ -450,7 +449,6 @@ const ModalWindow = () => {
                                 );
                                 input.value = "";
                               }}
-                              disabled={functions.length === 0}
                             >
                               Add
                             </Button>

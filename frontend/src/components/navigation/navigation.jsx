@@ -57,16 +57,16 @@ const Navigation = () => {
                       </a>
                     </li>
                   </ul>
-                  <li>
-                    <a className="dropdown-item" href="#">
-                      Save
-                    </a>
-                  </li>
-                  <li>
-                    <a className="dropdown-item" href="#">
-                      About
-                    </a>
-                  </li>
+                </li>
+                <li>
+                  <a className="dropdown-item" href="#">
+                    Save
+                  </a>
+                </li>
+                <li>
+                  <a className="dropdown-item" href="#">
+                    About
+                  </a>
                 </li>
               </ul>
             </li>

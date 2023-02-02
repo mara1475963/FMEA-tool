@@ -14,7 +14,6 @@ const Table = () => {
   const failures = useSelector((state) => state.fmea.lvl2Failures);
   const headerData = useSelector((state) => state.fmea.header);
 
-  console.log(failures);
   const [header, setHeader] = useState(headerData);
   const [treeData, setTreeData] = useState(data);
 
@@ -42,6 +41,7 @@ const Table = () => {
       [result] = findObject(data, "id", id);
 
       result[element.id] = element.value;
+      console.log(data);
     }
 
     if (
