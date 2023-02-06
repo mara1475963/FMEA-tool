@@ -88,43 +88,44 @@ const deleteFailures = (node, failures, id, fidx) => {
   return failures;
 };
 
-const deleteFunctions = (node, functions, failures, id, fidx) => {
-  if (node.depth === 1) {
-    //delete failures first
-    //console.log(functions);
-    functions.forEach((f) => {
-      if (f.id === id) {
-        if (f.failures) {
-          f.failures.forEach((fa) => {
-            failures = deleteFailures(node, failures, fa.id, fidx);
-          });
-        }
-      }
+const deleteFunctions = (nodes, node, id, fidx) => {
+  if (node.functions[fidx].failures) {
+    node.functions[fidx].failures.forEach((f) => {
+      deleteFailures(f.id, fidx);
     });
-    //delete function from list
-    functions = functions.filter((f) => f.id !== id);
-  } else {
-    //delete failures first
-    functions.forEach((fc) => {
-      if (fc.functions) {
-        fc.functions.forEach((f) => {
-          if (f.id === node.functions[fidx].id) {
-            if (f.failures) {
-              f.failures.forEach((fail) => {
-                failures = deleteFailures(node, failures, fail.id, fidx);
-              });
-            }
+  }
+  if (node.functions[fidx].functions) {
+    node.functions[fidx].functions.forEach((fce) => {
+      nodes.functions = nodes.functions.filter((f) => fce.id !== f.id);
+      nodes.children.forEach((child) => {
+        child.children.forEach((ch3) => {
+          ch3.functions = ch3.functions.filter((f) => fce.id !== f.id);
+        });
+      });
+    });
+  }
+  node.functions = node.functions.filter((f) => f.id !== id);
+  if (node.depth !== 1) {
+    nodes.children.forEach((child) => {
+      if (child.functions) {
+        child.functions.forEach((fc) => {
+          if (fc.functions) {
+            fc.functions = fc.functions.filter((f) => f.id !== id);
           }
         });
       }
     });
 
-    functions = functions.map((fc) => {
-      fc.functions = fc.functions.filter((f) => f.id !== id);
-      return fc;
-    });
+    if (node.depth === 0) {
+      console.log(nodes);
+      //dispatch(updateNodeData(nodes, { ...nodes }));
+    } else {
+      //dispatch(updateNodeData(nodes, { ...node }));
+    }
+  } else {
+    //dispatch(updateNodeData(nodes, { ...node }));
   }
-  return [functions, failures];
+  return { ...nodes };
 };
 
 export const addNodeToData = (nodes, setToNodeId) => {
@@ -174,19 +175,11 @@ export const deleteNodeFailures = (node, failures, id, fidx) => {
   return createAction(FMEA_ACTION_TYPES.SET_LVL2_FAILURES, newFailures);
 };
 
-export const deleteNodeFunctions = (node, functions, failures, id, fidx) => {
+export const deleteNodeFunctions = (nodes, node, id, fidx) => {
   return async (dispatch) => {
     try {
-      const [newFunctions, newFailures] = deleteFunctions(
-        node,
-        functions,
-        failures,
-        id,
-        fidx
-      );
-
-      dispatch(setMainFunctions(newFunctions));
-      dispatch(setMainFailures(newFailures));
+      const nodes = deleteFunctions(nodes, node, id, fidx);
+      dispatch(setMainData(nodes));
     } catch (error) {
       dispatch(fetchFMEAFailure(error));
     }

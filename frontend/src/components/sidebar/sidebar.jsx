@@ -7,9 +7,18 @@ import parse from "html-react-parser";
 const Sidebar = () => {
   const data = useSelector((state) => state.fmea.data);
   const isLoading = useSelector((state) => state.fmea.isLoading);
-  const functions = useSelector((state) => state.fmea.lvl2Functions);
-  const failures = useSelector((state) => state.fmea.lvl2Failures);
+  // const functions = useSelector((state) => state.fmea.lvl2Functions);
   const headerData = useSelector((state) => state.fmea.header);
+
+  let functions = [];
+  if (JSON.stringify(data) !== "{}") {
+    functions = data.children.reduce((acc, cur) => {
+      if (cur.functions) {
+        acc.push(...cur.functions);
+      }
+      return acc;
+    }, []);
+  }
 
   const [treeData, setTreeData] = useState(data);
 

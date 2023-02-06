@@ -37,21 +37,6 @@ const TreeGraph = () => {
   };
 
   const DeleteNode = (e) => {
-    const [node] = findObject(data, "id", e.target.dataset.id);
-    if (node.functions) {
-      for (let i = 0; i < node.functions.length; i++) {
-        dispatch(
-          deleteNodeFunctions(
-            node,
-            functions,
-            failures,
-            node.functions[i].id,
-            i
-          )
-        );
-      }
-    }
-
     dispatch(
       deleteNodeFromData(data, e.target.dataset.id, +e.target.dataset.depth)
     );

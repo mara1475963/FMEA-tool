@@ -11,8 +11,24 @@ const Table = () => {
   const dispatch = useDispatch();
   const data = useSelector((state) => state.fmea.data);
   const isLoading = useSelector((state) => state.fmea.isLoading);
-  const failures = useSelector((state) => state.fmea.lvl2Failures);
+  //const failures = useSelector((state) => state.fmea.lvl2Failures);
   const headerData = useSelector((state) => state.fmea.header);
+
+  let failures = [];
+  if (JSON.stringify(data) !== "{}") {
+    data.children.forEach((child) => {
+      if (child.functions) {
+        failures.push(
+          ...child.functions.reduce((acc, cur) => {
+            if (cur.failures) {
+              acc.push(...cur.failures);
+            }
+            return acc;
+          }, [])
+        );
+      }
+    });
+  }
 
   const [header, setHeader] = useState(headerData);
   const [treeData, setTreeData] = useState(data);
