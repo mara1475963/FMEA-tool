@@ -11,13 +11,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import TreeItem from "@mui/lab/TreeItem";
 import { Autocomplete } from "@mui/material";
-import {
-  deleteNodeFailures,
-  deleteNodeFunctions,
-  setMainFailures,
-  setMainFunctions,
-  updateNodeData,
-} from "../../store/fmea/fmea.actions";
+import { updateNodeData } from "../../store/fmea/fmea.actions";
 import { findObject, getNewId } from "../../helpers";
 
 const ModalWindow = () => {
@@ -31,8 +25,6 @@ const ModalWindow = () => {
   };
   const dispatch = useDispatch();
   const nodes = useSelector((state) => state.fmea.data);
-  // let functions = useSelector((state) => state.fmea.lvl2Functions);
-  // let failures = useSelector((state) => state.fmea.lvl2Failures);
   let nodeModal = useSelector((state) => state.modal.node);
   const [node, setNode] = useState(nodeModal);
   const [selectedFunction, setSelectedFunction] = useState([]);
@@ -73,7 +65,6 @@ const ModalWindow = () => {
     }, []);
   }
 
-  //console.log("1", functions);
   const style = {
     position: "absolute",
     top: "50%",
@@ -114,37 +105,11 @@ const ModalWindow = () => {
           });
 
           dispatch(updateNodeData(nodes, node));
-
-          //result.functions && result.functions.push(newFunction);
         }
         if (node.depth === 0) {
           setNode({ ...nodes });
           dispatch(updateNodeData(nodes, { ...nodes }));
         }
-
-        //function
-        // if (node.depth === 1) {
-        //   functions = functions.map((f) => {
-        //     if (f.id === node.functions[e.target.dataset.index].id) {
-        //       f.name = element.value;
-        //     }
-        //     return f;
-        //   });
-        // } else {
-        //   functions = functions.map((f) => {
-        //     if (f.functions) {
-        //       f.functions = f.functions.map((fc) => {
-        //         if (fc.id === node.functions[e.target.dataset.index].id) {
-        //           fc.name = element.value;
-        //         }
-        //         return fc;
-        //       });
-        //     }
-
-        //     return f;
-        //   });
-        // }
-
         return;
       case "failure":
         const failure =
@@ -235,10 +200,12 @@ const ModalWindow = () => {
         }
       });
 
-      //result.functions && result.functions.push(newFunction);
       if (node.depth === 0) {
-        setNode({ ...result });
+        !nodes["functions"]
+          ? (nodes.functions = [newFunction])
+          : nodes["functions"].push(newFunction);
         dispatch(updateNodeData(nodes, { ...result }));
+        setNode({ ...nodes });
       } else {
         dispatch(updateNodeData(nodes, result));
       }
@@ -247,45 +214,17 @@ const ModalWindow = () => {
       setNode({ ...node });
     }
 
-    // if (node.depth === 1) {
-    //   functions.push(newFunction);
-    //   //console.log(functions);
-    //   functions = functions.map((f) => f);
-    //   dispatch(setMainFunctions(functions));
-    // } else {
-    //   const [result] = functions.filter((f) => f.id === selectedFunction.id);
-    //   !result["functions"]
-    //     ? (result.functions = [newFunction])
-    //     : result["functions"].push(newFunction);
-    //   //console.log("functions", functions);
-    //   functions = functions.map((f) => {
-    //     if (selectedFunction.id === f.id) {
-    //       return result;
-    //     }
-    //     return f;
-    //   });
-
-    //   //console.log("result", result);
-    //   dispatch(setMainFunctions(functions));
-    // }
     e.target.newFunction.value = "";
   };
 
   const addFailureHandler = (fid, value) => {
     const newid = getNewId();
-
-    // console.log(fid);
-    // console.log(value);
-    // console.log(selectedFailure.id);
-    // const value = e.target.newFailure.value;
-    // const fid = e.target.newFailure.dataset.findex;
     const newFailure = {
       id: newid,
       depth: node.depth,
       name: value,
     };
 
-    console.log(selectedFailure);
     !node["functions"][fid].failures
       ? (node["functions"][fid].failures = [newFailure])
       : node["functions"][fid].failures.push(newFailure);
@@ -303,9 +242,11 @@ const ModalWindow = () => {
         });
       });
 
-      //result.functions && result.functions.push(newFunction);
       if (node.depth === 0) {
-        setNode({ ...result });
+        !nodes["functions"][fid].failures
+          ? (nodes["functions"][fid].failures = [newFailure])
+          : nodes["functions"][fid].failures.push(newFailure);
+        setNode({ ...nodes });
         dispatch(updateNodeData(nodes, { ...result }));
       } else {
         dispatch(updateNodeData(nodes, result));
@@ -314,53 +255,6 @@ const ModalWindow = () => {
       dispatch(updateNodeData(nodes, node));
       setNode({ ...node });
     }
-
-    // if (node.depth === 1) {
-    //   failures.push(newFailure);
-    //   failures = failures.map((f) => f);
-    //   dispatch(setMainFailures(failures));
-
-    //   console.log(node["functions"][fid]);
-    //   functions.forEach((func) => {
-    //     if (func.id === node["functions"][fid].id) {
-    //       func.failures.push(newFailure);
-    //       console.log(func);
-    //     }
-    //     return func;
-    //   });
-    //   console.log(functions);
-    //   dispatch(setMainFunctions(functions));
-    //   //console.log(functions);
-    //   // console.log(failures);
-    // } else {
-    //   const [result] = failures.filter((f) => f.id === selectedFailure.id);
-    //   !result["failures"]
-    //     ? (result.failures = [newFailure])
-    //     : result["failures"].push(newFailure);
-
-    //   failures = failures.map((f) => {
-    //     if (selectedFailure.id === f.id) {
-    //       return result;
-    //     }
-    //     return f;
-    //   });
-    //   dispatch(setMainFailures(failures));
-
-    //   functions.forEach((fc) => {
-    //     if (fc.functions) {
-    //       fc.functions.forEach((f) => {
-    //         if (f.id === node["functions"][fid].id) {
-    //           f.failures.push(newFailure);
-    //         }
-    //       });
-    //     }
-    //   });
-    //   console.log(functions);
-    //   dispatch(setMainFunctions(functions));
-    //   //console.log(result);
-    // }
-    //console.log(failures);
-    // setNode({ ...node });
   };
 
   const deleteFailureHandler = (id, fidx) => {
@@ -393,61 +287,10 @@ const ModalWindow = () => {
       dispatch(updateNodeData(nodes, node));
       setNode({ ...node });
     }
-    //console.log(failures);
-    // if (node.depth === 1) {
-    //   failures = failures.filter((f) => f.id !== id);
-    // } else {
-    //   failures = failures.map((fm) => {
-    //     fm.failures = fm.failures.filter((f) => f.id !== id);
-    //     return fm;
-    //   });
-    // }
-    // console.log(failures);
-    // dispatch(setMainFailures(failures));
-    //dispatch(deleteNodeFailures(node, failures, id, fidx));
-
-    // setNode({ ...node });
   };
 
   const deleteFunctionHandler = (id, fidx) => {
     console.log(id, fidx);
-
-    // if (node.depth === 1) {
-    //   //delete failures first
-    //   console.log(functions);
-    //   functions.forEach((f) => {
-    //     if (f.id === id) {
-    //       if (f.failures) {
-    //         f.failures.forEach((fa) => {
-    //           deleteFailureHandler(fa.id, fidx);
-    //         });
-    //       }
-    //     }
-    //   });
-    //   //delete function from list
-    //   functions = functions.filter((f) => f.id !== id);
-    // } else {
-    //   //delete failures first
-    //   functions.forEach((fc) => {
-    //     if (fc.functions) {
-    //       fc.functions.forEach((f) => {
-    //         if (f.id === node.functions[fidx].id) {
-    //           if (f.failures) {
-    //             f.failures.forEach((fail) => {
-    //               deleteFailureHandler(fail.id, fidx);
-    //             });
-    //           }
-    //         }
-    //       });
-    //     }
-    //   });
-
-    //   functions = functions.map((fc) => {
-    //     fc.functions = fc.functions.filter((f) => f.id !== id);
-    //     return fc;
-    //   });
-    // }
-    //dispatch(deleteNodeFunctions(node, functions, failures, id, fidx));
 
     if (node.functions[fidx].failures) {
       node.functions[fidx].failures.forEach((f) => {
@@ -463,7 +306,6 @@ const ModalWindow = () => {
           });
         });
       });
-      dispatch(updateNodeData(nodes, { ...nodes }));
     }
     node.functions = node.functions.filter((f) => f.id !== id);
     if (node.depth !== 1) {
@@ -478,9 +320,9 @@ const ModalWindow = () => {
       });
 
       if (node.depth === 0) {
-        console.log(nodes);
+        nodes.functions = nodes.functions.filter((f) => f.id !== id);
         dispatch(updateNodeData(nodes, { ...nodes }));
-        setNode({ ...node });
+        setNode({ ...nodes });
       } else {
         dispatch(updateNodeData(nodes, { ...node }));
       }

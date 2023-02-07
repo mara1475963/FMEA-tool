@@ -19,8 +19,6 @@ const TreeGraph = () => {
   //State init
   const dispatch = useDispatch();
   const data = useSelector((state) => state.fmea.data);
-  const functions = useSelector((state) => state.fmea.lvl2Functions);
-  const failures = useSelector((state) => state.fmea.lvl2Failures);
   const isLoading = useSelector((state) => state.fmea.isLoading);
 
   const [treeData, setTreeData] = useState({});

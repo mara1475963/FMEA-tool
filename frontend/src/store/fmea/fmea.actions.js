@@ -31,7 +31,43 @@ const addNode = (nodes, setToNodeId) => {
 
 const deleteNode = (nodes, nodeID, depth) => {
   const [result] = findObject(nodes, "id", nodeID);
+  if (result.functions) {
+    for (let i = 0; i < result.functions.length; i++) {
+      if (result.functions[i].failures) {
+        result.functions[i].failures.forEach((f) => {
+          nodes = deleteFailures(nodes, f.id, i);
+        });
+      }
+      console.log(result.functions[i]);
+      nodes.children.forEach((child) => {
+        if (child.functions) {
+          child.functions.forEach((fc) => {
+            if (fc.functions) {
+              fc.functions = fc.functions.filter(
+                (f) => f.id !== result.functions[i].id
+              );
+            }
+          });
+        }
+      });
 
+      if (result.functions[i].functions) {
+        result.functions[i].functions.forEach((fce) => {
+          nodes.functions = nodes.functions.filter((f) => fce.id !== f.id);
+          nodes.children.forEach((child) => {
+            if (child.children) {
+              child.children.forEach((ch3) => {
+                if (ch3.functions) {
+                  ch3.functions = ch3.functions.filter((f) => fce.id !== f.id);
+                }
+              });
+            }
+          });
+        });
+      }
+    }
+  }
+  console.log(nodes);
   let nodeObj = nodes;
 
   if (depth === 1) {
@@ -75,17 +111,21 @@ const updateNode = (nodes, node) => {
   return { ...nodes };
 };
 
-const deleteFailures = (node, failures, id, fidx) => {
-  if (node.depth === 1) {
-    failures = failures.filter((f) => f.id !== id);
-  } else {
-    failures = failures.map((fm) => {
-      fm.failures = fm.failures.filter((f) => f.id !== id);
-      return fm;
-    });
-  }
-  //console.log(failures);
-  return failures;
+const deleteFailures = (nodes, id, fidx) => {
+  nodes.children.forEach((child) => {
+    if (child.functions) {
+      child.functions.forEach((fc) => {
+        if (fc.failures) {
+          fc.failures.forEach((f) => {
+            if (f.failures) {
+              f.failures = f.failures.filter((f) => f.id !== id);
+            }
+          });
+        }
+      });
+    }
+  });
+  return { ...nodes };
 };
 
 const deleteFunctions = (nodes, node, id, fidx) => {
@@ -160,19 +200,13 @@ export const fetchFMEAData = (type) => {
         : (header.type = pfmeaHeaders);
 
       const data = JSON.parse(JSON.stringify(treeData));
-      dispatch(setHeaderData({ ...header }));
+      const headerData = JSON.parse(JSON.stringify(header));
+      dispatch(setHeaderData(headerData));
       dispatch(setMainData(data));
-      dispatch(setMainFunctions(data.children[0].functions));
-      dispatch(setMainFailures(data.children[0].functions[0].failures));
     } catch (error) {
       dispatch(fetchFMEAFailure(error));
     }
   };
-};
-
-export const deleteNodeFailures = (node, failures, id, fidx) => {
-  const newFailures = deleteFailures(node, failures, id, fidx);
-  return createAction(FMEA_ACTION_TYPES.SET_LVL2_FAILURES, newFailures);
 };
 
 export const deleteNodeFunctions = (nodes, node, id, fidx) => {
@@ -185,12 +219,6 @@ export const deleteNodeFunctions = (nodes, node, id, fidx) => {
     }
   };
 };
-
-export const setMainFunctions = (functions) =>
-  createAction(FMEA_ACTION_TYPES.SET_LVL2_FUNCTIONS, functions);
-
-export const setMainFailures = (failures) =>
-  createAction(FMEA_ACTION_TYPES.SET_LVL2_FAILURES, failures);
 
 export const setMainData = (data) =>
   createAction(FMEA_ACTION_TYPES.SET_FMEA_DATA, { ...data });

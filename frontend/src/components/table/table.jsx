@@ -11,7 +11,6 @@ const Table = () => {
   const dispatch = useDispatch();
   const data = useSelector((state) => state.fmea.data);
   const isLoading = useSelector((state) => state.fmea.isLoading);
-  //const failures = useSelector((state) => state.fmea.lvl2Failures);
   const headerData = useSelector((state) => state.fmea.header);
 
   let failures = [];
@@ -57,6 +56,8 @@ const Table = () => {
       [result] = findObject(data, "id", id);
 
       result[element.id] = element.value;
+      console.log(result);
+      dispatch(updateNodeData(data, result));
       console.log(data);
     }
 
@@ -68,37 +69,38 @@ const Table = () => {
       element.id !== "finalOccurance" &&
       element.id !== "finalDetection"
     ) {
-      return;
-    }
-    console.log(element.parentElement.parentElement);
-    const S =
-      element.parentElement.parentElement.querySelector("#initialSeverity");
-    const O =
-      element.parentElement.parentElement.querySelector("#initialOccurance");
-    const D =
-      element.parentElement.parentElement.querySelector("#initialDetection");
-    const S2 =
-      element.parentElement.parentElement.querySelector("#finalSeverity");
-    const O2 =
-      element.parentElement.parentElement.querySelector("#finalOccurance");
-    const D2 =
-      element.parentElement.parentElement.querySelector("#finalDetection");
-    const AP = element.parentElement.parentElement.querySelector("#initialAP");
-    const AP2 = element.parentElement.parentElement.querySelector("#finalAP");
+    } else {
+      console.log(element.parentElement.parentElement);
+      const S =
+        element.parentElement.parentElement.querySelector("#initialSeverity");
+      const O =
+        element.parentElement.parentElement.querySelector("#initialOccurance");
+      const D =
+        element.parentElement.parentElement.querySelector("#initialDetection");
+      const S2 =
+        element.parentElement.parentElement.querySelector("#finalSeverity");
+      const O2 =
+        element.parentElement.parentElement.querySelector("#finalOccurance");
+      const D2 =
+        element.parentElement.parentElement.querySelector("#finalDetection");
+      const AP =
+        element.parentElement.parentElement.querySelector("#initialAP");
+      const AP2 = element.parentElement.parentElement.querySelector("#finalAP");
 
-    if (!S.value || !O.value || !D.value) {
-      AP.innerHTML = "--";
-    } else {
-      const APproduct = S.value * O.value * D.value;
-      AP.innerHTML = APproduct;
-      result.initialAP = APproduct;
-    }
-    if (!S2.value || !O2.value || !D2.value) {
-      AP2.innerHTML = "--";
-    } else {
-      const APproduct2 = S2.value * O2.value * D2.value;
-      AP2.innerHTML = APproduct2;
-      result.finalAP = APproduct2;
+      if (!S.value || !O.value || !D.value) {
+        AP.innerHTML = "--";
+      } else {
+        const APproduct = S.value * O.value * D.value;
+        AP.innerHTML = APproduct;
+        result.initialAP = APproduct;
+      }
+      if (!S2.value || !O2.value || !D2.value) {
+        AP2.innerHTML = "--";
+      } else {
+        const APproduct2 = S2.value * O2.value * D2.value;
+        AP2.innerHTML = APproduct2;
+        result.finalAP = APproduct2;
+      }
     }
 
     dispatch(updateNodeData(data, result));
