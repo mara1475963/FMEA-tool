@@ -15,20 +15,26 @@ import { updateNodeData } from "../../store/fmea/fmea.actions";
 import { findObject, getNewId } from "../../helpers";
 
 const ModalWindow = () => {
-  const opened = useSelector((state) => state.modal.isOpen);
-  const [open, setOpen] = useState(opened);
+  const dispatch = useDispatch();
 
-  const handleOpen = () => setOpen();
+  // const handleOpen = () => setOpen();
   const handleClose = () => {
     dispatch(updateNodeData(nodes, node));
     return setOpen(false);
   };
-  const dispatch = useDispatch();
+  const opened = useSelector((state) => state.modal.isOpen);
   const nodes = useSelector((state) => state.fmea.data);
   let nodeModal = useSelector((state) => state.modal.node);
+
+  const [open, setOpen] = useState(opened);
   const [node, setNode] = useState(nodeModal);
   const [selectedFunction, setSelectedFunction] = useState([]);
   const [selectedFailure, setSelectedFailure] = useState([]);
+
+  useEffect(() => {
+    setOpen(true);
+    setNode(nodeModal);
+  }, [opened]);
 
   let failures = [];
   if (JSON.stringify(nodes) !== "{}") {
@@ -40,8 +46,7 @@ const ModalWindow = () => {
               cur.failures.forEach((f) => {
                 f["nodeID"] = child.id;
               });
-            }
-            if (cur.failures) {
+
               acc.push(...cur.failures);
             }
             return acc;
@@ -65,37 +70,23 @@ const ModalWindow = () => {
     }, []);
   }
 
-  const style = {
-    position: "absolute",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
-    width: 400,
-    bgcolor: "background.paper",
-    border: "2px solid #000",
-    boxShadow: 24,
-    p: 4,
-  };
-
-  useEffect(() => {
-    setOpen(true);
-    setNode(nodeModal);
-  }, [opened]);
-
   const onChangeHandler = (e) => {
+    e.preventDefault();
     const element = e.target;
 
     switch (element.dataset.type) {
       case "function":
         //node
-        node.functions[e.target.dataset.index].name = element.value;
+        const fce = node.functions[e.target.dataset.index];
+        fce.name = element.value;
+        //in relation to lvl2 Function
         if (node.depth !== 1) {
           nodes.children.forEach((child) => {
             if (child.functions) {
               child.functions.forEach((fc) => {
                 if (fc.functions) {
                   fc.functions.forEach((f) => {
-                    if (f.id === node.functions[e.target.dataset.index].id) {
+                    if (f.id === fce.id) {
                       f.name = element.value;
                     }
                   });
@@ -103,21 +94,23 @@ const ModalWindow = () => {
               });
             }
           });
-
-          dispatch(updateNodeData(nodes, node));
+          if (node.depth === 0) {
+            setNode({ ...nodes });
+            dispatch(updateNodeData(nodes, { ...nodes }));
+            return;
+          }
         }
-        if (node.depth === 0) {
-          setNode({ ...nodes });
-          dispatch(updateNodeData(nodes, { ...nodes }));
-        }
+        dispatch(updateNodeData(nodes, { ...node }));
         return;
       case "failure":
+        //node
         const failure =
           node.functions[e.target.dataset.findex].failures[
             e.target.dataset.index
           ];
         failure.name = element.value;
 
+        //in relation to lvl2 Failure
         if (node.depth !== 1) {
           nodes.children.forEach((child) => {
             if (child.functions) {
@@ -132,46 +125,22 @@ const ModalWindow = () => {
               });
             }
           });
-
-          dispatch(updateNodeData(nodes, node));
-
-          //result.functions && result.functions.push(newFunction);
+          if (node.depth === 0) {
+            setNode({ ...nodes });
+            dispatch(updateNodeData(nodes, { ...nodes }));
+            return;
+          }
         }
-
-        if (node.depth === 0) {
-          setNode({ ...nodes });
-          dispatch(updateNodeData(nodes, { ...nodes }));
-        }
-
-        // failure
-        // if (node.depth === 1) {
-        //   failures = failures.map((f) => {
-        //     if (f.id === failure.id) {
-        //       f.name = element.value;
-        //     }
-        //     return f;
-        //   });
-        // } else {
-        //   failures = failures.map((f) => {
-        //     if (f.failures) {
-        //       f.failures = f.failures.map((ff) => {
-        //         if (ff.id === failure.id) {
-        //           ff.name = element.value;
-        //         }
-        //         return ff;
-        //       });
-        //     }
-        //     return f;
-        //   });
-        // }
-
+        dispatch(updateNodeData(nodes, { ...node }));
         return;
       case "title":
         node.name = element.value;
+        dispatch(updateNodeData(nodes, { ...node }));
+
+        return;
+      default:
         return;
     }
-
-    //node[element.name] = element.value;
   };
 
   const addFunctionHandler = (e) => {
@@ -185,10 +154,18 @@ const ModalWindow = () => {
       name: value,
     };
 
-    !node["functions"]
-      ? (node.functions = [newFunction])
-      : node["functions"].push(newFunction);
+    //node
+    if (node.depth === 0) {
+      !nodes["functions"]
+        ? (nodes.functions = [newFunction])
+        : nodes["functions"].push(newFunction);
+    } else {
+      !node["functions"]
+        ? (node.functions = [newFunction])
+        : node["functions"].push(newFunction);
+    }
 
+    //in relation to lvl2Function
     if (node.depth !== 1) {
       const [result] = findObject(nodes, "id", selectedFunction.nodeId);
 
@@ -200,24 +177,22 @@ const ModalWindow = () => {
         }
       });
 
+      //main node
       if (node.depth === 0) {
-        !nodes["functions"]
-          ? (nodes.functions = [newFunction])
-          : nodes["functions"].push(newFunction);
         dispatch(updateNodeData(nodes, { ...result }));
         setNode({ ...nodes });
       } else {
-        dispatch(updateNodeData(nodes, result));
+        dispatch(updateNodeData(nodes, { ...result }));
       }
     } else {
-      dispatch(updateNodeData(nodes, node));
+      dispatch(updateNodeData(nodes, { ...node }));
       setNode({ ...node });
     }
 
     e.target.newFunction.value = "";
   };
 
-  const addFailureHandler = (fid, value) => {
+  const addFailureHandler = (fce_idx, value) => {
     const newid = getNewId();
     const newFailure = {
       id: newid,
@@ -225,10 +200,19 @@ const ModalWindow = () => {
       name: value,
     };
 
-    !node["functions"][fid].failures
-      ? (node["functions"][fid].failures = [newFailure])
-      : node["functions"][fid].failures.push(newFailure);
+    //node
+    if (node.depth === 0) {
+      !nodes["functions"][fce_idx].failures
+        ? (nodes["functions"][fce_idx].failures = [newFailure])
+        : nodes["functions"][fce_idx].failures.push(newFailure);
+    } else {
+      const nodeFuntion = node["functions"][fce_idx];
+      !nodeFuntion.failures
+        ? (nodeFuntion.failures = [newFailure])
+        : nodeFuntion.failures.push(newFailure);
+    }
 
+    //in relation to lvl2Failure
     if (node.depth !== 1) {
       const [result] = findObject(nodes, "id", selectedFailure.nodeId);
 
@@ -243,25 +227,24 @@ const ModalWindow = () => {
       });
 
       if (node.depth === 0) {
-        !nodes["functions"][fid].failures
-          ? (nodes["functions"][fid].failures = [newFailure])
-          : nodes["functions"][fid].failures.push(newFailure);
-        setNode({ ...nodes });
         dispatch(updateNodeData(nodes, { ...result }));
+        setNode({ ...nodes });
       } else {
-        dispatch(updateNodeData(nodes, result));
+        dispatch(updateNodeData(nodes, { ...result }));
       }
     } else {
-      dispatch(updateNodeData(nodes, node));
+      dispatch(updateNodeData(nodes, { ...node }));
       setNode({ ...node });
     }
   };
 
-  const deleteFailureHandler = (id, fidx) => {
-    //console.log(id, fidx, node);
-    node.functions[fidx].failures = node.functions[fidx].failures.filter(
+  const deleteFailureHandler = (id, fce_idx) => {
+    //node
+    node.functions[fce_idx].failures = node.functions[fce_idx].failures.filter(
       (f) => f.id !== id
     );
+
+    ////in relation to lvl2Failure
     if (node.depth !== 1) {
       nodes.children.forEach((child) => {
         if (child.functions) {
@@ -278,27 +261,29 @@ const ModalWindow = () => {
       });
 
       if (node.depth === 0) {
-        setNode({ ...nodes });
         dispatch(updateNodeData(nodes, { ...nodes }));
+        setNode({ ...nodes });
       } else {
-        dispatch(updateNodeData(nodes, node));
+        dispatch(updateNodeData(nodes, { ...node }));
       }
     } else {
-      dispatch(updateNodeData(nodes, node));
+      dispatch(updateNodeData(nodes, { ...node }));
       setNode({ ...node });
     }
   };
 
-  const deleteFunctionHandler = (id, fidx) => {
-    console.log(id, fidx);
-
-    if (node.functions[fidx].failures) {
-      node.functions[fidx].failures.forEach((f) => {
-        deleteFailureHandler(f.id, fidx);
+  const deleteFunctionHandler = (id, fce_idx) => {
+    const nodeFunction = node.functions[fce_idx];
+    //delete function´s failures
+    if (nodeFunction.failures) {
+      nodeFunction.failures.forEach((f) => {
+        deleteFailureHandler(f.id, fce_idx);
       });
     }
-    if (node.functions[fidx].functions) {
-      node.functions[fidx].functions.forEach((fce) => {
+
+    //delete functions in relation to lvl2Function
+    if (nodeFunction.functions) {
+      nodeFunction.functions.forEach((fce) => {
         nodes.functions = nodes.functions.filter((f) => fce.id !== f.id);
         nodes.children.forEach((child) => {
           child.children.forEach((ch3) => {
@@ -307,7 +292,15 @@ const ModalWindow = () => {
         });
       });
     }
-    node.functions = node.functions.filter((f) => f.id !== id);
+
+    //node
+    if (node.depth === 0) {
+      nodes.functions = nodes.functions.filter((f) => f.id !== id);
+    } else {
+      node.functions = node.functions.filter((f) => f.id !== id);
+    }
+
+    //delete function from lvl2Function relation
     if (node.depth !== 1) {
       nodes.children.forEach((child) => {
         if (child.functions) {
@@ -320,7 +313,6 @@ const ModalWindow = () => {
       });
 
       if (node.depth === 0) {
-        nodes.functions = nodes.functions.filter((f) => f.id !== id);
         dispatch(updateNodeData(nodes, { ...nodes }));
         setNode({ ...nodes });
       } else {
@@ -330,7 +322,6 @@ const ModalWindow = () => {
       dispatch(updateNodeData(nodes, { ...node }));
       setNode({ ...node });
     }
-    // setNode({ ...node });
   };
 
   return (
@@ -341,9 +332,12 @@ const ModalWindow = () => {
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <Box sx={{ ...style, width: 600 }}>
-          <form id="failureForm" onSubmit={(e) => e.preventDefault()}></form>
-          <form>
+        <Box sx={{ width: 600 }}>
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+            }}
+          >
             <TextField
               defaultValue={node.name}
               onChange={onChangeHandler}
@@ -475,13 +469,17 @@ const ModalWindow = () => {
                             <Button
                               type="submit"
                               variant="text"
-                              form="failureForm"
                               onClick={(e) => {
+                                e.preventDefault();
                                 const input =
                                   e.target.parentElement.querySelector(
                                     "#new-failure"
                                   );
 
+                                if (!input.value) {
+                                  console.error("Value not seleceted");
+                                  return;
+                                }
                                 addFailureHandler(
                                   input.dataset.findex,
                                   input.value

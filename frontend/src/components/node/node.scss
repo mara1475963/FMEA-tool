@@ -1,3 +1,15 @@
 .test :hover {
   cursor: default;
 }
+
+.node-controls {
+  position: relative;
+  top: 70px;
+  .expand {
+    position: absolute;
+    top: 281px;
+    left: 210px;
+    width: 80px;
+    font-weight: bold;
+  }
+}

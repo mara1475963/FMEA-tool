@@ -3,7 +3,7 @@ import "./table.scss";
 import { useDispatch, useSelector } from "react-redux";
 import Spinner from "../spinner/spinner.component";
 import parse from "html-react-parser";
-import ScrollContainer from "react-indiana-drag-scroll";
+//import ScrollContainer from "react-indiana-drag-scroll";
 import { findObject } from "../../helpers";
 import { updateNodeData } from "../../store/fmea/fmea.actions";
 
@@ -20,6 +20,10 @@ const Table = () => {
         failures.push(
           ...child.functions.reduce((acc, cur) => {
             if (cur.failures) {
+              cur.failures.forEach((f) => {
+                f["nodeID"] = child.id;
+              });
+
               acc.push(...cur.failures);
             }
             return acc;
@@ -44,33 +48,35 @@ const Table = () => {
     const element = e.target;
     let result = {};
     if (element.id === "initialSeverity") {
-      [result] = findObject(data, "id", element.dataset.fmid);
-      result.initialSeverity = element.value;
-      dispatch(updateNodeData(data, result));
-    } else {
-      const id =
-        element.parentElement.parentElement.querySelector(
-          "#failure-cause-id"
-        ).value;
+      data.children.forEach((child) => {
+        child.functions.forEach((fce) => {
+          fce.failures.forEach((f) => {
+            if (f.id === +element.dataset.fmid) {
+              f.initialSeverity = +element.value;
+            }
+          });
+        });
+      });
 
-      [result] = findObject(data, "id", id);
-
-      result[element.id] = element.value;
-      console.log(result);
-      dispatch(updateNodeData(data, result));
-      console.log(data);
+      dispatch(updateNodeData(data, { ...data }));
     }
+    const id =
+      element.parentElement.parentElement.querySelector(
+        "#failure-cause-id"
+      ).value;
+
+    [result] = findObject(data, "id", id);
+
+    result[element.id] = element.value;
 
     if (
-      element.id !== "initialSeverity" &&
-      element.id !== "initialOccurance" &&
-      element.id !== "initialDetection" &&
-      element.id !== "finalSeverity" &&
-      element.id !== "finalOccurance" &&
-      element.id !== "finalDetection"
+      element.id === "initialSeverity" ||
+      element.id === "initialOccurance" ||
+      element.id === "initialDetection" ||
+      element.id === "finalSeverity" ||
+      element.id === "finalOccurance" ||
+      element.id === "finalDetection"
     ) {
-    } else {
-      console.log(element.parentElement.parentElement);
       const S =
         element.parentElement.parentElement.querySelector("#initialSeverity");
       const O =
@@ -92,25 +98,57 @@ const Table = () => {
       } else {
         const APproduct = S.value * O.value * D.value;
         AP.innerHTML = APproduct;
-        result.initialAP = APproduct;
+        data.children.forEach((child) => {
+          child.children.forEach((ch) => {
+            ch.functions.forEach((fce) => {
+              fce.failures.forEach((f) => {
+                if (f.id === result.id) {
+                  f["initialAP"] = APproduct;
+                }
+              });
+            });
+          });
+        });
       }
       if (!S2.value || !O2.value || !D2.value) {
         AP2.innerHTML = "--";
       } else {
         const APproduct2 = S2.value * O2.value * D2.value;
         AP2.innerHTML = APproduct2;
-        result.finalAP = APproduct2;
+        data.children.forEach((child) => {
+          child.children.forEach((ch) => {
+            ch.functions.forEach((fce) => {
+              fce.failures.forEach((f) => {
+                if (f.id === result.id) {
+                  f["finalAP"] = APproduct2;
+                }
+              });
+            });
+          });
+        });
       }
     }
+    data.children.forEach((child) => {
+      child.children.forEach((ch) => {
+        ch.functions.forEach((fce) => {
+          fce.failures.forEach((f) => {
+            if (f.id === result.id) {
+              f[element.id] = element.value;
+            }
+          });
+        });
+      });
+    });
 
-    dispatch(updateNodeData(data, result));
+    console.log(data);
+    dispatch(updateNodeData(data, { ...data }));
   };
 
   const generateFCform = (fc, initialSeverity) => {
     const FCform = `
     <td ><input id='failure-cause-id'  type='hidden' value='${
       fc.id
-    }' /><input id='initialSeverity'  type='hidden' value='${initialSeverity}' />
+    }' /><input id='initialSeverity'   type='hidden' value='${initialSeverity}' />
     <input id='currentPreventionControl' type='text' value='${
       fc.currentPreventionControl ? fc.currentPreventionControl : ""
     }' /></td>
@@ -123,7 +161,9 @@ const Table = () => {
     <td><input id='initialDetection' min='1' max='10' type='number' value='${
       fc.initialDetection ? fc.initialDetection : ""
     }'   style='width:40px'/></td>
-    <td id='initialAP' value='${fc.initialAP ? fc.initialAP : ""}' ></td>
+    <td id='initialAP' value='${
+      fc.initialAP ? fc.initialAP : ""
+    }' style='color:black;' ></td>
     <td><input id='preventionAction' type='text' value='${
       fc.preventionAction ? fc.preventionAction : ""
     }' /></td>
@@ -154,7 +194,9 @@ const Table = () => {
     <td><input id='finalDetection' min='1' max='10' type='number' value='${
       fc.finalDetection ? fc.finalDetection : ""
     }'  style='width:40px'/></td>
-    <td id='finalAP' value='${fc.finalAP ? fc.finalAP : ""}' >--</td>
+    <td id='finalAP' value='${
+      fc.finalAP ? fc.finalAP : ""
+    }' style='color:black;'>--</td>
     `;
 
     return FCform;
@@ -192,7 +234,7 @@ const Table = () => {
       <td rowSpan=${maxConnections}>
       <input name='initialSeverity' data-fmid=${
         lvl2F.id
-      } name= min='1' max='10' type='number'  style='width:40px' id='initialSeverity' value=${
+      } name= min='1' max='10' type='number'  style='width:40px; color:red;' id='initialSeverity' value=${
         lvl2F.initialSeverity
       }  />
       </td>
@@ -234,13 +276,13 @@ const Table = () => {
               <table>
                 <thead>
                   <tr>
-                    <th style={{ backgroundColor: "red" }} width={355}>
+                    <th style={{ textTransform: "uppercase" }} width={355}>
                       Failure Analysis (Step 4)
                     </th>
-                    <th width={275} style={{ backgroundColor: "#dcdc09" }}>
+                    <th width={275} style={{ textTransform: "uppercase" }}>
                       Risk Analysis (Step 5)
                     </th>
-                    <th width={685} style={{ backgroundColor: "#00ffff" }}>
+                    <th width={685} style={{ textTransform: "uppercase" }}>
                       OPTIMIZATION (Step 6)
                     </th>
                   </tr>
@@ -250,17 +292,23 @@ const Table = () => {
               <table>
                 <thead>
                   <tr>
-                    <th width="140">
+                    <th style={{ backgroundColor: "#cacaca" }} width="140">
                       1. Failure Effects (FE) <br /> to the next higher level
                       and/or End User
                     </th>
-                    <th width="40" style={{ writingMode: "vertical-rl" }}>
+                    <th
+                      width="40"
+                      style={{
+                        writingMode: "vertical-rl",
+                        backgroundColor: "#cacaca",
+                      }}
+                    >
                       Severity (S) <br /> of FE
                     </th>
-                    <th width="180">
+                    <th width="180" style={{ backgroundColor: "#89e3f4" }}>
                       2. Failure Mode (FM) <br /> of the Focus Element
                     </th>
-                    <th width="180">
+                    <th width="180" style={{ backgroundColor: "#fb92c7" }}>
                       {header.type.name === "DFMEA"
                         ? parse(
                             `3. Failure Cause (FC) <br /> of the Next Lower Level Element or Characteristic`
@@ -270,50 +318,106 @@ const Table = () => {
                           )}
                     </th>
 
-                    <th width="155">Current preventive control (PC) for FC</th>
-                    <th width="40" style={{ writingMode: "vertical-rl" }}>
+                    <th width="155" style={{ backgroundColor: "#e7e726" }}>
+                      Current preventive control (PC) for FC
+                    </th>
+                    <th
+                      width="40"
+                      style={{
+                        writingMode: "vertical-rl",
+                        backgroundColor: "#e7e726",
+                      }}
+                    >
                       Occurence (O) <br /> of FC
                     </th>
-                    <th width="155">
+                    <th width="155" style={{ backgroundColor: "#e7e726" }}>
                       Current detection control (DC) for FC or FM
                     </th>
-                    <th width="40" style={{ writingMode: "vertical-rl" }}>
+                    <th
+                      width="40"
+                      style={{
+                        writingMode: "vertical-rl",
+                        backgroundColor: "#e7e726",
+                      }}
+                    >
                       Detection (D) <br /> of FC or FM
                     </th>
-                    <th width="30" style={{ writingMode: "vertical-rl" }}>
+                    <th
+                      width="30"
+                      style={{
+                        writingMode: "vertical-rl",
+                        backgroundColor: "#e7e726",
+                      }}
+                    >
                       {header.type.name === "DFMEA" ? "D" : "P"}FMEA AP
                     </th>
 
-                    <th width="155">
+                    <th width="155" style={{ backgroundColor: "#50f424" }}>
                       {header.type.name === "DFMEA" ? "D" : "P"}FMEA Prevention
                       Action
                     </th>
-                    <th width="155">
+                    <th width="155" style={{ backgroundColor: "#50f424" }}>
                       {header.type.name === "DFMEA" ? "D" : "P"}FMEA Detection
                       Action
                     </th>
-                    <th width="155">Responsible Persons Name</th>
-                    <th width="115">Target Completion Date</th>
-                    <th width="50">Status</th>
-                    <th width="155">Action taken with Pointer to Evidence</th>
-                    <th width="115">Completion Date</th>
-                    <th width="40" style={{ writingMode: "vertical-rl" }}>
+                    <th width="155" style={{ backgroundColor: "#50f424" }}>
+                      Responsible Persons Name
+                    </th>
+                    <th width="115" style={{ backgroundColor: "#50f424" }}>
+                      Target Completion Date
+                    </th>
+                    <th width="50" style={{ backgroundColor: "#50f424" }}>
+                      Status
+                    </th>
+                    <th width="155" style={{ backgroundColor: "#50f424" }}>
+                      Action taken with Pointer to Evidence
+                    </th>
+                    <th width="115" style={{ backgroundColor: "#50f424" }}>
+                      Completion Date
+                    </th>
+                    <th
+                      width="40"
+                      style={{
+                        writingMode: "vertical-rl",
+                        backgroundColor: "#50f424",
+                      }}
+                    >
                       Severity (S)
                     </th>
-                    <th width="40" style={{ writingMode: "vertical-rl" }}>
+                    <th
+                      width="40"
+                      style={{
+                        writingMode: "vertical-rl",
+                        backgroundColor: "#50f424",
+                      }}
+                    >
                       Occurence (O)
                     </th>
-                    <th width="40" style={{ writingMode: "vertical-rl" }}>
+                    <th
+                      width="40"
+                      style={{
+                        writingMode: "vertical-rl",
+                        backgroundColor: "#50f424",
+                      }}
+                    >
                       Detection (D)
                     </th>
-                    <th width="20" style={{ writingMode: "vertical-rl" }}>
+                    <th
+                      width="20"
+                      style={{
+                        writingMode: "vertical-rl",
+                        backgroundColor: "#50f424",
+                      }}
+                    >
                       {header.type.name === "DFMEA" ? "D" : "P"}FMEA AP
                     </th>
                   </tr>
                 </thead>
                 {/* </ScrollContainer> */}
 
-                <tbody>{parse(generateFailuresHTML())}</tbody>
+                <tbody style={{ color: "red " }}>
+                  {parse(generateFailuresHTML())}
+                </tbody>
               </table>
             </form>
           </div>

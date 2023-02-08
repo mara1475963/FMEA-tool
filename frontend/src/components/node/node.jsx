@@ -24,12 +24,16 @@ const Node = ({
       <rect width="500" height="500" />
       <foreignObject {...foreignObjectProps}>
         <div
-          style={{ width: "500px", height: "500px", border: "solid 3px black" }}
+          style={{
+            width: "500px",
+            height: "500px",
+            border: "solid 3px black",
+          }}
         >
           <span style={{ textAlign: "center" }}>
             <b>{nodeDatum.name}</b>
           </span>
-          <ul className="node-functions">
+          {/* <ul className="node-functions">
             {nodeDatum.functions &&
               nodeDatum.functions.map((f, f_idx) => {
                 return (
@@ -49,47 +53,48 @@ const Node = ({
                   )
                 );
               })}
-          </ul>
+          </ul> */}
+          <div className="node-controls">
+            {nodeDatum.children && nodeDatum.children.length > 0 && (
+              <button className="node-buttton expand" onClick={toggleNode}>
+                {nodeDatum.__rd3t.collapsed ? "+" : "-"}
+              </button>
+            )}
 
-          {nodeDatum.children && nodeDatum.children.length > 0 && (
-            <button className="node-buttton" onClick={toggleNode}>
-              {nodeDatum.__rd3t.collapsed ? "Expand" : "Collapse"}
-            </button>
-          )}
+            {nodeDatum.__rd3t.depth < 2 && (
+              <button
+                className="node-buttton"
+                onClick={addHandler}
+                data-id={nodeDatum.id}
+              >
+                Add
+              </button>
+            )}
 
-          {nodeDatum.__rd3t.depth < 2 && (
-            <button
-              className="node-buttton"
-              onClick={addHandler}
-              data-id={nodeDatum.id}
-            >
-              Add
-            </button>
-          )}
-
-          {nodeDatum.__rd3t.depth > 0 && (
-            <button
-              className="node-buttton"
-              onClick={deleteHandler}
-              data-id={nodeDatum.id}
-              data-depth={nodeDatum.__rd3t.depth}
-            >
-              Delete
-            </button>
-          )}
-          {
-            //<Button onClick={toggleWindow}>Open modal</Button>
-            <button
-              className="node-buttton"
-              onClick={(e) => {
-                toggleWindow();
-              }}
-              data-id={nodeDatum.id}
-              data-depth={nodeDatum.__rd3t.depth}
-            >
-              Edit
-            </button>
-          }
+            {nodeDatum.__rd3t.depth > 0 && (
+              <button
+                className="node-buttton"
+                onClick={deleteHandler}
+                data-id={nodeDatum.id}
+                data-depth={nodeDatum.__rd3t.depth}
+              >
+                Delete
+              </button>
+            )}
+            {
+              //<Button onClick={toggleWindow}>Open modal</Button>
+              <button
+                className="node-buttton"
+                onClick={(e) => {
+                  toggleWindow();
+                }}
+                data-id={nodeDatum.id}
+                data-depth={nodeDatum.__rd3t.depth}
+              >
+                Edit
+              </button>
+            }
+          </div>
         </div>
       </foreignObject>
     </g>

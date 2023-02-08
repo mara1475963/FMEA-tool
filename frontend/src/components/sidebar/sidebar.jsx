@@ -1,7 +1,7 @@
 import "./sidebar.scss";
 import React, { useEffect, useState } from "react";
 
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import Spinner from "../spinner/spinner.component";
 import parse from "html-react-parser";
 const Sidebar = () => {
@@ -115,16 +115,22 @@ const Sidebar = () => {
               <table className="side-table">
                 <thead>
                   <tr>
-                    <th style={{ backgroundColor: "gray" }} colSpan={3}>
+                    <th style={{ textTransform: "uppercase" }} colSpan={3}>
                       Structure analysis(Step 2)
                     </th>
                   </tr>
 
                   <tr>
-                    <th width="33%">{headerData.type.structure1}</th>
+                    <th style={{ backgroundColor: "#cacaca" }} width="33%">
+                      {headerData.type.structure1}
+                    </th>
 
-                    <th width="34%">{headerData.type.structure2}</th>
-                    <th width="33%">{headerData.type.structure3}</th>
+                    <th style={{ backgroundColor: "#89e3f4" }} width="34%">
+                      {headerData.type.structure2}
+                    </th>
+                    <th style={{ backgroundColor: "#fb92c7" }} width="33%">
+                      {headerData.type.structure3}
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
@@ -135,20 +141,28 @@ const Sidebar = () => {
                 </tbody>
                 <thead>
                   <tr>
-                    <th style={{ backgroundColor: "green" }} colSpan={3}>
+                    <th style={{ textTransform: "uppercase" }} colSpan={3}>
                       Function analysis(Step 3)
                     </th>
                   </tr>
                 </thead>
                 <thead>
                   <tr>
-                    <th>{headerData.type.function1}</th>
-                    <th>{headerData.type.function2}</th>
-                    <th>{headerData.type.function3}</th>
+                    <th style={{ backgroundColor: "#cacaca" }}>
+                      {headerData.type.function1}
+                    </th>
+                    <th style={{ backgroundColor: "#89e3f4" }}>
+                      {headerData.type.function2}
+                    </th>
+                    <th style={{ backgroundColor: "#fb92c7" }}>
+                      {headerData.type.function3}
+                    </th>
                   </tr>
                 </thead>
 
-                <tbody>{parse(generateFunctionsHTML())}</tbody>
+                <tbody style={{ color: "green" }}>
+                  {parse(generateFunctionsHTML())}
+                </tbody>
               </table>
             </form>
           </div>
