@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Tree from "react-d3-tree";
-
+import { mainSocket } from "../../socket";
 import "./treeGraph.css";
 
 import Node from "../node/node";
@@ -11,23 +11,69 @@ import {
   deleteNodeFunctions,
   setMainFailures,
   setMainFunctions,
+  updateNodeData,
 } from "../../store/fmea/fmea.actions";
 import Spinner from "../spinner/spinner.component";
 import { structure1 } from "../../data/dataJS";
 import { findObject } from "../../helpers";
+import { useParams } from "react-router-dom";
 const TreeGraph = () => {
   //State init
   const dispatch = useDispatch();
   const data = useSelector((state) => state.fmea.data);
   const isLoading = useSelector((state) => state.fmea.isLoading);
+  const { id: analysesId } = useParams();
 
   const [treeData, setTreeData] = useState({});
+  const [socket, setSocket] = useState();
+  const [updated, setUpdated] = useState(true);
 
   useEffect(() => {
+    setSocket(mainSocket);
+
+    return () => {
+      mainSocket.disconnect();
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!updated) {
+      socket && socket.emit("send-changes", data);
+    }
     setTreeData({ ...data });
+    setUpdated(!updated);
   }, [data]);
 
-  // console.log(data, treeData);
+  useEffect(() => {
+    if (socket == null) return;
+
+    //socket.once('load')
+
+    socket.emit("get-analysis", analysesId);
+  }, [socket, analysesId]);
+
+  // socket && socket.emit("send-changes", data);
+
+  // useEffect(() => {
+  //   console.log("??");
+  //   socket && socket.emit("send-changes", data);
+  // }, []);
+
+  useEffect(() => {
+    if (socket == null) return;
+    const handler = (newData) => {
+      if (!updated) {
+        dispatch(updateNodeData(data, newData));
+      }
+      setUpdated(!updated);
+    };
+
+    socket.on("receive-changes", handler);
+    return () => {
+      socket.off("receive-changes", handler);
+    };
+  }, [socket]);
+
   //Event handlers
   const AddNode = (e) => {
     dispatch(addNodeToData(data, e.target.dataset.id));
@@ -38,7 +84,6 @@ const TreeGraph = () => {
     dispatch(
       deleteNodeFromData(data, e.target.dataset.id, +e.target.dataset.depth)
     );
-    console.log(data);
     setTreeData({ ...data });
   };
 

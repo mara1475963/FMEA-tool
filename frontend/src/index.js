@@ -6,12 +6,28 @@ import reportWebVitals from "./reportWebVitals";
 
 import { Provider } from "react-redux";
 import { store } from "./store/store.js";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
+import { getNewId } from "./helpers";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   // <React.StrictMode>
   <Provider store={store}>
-    <App />
+    <Router>
+      <Routes>
+        <Route
+          path="/"
+          element={<Navigate replace to={`/analyses/${getNewId()}`} />}
+        />
+
+        <Route path="/analyses/:id" element={<App />} />
+      </Routes>
+    </Router>
   </Provider>
   //</React.StrictMode>
 );

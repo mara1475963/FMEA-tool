@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import "./modal.scss";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { findObject, getNewId } from "../../helpers";
+
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import Button from "@mui/material/Button";
@@ -11,8 +12,9 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import TreeItem from "@mui/lab/TreeItem";
 import { Autocomplete } from "@mui/material";
+
 import { updateNodeData } from "../../store/fmea/fmea.actions";
-import { findObject, getNewId } from "../../helpers";
+import "./modal.scss";
 
 const ModalWindow = () => {
   const dispatch = useDispatch();
@@ -34,7 +36,7 @@ const ModalWindow = () => {
   useEffect(() => {
     setOpen(true);
     setNode(nodeModal);
-  }, [opened]);
+  }, [opened, nodeModal]);
 
   let failures = [];
   if (JSON.stringify(nodes) !== "{}") {
@@ -286,9 +288,10 @@ const ModalWindow = () => {
       nodeFunction.functions.forEach((fce) => {
         nodes.functions = nodes.functions.filter((f) => fce.id !== f.id);
         nodes.children.forEach((child) => {
-          child.children.forEach((ch3) => {
-            ch3.functions = ch3.functions.filter((f) => fce.id !== f.id);
-          });
+          child.children &&
+            child.children.forEach((ch3) => {
+              ch3.functions = ch3.functions.filter((f) => fce.id !== f.id);
+            });
         });
       });
     }

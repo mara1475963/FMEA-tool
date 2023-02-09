@@ -36,7 +36,6 @@ const Header = () => {
             variant="filled"
             size="small"
             onFocus={(e) => {
-              console.log(e.target);
               setShrink(true);
             }}
             onBlur={(e) => {
@@ -56,7 +55,6 @@ const Header = () => {
             variant="filled"
             size="small"
             onFocus={(e) => {
-              console.log(e.target);
               setShrink(true);
             }}
             onBlur={(e) => {
@@ -76,7 +74,6 @@ const Header = () => {
             variant="filled"
             size="small"
             onFocus={(e) => {
-              console.log(e.target);
               setShrink(true);
             }}
             onBlur={(e) => {
@@ -96,7 +93,6 @@ const Header = () => {
             variant="filled"
             size="small"
             onFocus={(e) => {
-              console.log(e.target);
               setShrink(true);
             }}
             onBlur={(e) => {
@@ -116,7 +112,6 @@ const Header = () => {
             variant="filled"
             size="small"
             onFocus={(e) => {
-              console.log(e.target);
               setShrink(true);
             }}
             onBlur={(e) => {
@@ -136,7 +131,6 @@ const Header = () => {
             variant="filled"
             size="small"
             onFocus={(e) => {
-              console.log(e.target);
               setShrink(true);
             }}
             onBlur={(e) => {
@@ -161,7 +155,6 @@ const Header = () => {
             variant="filled"
             size="small"
             onFocus={(e) => {
-              console.log(e.target);
               setShrink(true);
             }}
             onBlur={(e) => {
@@ -185,7 +178,6 @@ const Header = () => {
             variant="filled"
             size="small"
             onFocus={(e) => {
-              console.log(e.target);
               setShrink(true);
             }}
             onBlur={(e) => {
@@ -209,7 +201,6 @@ const Header = () => {
             variant="filled"
             size="small"
             onFocus={(e) => {
-              console.log(e.target);
               setShrink(true);
             }}
             onBlur={(e) => {
@@ -229,7 +220,6 @@ const Header = () => {
             variant="filled"
             size="small"
             onFocus={(e) => {
-              console.log(e.target);
               setShrink(true);
             }}
             onBlur={(e) => {
@@ -249,7 +239,6 @@ const Header = () => {
             variant="filled"
             size="small"
             onFocus={(e) => {
-              console.log(e.target);
               setShrink(true);
             }}
             onBlur={(e) => {
