@@ -28,6 +28,7 @@ root.render(
         <Route path="/analyses/:id" element={<App />} />
       </Routes>
     </Router>
+    {/* <App /> */}
   </Provider>
   //</React.StrictMode>
 );

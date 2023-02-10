@@ -6,12 +6,33 @@ import parse from "html-react-parser";
 //import ScrollContainer from "react-indiana-drag-scroll";
 import { findObject } from "../../helpers";
 import { updateNodeData } from "../../store/fmea/fmea.actions";
+import { mainSocket } from "../../socket";
 
 const Table = () => {
   const dispatch = useDispatch();
-  const data = useSelector((state) => state.fmea.data);
+  const mainData = useSelector((state) => state.fmea.data);
   const isLoading = useSelector((state) => state.fmea.isLoading);
   const headerData = useSelector((state) => state.fmea.header);
+
+  const [header, setHeader] = useState(headerData);
+  const [data, setData] = useState(mainData);
+  const [socket, setSocket] = useState();
+
+  useEffect(() => {
+    setSocket(mainSocket);
+
+    return () => {
+      mainSocket.disconnect();
+    };
+  }, []);
+
+  useEffect(() => {
+    setData({ ...mainData });
+  }, [mainData]);
+
+  useEffect(() => {
+    setHeader({ ...headerData });
+  }, [headerData]);
 
   let failures = [];
   if (JSON.stringify(data) !== "{}") {
@@ -33,17 +54,6 @@ const Table = () => {
     });
   }
 
-  const [header, setHeader] = useState(headerData);
-  const [treeData, setTreeData] = useState(data);
-
-  useEffect(() => {
-    setTreeData({ ...data });
-  }, [data]);
-
-  useEffect(() => {
-    setHeader({ ...headerData });
-  }, [headerData]);
-
   const handler = (e) => {
     const element = e.target;
     let result = {};
@@ -59,6 +69,8 @@ const Table = () => {
       });
 
       dispatch(updateNodeData(data, { ...data }));
+      setData({ ...data });
+      socket && socket.emit("send-changes", data);
     }
     const id =
       element.parentElement.parentElement.querySelector(
@@ -89,15 +101,11 @@ const Table = () => {
         element.parentElement.parentElement.querySelector("#finalOccurance");
       const D2 =
         element.parentElement.parentElement.querySelector("#finalDetection");
-      const AP =
-        element.parentElement.parentElement.querySelector("#initialAP");
-      const AP2 = element.parentElement.parentElement.querySelector("#finalAP");
 
       if (!S.value || !O.value || !D.value) {
-        AP.innerHTML = "--";
       } else {
         const APproduct = S.value * O.value * D.value;
-        AP.innerHTML = APproduct;
+        // AP.innerHTML = APproduct;
         data.children.forEach((child) => {
           child.children.forEach((ch) => {
             ch.functions.forEach((fce) => {
@@ -109,12 +117,25 @@ const Table = () => {
             });
           });
         });
+        data.children.forEach((child) => {
+          child.functions.forEach((fce) => {
+            fce.failures.forEach((f) => {
+              f.failures &&
+                f.failures.forEach((fc) => {
+                  if (fc.id === result.id) {
+                    fc["initialAP"] = APproduct;
+                  }
+                });
+            });
+          });
+        });
+        dispatch(updateNodeData(data, { ...data }));
+        setData({ ...data });
       }
       if (!S2.value || !O2.value || !D2.value) {
-        AP2.innerHTML = "--";
       } else {
         const APproduct2 = S2.value * O2.value * D2.value;
-        AP2.innerHTML = APproduct2;
+        //AP2.innerHTML = APproduct2;
         data.children.forEach((child) => {
           child.children.forEach((ch) => {
             ch.functions.forEach((fce) => {
@@ -126,22 +147,52 @@ const Table = () => {
             });
           });
         });
+        data.children.forEach((child) => {
+          child.functions.forEach((fce) => {
+            fce.failures.forEach((f) => {
+              f.failures &&
+                f.failures.forEach((fc) => {
+                  if (fc.id === result.id) {
+                    fc["finalAP"] = APproduct2;
+                  }
+                });
+            });
+          });
+        });
+        dispatch(updateNodeData(data, { ...data }));
+        setData({ ...data });
       }
     }
     data.children.forEach((child) => {
-      child.children.forEach((ch) => {
-        ch.functions.forEach((fce) => {
+      child.children &&
+        child.children.forEach((ch) => {
+          ch.functions &&
+            ch.functions.forEach((fce) => {
+              fce.failures.forEach((f) => {
+                if (f.id === result.id) {
+                  f[element.id] = element.value;
+                }
+              });
+            });
+        });
+    });
+    data.children.forEach((child) => {
+      child.functions &&
+        child.functions.forEach((fce) => {
           fce.failures.forEach((f) => {
-            if (f.id === result.id) {
-              f[element.id] = element.value;
-            }
+            f.failures &&
+              f.failures.forEach((fc) => {
+                if (fc.id === result.id) {
+                  fc[element.id] = element.value;
+                }
+              });
           });
         });
-      });
     });
 
-    console.log(data);
     dispatch(updateNodeData(data, { ...data }));
+    setData({ ...data });
+    socket && socket.emit("send-changes", data);
   };
 
   const generateFCform = (fc, initialSeverity) => {
@@ -161,9 +212,9 @@ const Table = () => {
     <td><input id='initialDetection' min='1' max='10' type='number' value='${
       fc.initialDetection ? fc.initialDetection : ""
     }'   style='width:40px'/></td>
-    <td id='initialAP' value='${
+    <td id='initialAP' style='color:black;' >${
       fc.initialAP ? fc.initialAP : ""
-    }' style='color:black;' ></td>
+    }</td>
     <td><input id='preventionAction' type='text' value='${
       fc.preventionAction ? fc.preventionAction : ""
     }' /></td>
@@ -194,9 +245,7 @@ const Table = () => {
     <td><input id='finalDetection' min='1' max='10' type='number' value='${
       fc.finalDetection ? fc.finalDetection : ""
     }'  style='width:40px'/></td>
-    <td id='finalAP' value='${
-      fc.finalAP ? fc.finalAP : ""
-    }' style='color:black;'>--</td>
+    <td id='finalAP' style='color:black;'>${fc.finalAP ? fc.finalAP : ""}</td>
     `;
 
     return FCform;
@@ -270,7 +319,7 @@ const Table = () => {
       {isLoading ? (
         <Spinner />
       ) : (
-        JSON.stringify(treeData) !== "{}" && (
+        JSON.stringify(data) !== "{}" && (
           <div className="scroll-container tables-container">
             <form onChange={handler}>
               <table>

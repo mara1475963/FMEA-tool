@@ -10,13 +10,13 @@ const io = require("socket.io")(3001, {
 });
 
 io.on("connection", (socket) => {
-  console.log("a user connected");
+  console.log(`user(${socket.id.slice(0, 5)}) connected`);
   socket.on("get-analysis", (analysisId) => {
     socket.join(analysisId);
     //socket.emit('load-analysis')
 
     socket.on("send-changes", (data) => {
-      console.log(data);
+      console.log(`user(${socket.id.slice(0, 5)}) send data`);
       socket.broadcast.to(analysisId).emit("receive-changes", data);
     });
   });

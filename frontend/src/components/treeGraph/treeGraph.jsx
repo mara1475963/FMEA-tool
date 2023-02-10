@@ -20,9 +20,10 @@ import { useParams } from "react-router-dom";
 const TreeGraph = () => {
   //State init
   const dispatch = useDispatch();
+  const { id: analysesId } = useParams();
+
   const data = useSelector((state) => state.fmea.data);
   const isLoading = useSelector((state) => state.fmea.isLoading);
-  const { id: analysesId } = useParams();
 
   const [treeData, setTreeData] = useState({});
   const [socket, setSocket] = useState();
@@ -37,35 +38,19 @@ const TreeGraph = () => {
   }, []);
 
   useEffect(() => {
-    if (!updated) {
-      socket && socket.emit("send-changes", data);
-    }
-    setTreeData({ ...data });
-    setUpdated(!updated);
-  }, [data]);
-
-  useEffect(() => {
     if (socket == null) return;
-
-    //socket.once('load')
 
     socket.emit("get-analysis", analysesId);
   }, [socket, analysesId]);
 
-  // socket && socket.emit("send-changes", data);
-
-  // useEffect(() => {
-  //   console.log("??");
-  //   socket && socket.emit("send-changes", data);
-  // }, []);
+  useEffect(() => {
+    setTreeData({ ...data });
+  }, [data]);
 
   useEffect(() => {
     if (socket == null) return;
     const handler = (newData) => {
-      if (!updated) {
-        dispatch(updateNodeData(data, newData));
-      }
-      setUpdated(!updated);
+      dispatch(updateNodeData(data, { ...newData }));
     };
 
     socket.on("receive-changes", handler);
@@ -78,6 +63,7 @@ const TreeGraph = () => {
   const AddNode = (e) => {
     dispatch(addNodeToData(data, e.target.dataset.id));
     setTreeData({ ...data });
+    socket && socket.emit("send-changes", data);
   };
 
   const DeleteNode = (e) => {
@@ -85,6 +71,7 @@ const TreeGraph = () => {
       deleteNodeFromData(data, e.target.dataset.id, +e.target.dataset.depth)
     );
     setTreeData({ ...data });
+    socket && socket.emit("send-changes", data);
   };
 
   //Graph modifications

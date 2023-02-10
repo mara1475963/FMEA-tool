@@ -15,6 +15,7 @@ import { Autocomplete } from "@mui/material";
 
 import { updateNodeData } from "../../store/fmea/fmea.actions";
 import "./modal.scss";
+import { mainSocket } from "../../socket";
 
 const ModalWindow = () => {
   const dispatch = useDispatch();
@@ -32,11 +33,20 @@ const ModalWindow = () => {
   const [node, setNode] = useState(nodeModal);
   const [selectedFunction, setSelectedFunction] = useState([]);
   const [selectedFailure, setSelectedFailure] = useState([]);
+  const [socket, setSocket] = useState();
 
   useEffect(() => {
     setOpen(true);
     setNode(nodeModal);
   }, [opened, nodeModal]);
+
+  useEffect(() => {
+    setSocket(mainSocket);
+
+    return () => {
+      mainSocket.disconnect();
+    };
+  }, []);
 
   let failures = [];
   if (JSON.stringify(nodes) !== "{}") {
@@ -99,10 +109,12 @@ const ModalWindow = () => {
           if (node.depth === 0) {
             setNode({ ...nodes });
             dispatch(updateNodeData(nodes, { ...nodes }));
+            socket && socket.emit("send-changes", nodes);
             return;
           }
         }
         dispatch(updateNodeData(nodes, { ...node }));
+        socket && socket.emit("send-changes", nodes);
         return;
       case "failure":
         //node
@@ -130,14 +142,17 @@ const ModalWindow = () => {
           if (node.depth === 0) {
             setNode({ ...nodes });
             dispatch(updateNodeData(nodes, { ...nodes }));
+            socket && socket.emit("send-changes", nodes);
             return;
           }
         }
         dispatch(updateNodeData(nodes, { ...node }));
+        socket && socket.emit("send-changes", nodes);
         return;
       case "title":
         node.name = element.value;
         dispatch(updateNodeData(nodes, { ...node }));
+        socket && socket.emit("send-changes", nodes);
 
         return;
       default:
@@ -183,12 +198,15 @@ const ModalWindow = () => {
       if (node.depth === 0) {
         dispatch(updateNodeData(nodes, { ...result }));
         setNode({ ...nodes });
+        socket && socket.emit("send-changes", nodes);
       } else {
         dispatch(updateNodeData(nodes, { ...result }));
+        socket && socket.emit("send-changes", nodes);
       }
     } else {
       dispatch(updateNodeData(nodes, { ...node }));
       setNode({ ...node });
+      socket && socket.emit("send-changes", nodes);
     }
 
     e.target.newFunction.value = "";
@@ -231,12 +249,15 @@ const ModalWindow = () => {
       if (node.depth === 0) {
         dispatch(updateNodeData(nodes, { ...result }));
         setNode({ ...nodes });
+        socket && socket.emit("send-changes", nodes);
       } else {
         dispatch(updateNodeData(nodes, { ...result }));
+        socket && socket.emit("send-changes", nodes);
       }
     } else {
       dispatch(updateNodeData(nodes, { ...node }));
       setNode({ ...node });
+      socket && socket.emit("send-changes", nodes);
     }
   };
 
@@ -265,12 +286,15 @@ const ModalWindow = () => {
       if (node.depth === 0) {
         dispatch(updateNodeData(nodes, { ...nodes }));
         setNode({ ...nodes });
+        socket && socket.emit("send-changes", nodes);
       } else {
         dispatch(updateNodeData(nodes, { ...node }));
+        socket && socket.emit("send-changes", nodes);
       }
     } else {
       dispatch(updateNodeData(nodes, { ...node }));
       setNode({ ...node });
+      socket && socket.emit("send-changes", nodes);
     }
   };
 
@@ -318,12 +342,15 @@ const ModalWindow = () => {
       if (node.depth === 0) {
         dispatch(updateNodeData(nodes, { ...nodes }));
         setNode({ ...nodes });
+        socket && socket.emit("send-changes", nodes);
       } else {
         dispatch(updateNodeData(nodes, { ...node }));
+        socket && socket.emit("send-changes", nodes);
       }
     } else {
       dispatch(updateNodeData(nodes, { ...node }));
       setNode({ ...node });
+      socket && socket.emit("send-changes", nodes);
     }
   };
 
