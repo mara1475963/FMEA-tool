@@ -70,7 +70,7 @@ const Table = () => {
 
       dispatch(updateNodeData(data, { ...data }));
       setData({ ...data });
-      socket && socket.emit("send-changes", data);
+      socket && socket.emit("send-changes", { ...data });
     }
     const id =
       element.parentElement.parentElement.querySelector(
@@ -209,7 +209,7 @@ const Table = () => {
     <td><input id='currentDetectionControl' type='text' value='${
       fc.currentDetectionControl ? fc.currentDetectionControl : ""
     }'  /></td>
-    <td><input id='initialDetection' min='1' max='10' type='number' value='${
+    <td><input id='initialDetection' min='1' max='10' type='number'  value='${
       fc.initialDetection ? fc.initialDetection : ""
     }'   style='width:40px'/></td>
     <td id='initialAP' style='color:black;' >${

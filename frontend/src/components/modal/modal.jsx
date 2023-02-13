@@ -10,12 +10,17 @@ import TextField from "@mui/material/TextField";
 import TreeView from "@mui/lab/TreeView";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import TreeItem from "@mui/lab/TreeItem";
 import { Autocomplete } from "@mui/material";
 
 import { updateNodeData } from "../../store/fmea/fmea.actions";
 import "./modal.scss";
 import { mainSocket } from "../../socket";
+import CustomizedTreeView, {
+  CloseSquare,
+  MinusSquare,
+  PlusSquare,
+  StyledTreeItem,
+} from "../treeView/treeView";
 
 const ModalWindow = () => {
   const dispatch = useDispatch();
@@ -381,15 +386,21 @@ const ModalWindow = () => {
 
             <div className="function-container">
               <TreeView
-                aria-label="file system navigator"
-                defaultCollapseIcon={<ExpandMoreIcon />}
-                defaultExpandIcon={<ChevronRightIcon />}
+                aria-label="customized"
                 defaultExpanded={["1"]}
+                defaultCollapseIcon={<MinusSquare />}
+                defaultExpandIcon={<PlusSquare />}
+                defaultEndIcon={<CloseSquare />}
                 sx={{
-                  overflowY: "none",
+                  margin: 2,
+                  //height: 264,
+                  flexGrow: 1,
+                  // maxWidth: 400,
+                  maxHeight: 450,
+                  overflowY: "auto",
                 }}
               >
-                <TreeItem nodeId="1" label="Functions">
+                <StyledTreeItem nodeId="1" label="Functions">
                   {node.functions &&
                     node.functions.map((f, f_idx) => {
                       return (
@@ -420,7 +431,10 @@ const ModalWindow = () => {
                               DEL
                             </Button>
                           </div>
-                          <TreeItem nodeId={f.id.toString()} label="Failures">
+                          <StyledTreeItem
+                            nodeId={f.id.toString()}
+                            label="Failures"
+                          >
                             {f.failures &&
                               f.failures.map((e, e_idx) => (
                                 <div className="input-container" key={e.id}>
@@ -450,7 +464,7 @@ const ModalWindow = () => {
                                   </Button>
                                 </div>
                               ))}
-                          </TreeItem>
+                          </StyledTreeItem>
                           <div className="add-container">
                             <TextField
                               id="new-failure"
@@ -523,7 +537,7 @@ const ModalWindow = () => {
                         </div>
                       );
                     })}
-                </TreeItem>
+                </StyledTreeItem>
               </TreeView>
             </div>
           </form>

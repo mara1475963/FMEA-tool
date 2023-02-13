@@ -27,7 +27,6 @@ const TreeGraph = () => {
 
   const [treeData, setTreeData] = useState({});
   const [socket, setSocket] = useState();
-  const [updated, setUpdated] = useState(true);
 
   useEffect(() => {
     setSocket(mainSocket);
