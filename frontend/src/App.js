@@ -9,6 +9,7 @@ import ModalWindow from "./components/modal/modal";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { fetchFMEAData, fetchFMEADataAsync } from "./store/fmea/fmea.actions";
+import ModalLoad from "./components/modal-load-analysis/modal-load";
 
 function App() {
   const dispatch = useDispatch();
@@ -27,6 +28,7 @@ function App() {
         <Table />
       </div>
       <ModalWindow />
+      <ModalLoad />
     </div>
   );
 }

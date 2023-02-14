@@ -3,12 +3,17 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { mainSocket } from "../../socket";
 import { fetchFMEAData } from "../../store/fmea/fmea.actions";
+import {
+  setModalAnalyses,
+  setModalAnalysesIsOpen,
+} from "../../store/modal/modal.actions";
 import "./navigation.css";
 
 const Navigation = () => {
   const dispatch = useDispatch();
   // const navigate = useNavigate();
   const mainData = useSelector((state) => state.fmea.data);
+  const opened = useSelector((state) => state.modal.analysesIsOpen);
 
   const [socket, setSocket] = useState();
   const [data, setData] = useState(mainData);
@@ -27,6 +32,11 @@ const Navigation = () => {
     socket.emit("update-analysis", data);
   };
 
+  const uploadAnalysis = () => {
+    dispatch(setModalAnalysesIsOpen(!opened));
+    socket.emit("load-analyses", data);
+  };
+
   useEffect(() => {
     setSocket(mainSocket);
 
@@ -38,6 +48,18 @@ const Navigation = () => {
   useEffect(() => {
     setData({ ...mainData });
   }, [mainData]);
+
+  useEffect(() => {
+    if (socket == null) return;
+    const handler = (analyses) => {
+      dispatch(setModalAnalyses(analyses));
+    };
+
+    socket.on("receive-analyses", handler);
+    return () => {
+      socket.off("receive-analyses", handler);
+    };
+  }, [socket]);
 
   return (
     <div className="navigation grid-item">
@@ -103,6 +125,19 @@ const Navigation = () => {
                     onClick={() => updateAnalysis()}
                   >
                     Save
+                  </a>
+                </li>
+                <li>
+                  <a
+                    className="dropdown-item"
+                    href="#"
+                    onClick={(e) => {
+                      e.preventDefault();
+
+                      return uploadAnalysis();
+                    }}
+                  >
+                    Load
                   </a>
                 </li>
                 <li>

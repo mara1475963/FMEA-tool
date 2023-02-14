@@ -54,38 +54,36 @@ const ModalWindow = () => {
   }, []);
 
   let failures = [];
-  if (JSON.stringify(nodes) !== "{}") {
-    nodes.children.forEach((child) => {
-      if (child.functions) {
-        failures.push(
-          ...child.functions.reduce((acc, cur) => {
-            if (cur.failures) {
-              cur.failures.forEach((f) => {
-                f["nodeID"] = child.id;
-              });
 
-              acc.push(...cur.failures);
-            }
-            return acc;
-          }, [])
-        );
-      }
-    });
-  }
+  nodes?.children.forEach((child) => {
+    if (child.functions) {
+      failures.push(
+        ...child.functions.reduce((acc, cur) => {
+          if (cur.failures) {
+            cur.failures.forEach((f) => {
+              f["nodeID"] = child.id;
+            });
+
+            acc.push(...cur.failures);
+          }
+          return acc;
+        }, [])
+      );
+    }
+  });
 
   let functions = [];
-  if (JSON.stringify(nodes) !== "{}") {
-    functions = nodes.children.reduce((acc, cur) => {
-      if (cur.functions) {
-        cur.functions = cur.functions.map((f) => {
-          f["nodeID"] = cur.id;
-          return f;
-        });
-        acc.push(...cur.functions);
-      }
-      return acc;
-    }, []);
-  }
+
+  functions = nodes?.children.reduce((acc, cur) => {
+    if (cur.functions) {
+      cur.functions = cur.functions.map((f) => {
+        f["nodeID"] = cur.id;
+        return f;
+      });
+      acc.push(...cur.functions);
+    }
+    return acc;
+  }, []);
 
   const onChangeHandler = (e) => {
     e.preventDefault();
@@ -465,7 +463,7 @@ const ModalWindow = () => {
                                 </div>
                               ))}
                           </StyledTreeItem>
-                          <div className="add-container">
+                          <div className="add-container add-failure">
                             <TextField
                               id="new-failure"
                               size="small"
@@ -543,9 +541,6 @@ const ModalWindow = () => {
           </form>
 
           <form className="upload" onSubmit={addFunctionHandler}>
-            <span>-----------------------</span>
-            <br />
-            <span>Add function</span>
             <div className="add-container">
               <TextField
                 id="new-function"

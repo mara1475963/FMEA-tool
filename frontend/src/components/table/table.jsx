@@ -15,7 +15,7 @@ const Table = () => {
   const headerData = useSelector((state) => state.fmea.header);
 
   const [header, setHeader] = useState(headerData);
-  const [data, setData] = useState(mainData);
+  const [data, setData] = useState(null);
   const [socket, setSocket] = useState();
 
   useEffect(() => {
@@ -35,24 +35,23 @@ const Table = () => {
   }, [headerData]);
 
   let failures = [];
-  if (JSON.stringify(data) !== "{}") {
-    data.children.forEach((child) => {
-      if (child.functions) {
-        failures.push(
-          ...child.functions.reduce((acc, cur) => {
-            if (cur.failures) {
-              cur.failures.forEach((f) => {
-                f["nodeID"] = child.id;
-              });
 
-              acc.push(...cur.failures);
-            }
-            return acc;
-          }, [])
-        );
-      }
-    });
-  }
+  data?.children?.forEach((child) => {
+    if (child.functions) {
+      failures.push(
+        ...child.functions.reduce((acc, cur) => {
+          if (cur.failures) {
+            cur.failures.forEach((f) => {
+              f["nodeID"] = child.id;
+            });
+
+            acc.push(...cur.failures);
+          }
+          return acc;
+        }, [])
+      );
+    }
+  });
 
   const handler = (e) => {
     const element = e.target;
@@ -358,7 +357,7 @@ const Table = () => {
                       2. Failure Mode (FM) <br /> of the Focus Element
                     </th>
                     <th width="180" style={{ backgroundColor: "#fb92c7" }}>
-                      {header.type.name === "DFMEA"
+                      {header.type?.name === "DFMEA"
                         ? parse(
                             `3. Failure Cause (FC) <br /> of the Next Lower Level Element or Characteristic`
                           )
@@ -398,15 +397,15 @@ const Table = () => {
                         backgroundColor: "#e7e726",
                       }}
                     >
-                      {header.type.name === "DFMEA" ? "D" : "P"}FMEA AP
+                      {header.type?.name === "DFMEA" ? "D" : "P"}FMEA AP
                     </th>
 
                     <th width="155" style={{ backgroundColor: "#50f424" }}>
-                      {header.type.name === "DFMEA" ? "D" : "P"}FMEA Prevention
+                      {header.type?.name === "DFMEA" ? "D" : "P"}FMEA Prevention
                       Action
                     </th>
                     <th width="155" style={{ backgroundColor: "#50f424" }}>
-                      {header.type.name === "DFMEA" ? "D" : "P"}FMEA Detection
+                      {header.type?.name === "DFMEA" ? "D" : "P"}FMEA Detection
                       Action
                     </th>
                     <th width="155" style={{ backgroundColor: "#50f424" }}>
@@ -458,7 +457,7 @@ const Table = () => {
                         backgroundColor: "#50f424",
                       }}
                     >
-                      {header.type.name === "DFMEA" ? "D" : "P"}FMEA AP
+                      {header.type?.name === "DFMEA" ? "D" : "P"}FMEA AP
                     </th>
                   </tr>
                 </thead>

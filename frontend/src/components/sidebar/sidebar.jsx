@@ -10,14 +10,13 @@ const Sidebar = () => {
   const headerData = useSelector((state) => state.fmea.header);
 
   let functions = [];
-  if (JSON.stringify(data) !== "{}") {
-    functions = data.children.reduce((acc, cur) => {
-      if (cur.functions) {
-        acc.push(...cur.functions);
-      }
-      return acc;
-    }, []);
-  }
+
+  functions = data?.children.reduce((acc, cur) => {
+    if (cur.functions) {
+      acc.push(...cur.functions);
+    }
+    return acc;
+  }, []);
 
   const [treeData, setTreeData] = useState(data);
 
@@ -30,14 +29,16 @@ const Sidebar = () => {
   const generateStrcutureHTML = () => {
     let result = "";
 
-    for (let lvl2 of treeData.children) {
-      result += `<tr><td  rowSpan=${
-        lvl2.children && lvl2.children.length + 1
-      }>${lvl2.name}</td></tr>`;
+    if (treeData?.children) {
+      for (let lvl2 of treeData.children) {
+        result += `<tr><td  rowSpan=${
+          lvl2.children && lvl2.children.length + 1
+        }>${lvl2.name}</td></tr>`;
 
-      if (lvl2.children) {
-        for (let lvl3 of lvl2.children) {
-          result += `<tr><td>${lvl3.name}</td></tr>`;
+        if (lvl2.children) {
+          for (let lvl3 of lvl2.children) {
+            result += `<tr><td>${lvl3.name}</td></tr>`;
+          }
         }
       }
     }
@@ -135,7 +136,7 @@ const Sidebar = () => {
                 </thead>
                 <tbody>
                   <tr>
-                    <td rowSpan={30}>{treeData.name}</td>
+                    <td rowSpan={30}>{treeData?.name}</td>
                   </tr>
                   {parse(generateStrcutureHTML())}
                 </tbody>

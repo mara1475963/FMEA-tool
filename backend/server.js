@@ -31,17 +31,16 @@ io.on("connection", (socket) => {
     });
 
     socket.on("save-analysis", async (data) => {
-      console.log("saving begins");
-      console.log(analysisId, data);
       await CreateDocument(analysisId, data);
-      console.log("saved");
     });
     socket.on("update-analysis", async (data) => {
-      console.log("saving begins");
-      console.log(analysisId, data);
       await Analysis.deleteOne({ _id: analysisId });
       await CreateDocument(analysisId, data);
-      console.log("saved");
+    });
+    socket.on("load-analyses", async () => {
+      const data = await Analysis.find({});
+      console.log(data);
+      socket.emit("receive-analyses", data);
     });
   });
 });

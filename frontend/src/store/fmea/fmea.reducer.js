@@ -2,7 +2,7 @@ import { FMEA_ACTION_TYPES } from "./fmea.types";
 
 export const INITIAL_STATE = {
   header: {},
-  data: {},
+  data: null,
   isLoading: true,
   error: null,
 };
