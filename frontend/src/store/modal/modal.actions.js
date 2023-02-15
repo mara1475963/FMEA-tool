@@ -14,3 +14,10 @@ export const setModalAnalysesIsOpen = (open) =>
 export const setModalAnalyses = (data) => {
   return createAction(MODAL_ACTION_TYPES.SET_ANALYSES, data);
 };
+
+export const setModalSOD_IsOpen = (open) =>
+  createAction(MODAL_ACTION_TYPES.SET_MODAL_SOD_IS_OPEN, open);
+
+export const setModalSOD = (data) => {
+  return createAction(MODAL_ACTION_TYPES.SET_SOD, data);
+};

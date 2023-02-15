@@ -18,7 +18,7 @@
 .tree-graph {
   grid-column-start: 2;
   grid-column-end: 3;
-  border: 1px solid rgb(139 139 139);
+  box-shadow: 0px 0px 15px #e8e8e8;
 
   margin-top: 5px;
 }

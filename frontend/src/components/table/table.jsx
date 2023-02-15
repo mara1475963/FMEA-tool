@@ -7,12 +7,14 @@ import parse from "html-react-parser";
 import { findObject } from "../../helpers";
 import { updateNodeData } from "../../store/fmea/fmea.actions";
 import { mainSocket } from "../../socket";
+import { setModalSOD_IsOpen } from "../../store/modal/modal.actions";
 
 const Table = () => {
   const dispatch = useDispatch();
   const mainData = useSelector((state) => state.fmea.data);
   const isLoading = useSelector((state) => state.fmea.isLoading);
   const headerData = useSelector((state) => state.fmea.header);
+  const opened = useSelector((state) => state.modal.sodIsOpen);
 
   const [header, setHeader] = useState(headerData);
   const [data, setData] = useState(null);
@@ -52,6 +54,11 @@ const Table = () => {
       );
     }
   });
+  const handler2 = (e) => {
+    e.preventDefault();
+    console.log(e.nativeEvent.submitter);
+    dispatch(setModalSOD_IsOpen(!opened));
+  };
 
   const handler = (e) => {
     const element = e.target;
@@ -202,9 +209,9 @@ const Table = () => {
     <input id='currentPreventionControl' type='text' value='${
       fc.currentPreventionControl ? fc.currentPreventionControl : ""
     }' /></td>
-    <td><input id='initialOccurance' min='1' max='10' type='number' value='${
+    <td><button id='initialOccurance' style='width:40px; height:40px;'>${
       fc.initialOccurance ? fc.initialOccurance : ""
-    }'   style='width:40px'/></td>
+    }</button></td>
     <td><input id='currentDetectionControl' type='text' value='${
       fc.currentDetectionControl ? fc.currentDetectionControl : ""
     }'  /></td>
@@ -280,11 +287,11 @@ const Table = () => {
       result += `<tr>
       <td>${lvl1F[0] ? lvl1F[0].name : ""}</td>
       <td rowSpan=${maxConnections}>
-      <input name='initialSeverity' data-fmid=${
+      <button name='initialSeverity' data-fmid=${
         lvl2F.id
-      } name= min='1' max='10' type='number'  style='width:40px; color:red;' id='initialSeverity' value=${
+      }  style='width:40px; height:40px; color:red;' id='initialSeverity' >${
         lvl2F.initialSeverity
-      }  />
+      }</button>
       </td>
       <td rowSpan=${maxConnections}>${lvl2F.name}</td>
       ${
@@ -320,7 +327,7 @@ const Table = () => {
       ) : (
         JSON.stringify(data) !== "{}" && (
           <div className="scroll-container tables-container">
-            <form onChange={handler}>
+            <form onChange={handler} onSubmit={handler2}>
               <table>
                 <thead>
                   <tr>

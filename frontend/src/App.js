@@ -10,6 +10,7 @@ import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { fetchFMEAData, fetchFMEADataAsync } from "./store/fmea/fmea.actions";
 import ModalLoad from "./components/modal-load-analysis/modal-load";
+import ModalAssessment from "./components/modal-assessment/modal-assessment";
 
 function App() {
   const dispatch = useDispatch();
@@ -29,6 +30,7 @@ function App() {
       </div>
       <ModalWindow />
       <ModalLoad />
+      <ModalAssessment />
     </div>
   );
 }

@@ -199,15 +199,6 @@ const structure2 = [
     children: [structure3[0]],
   },
 ];
-export const structure1 = {
-  id: 8,
-  depth: 0,
-  name: "Structure 1",
-  functions: [functions[0]],
-  children: [structure2[0]],
-  // functions: [],
-  // children: [],
-};
 
 export const dfmeaHeaders = {
   name: "DFMEA",
@@ -232,22 +223,6 @@ export const pfmeaHeaders = {
     "3. Function of the Process Work Element and Process Characteristics",
 };
 
-// export const header = {
-//   companyName: "ABC Gmbh",
-//   location: "Bratislava",
-//   customerName: "VW Group",
-//   modelYear: "2006",
-//   subject: "instrument J77",
-//   responsibility: "Product Eng.",
-//   fmeaStartDate: "1.1.2023",
-//   fmeaRevisionDate: "2.2.2023",
-//   fmeaIDNumber: "1",
-//   confidentialityLevel: "Proprietary",
-//   crossfunctionalTeam: "Product Eng, AT,...",
-//   type: pfmeaHeaders,
-//   //analysis: structure1,
-// };
-
 export const header = {
   companyName: "",
   location: "",
@@ -263,3 +238,195 @@ export const header = {
   type: pfmeaHeaders,
   //analysis: structure1,
 };
+
+export const structure1 = {
+  id: 8,
+  depth: 0,
+  name: "Structure 1",
+  functions: [functions[0]],
+  children: [structure2[0]],
+  header: header,
+  // functions: [],
+  // children: [],
+};
+
+export const severity = {
+  effects: [
+    {
+      name: "Very High",
+      numValues: [10, 9],
+      criteria: [
+        "Affects safe operation of the vehicle and/or other vehicles, the health of driver or passenger(s) or road users or pedestrians",
+        "Noncompliance with regulations",
+      ],
+    },
+    {
+      name: "Moderately High",
+      numValues: [8, 7],
+      criteria: [
+        "Loss of primary vehicle function necessary for normal driving during expected service life.",
+        "Degradation of primary vehicle function necessary for normal driving during expected service life.",
+      ],
+    },
+    {
+      name: "Moderately Low",
+      numValues: [6, 5, 4],
+      criteria: [
+        "Loss of secondary vehicle function.",
+        "Degradation of secondary vehicle function.",
+        "Very objectionable appearance, sound, vibration, harshness, or haptics.",
+      ],
+    },
+    {
+      name: "Low",
+      numValues: [3, 2],
+      criteria: [
+        "Moderately objectionable appearance, sound, vibration, harshness, or haptics.",
+        "Slightily objectionable appearance, sound, vibration, harshness, or haptics.",
+      ],
+    },
+    {
+      name: "Very Low",
+      numValues: [1],
+      criteria: ["No discernable effect"],
+    },
+  ],
+};
+
+export const occurence = {
+  effects: [
+    {
+      name: "Extremly High",
+      numValues: [10],
+      criteria: [
+        `First application of new technology whithout operating experience and/or uncontrolled operating conditions. No product verfication and/ or validation experience.
+        Standards do not exist and best practices have not yet been determined. Prevention controls not able to predict field performance or do not exist.`,
+      ],
+    },
+    {
+      name: "Very High",
+      numValues: [9, 8],
+      criteria: [
+        `First use of design with technical innovations or materials within the company. New application or change in duty cycle / operating conditions. No product verification and/or validation experience. 
+      Prevention controls not targeted to identify performance to specific requirements.`,
+        `First use of design with technical innovations or materials in a new application. New application or change in duty cycle/ operating conditions. No product verification and/or validation experience.
+      Few existing standards and best practices, not directly applicable for this design. Prevention controls not a realible indicator of field performance.`,
+      ],
+    },
+    {
+      name: "High",
+      numValues: [7, 6],
+      criteria: [
+        `New design based on similar technology and materials. New application or change in duty cycle/ operating conditions. No product verification and/or validation experience.
+      Standards, best practices, and design rules apply to the baseline design, but not the innovations. Prevention controls provide limited indication of performance.`,
+        `Similar to previous designs, using existing technology and materials. Similar application, with changes in duty cycle or operating conditions. Previous testing or field experience.
+      Standards and design rules exist but are insufficient to ensure that the failure cause will not occur. Prevention controls provide some ability to prevent a failure cause.`,
+      ],
+    },
+    {
+      name: "Moderate",
+      numValues: [5, 4],
+      criteria: [
+        `Detail changes to previous design, using proven technology and materials. Similar application, duty cycle or operating conditions. Previous testing or field experience, or new design with some test experience related to te failure.
+      Design addresses lessons learned from previous designs. Best practices re-evaluated for this design but have not yet been proven. Prevention controls capable of finding deficiens `,
+        ``,
+      ],
+    },
+    {
+      name: "Low",
+      numValues: [3],
+      criteria: [
+        `Detail changes to known design (same application, with minor change in duty cycle or operating conditions) and testing or field experience under comparable operating conditions, or new design with  succesfully completed test procedure.
+      Design expected to conform to Standards and Best Practices`,
+      ],
+    },
+    {
+      name: "Very Low",
+      numValues: [2],
+      criteria: [
+        `Almost identical mature design with long term field exposure. Same application, with comparable duty cycle and operating conditions. Testing or field experience under comparable operating conditions.
+      Design expected to conform to standards and best practices, considering Lessons Learned from previous design, with significant margin of confidence. Prevention controls capable of finding defincies in the product related to the failure cause and indicate confidence in design conformance.`,
+      ],
+    },
+    {
+      name: "Extremly Low",
+      numValues: [1],
+      criteria: [
+        `Failure eliminated through prevention control and failure cause is not possible by design.`,
+      ],
+    },
+  ],
+};
+
+export const detection = {
+  effects: [
+    {
+      name: "Very Low",
+      numValues: [10, 9],
+      criteria: [
+        `Test procedure yet to be developed.`,
+        `Test method not designed specifically to detect failure mode or cause.`,
+      ],
+      opportunity: [
+        `Test method not defined`,
+        `Pass-Fail, Test-to-Fail, Degradation Testing`,
+      ],
+    },
+    {
+      name: "Low",
+      numValues: [8, 7],
+      criteria: [`New test method; not proven.`, ``],
+      opportunity: [
+        `Pass-Fail, Test-to-Fail, Degradation Testing`,
+        `Pass-Fail Testing`,
+      ],
+    },
+    {
+      name: "Moderate",
+      numValues: [6, 5],
+      criteria: [
+        `Proven test method for verification of functionality or validation of performance, quality, reliability and durability; planned timing is later in the product development cycle such that test failures may result in production delays for re-design and/or re-tooling.`,
+        ``,
+      ],
+      opportunity: [`Test-to-Failure`, `Degradation Testing`],
+    },
+    {
+      name: "High",
+      numValues: [4, 3, 2],
+      criteria: [
+        `Proven test for verification of functionality or validation of performance, quality, reliability and durability; planned timming is sufficient to modify production tools before release for production.`,
+        ``,
+        ``,
+      ],
+      opportunity: [
+        `Pass-Fail Testing`,
+        `Test-to-Failure`,
+        `Degradation Testing`,
+      ],
+    },
+    {
+      name: "Very High",
+      numValues: [1],
+      criteria: [
+        `Prior testing confirmed that failure mode or cause cannot occur, or detection methods  proven to always detect the failure mode or failure cause.`,
+      ],
+      opportunity: [``],
+    },
+  ],
+};
+
+// export const header = {
+//   companyName: "ABC Gmbh",
+//   location: "Bratislava",
+//   customerName: "VW Group",
+//   modelYear: "2006",
+//   subject: "instrument J77",
+//   responsibility: "Product Eng.",
+//   fmeaStartDate: "1.1.2023",
+//   fmeaRevisionDate: "2.2.2023",
+//   fmeaIDNumber: "1",
+//   confidentialityLevel: "Proprietary",
+//   crossfunctionalTeam: "Product Eng, AT,...",
+//   type: pfmeaHeaders,
+//   //analysis: structure1,
+// };
