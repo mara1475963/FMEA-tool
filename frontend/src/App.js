@@ -11,12 +11,26 @@ import { useEffect } from "react";
 import { fetchFMEAData, fetchFMEADataAsync } from "./store/fmea/fmea.actions";
 import ModalLoad from "./components/modal-load-analysis/modal-load";
 import ModalAssessment from "./components/modal-assessment/modal-assessment";
+import { onAuthStateChangedListener } from "./utils/firebase/firebase.utils";
+import { setCurrentUser } from "./store/user/user.action";
 
 function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(fetchFMEAData("DFMEA"));
+  }, []);
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChangedListener((user) => {
+      if (user) {
+        // createUserDocumentFromAuth(user);
+      }
+      dispatch(setCurrentUser(user));
+      dispatch(fetchFMEAData("DFMEA"));
+    });
+
+    return unsubscribe;
   }, []);
 
   return (

@@ -11,7 +11,7 @@ const Header = () => {
   const dispatch = useDispatch();
   const mainData = useSelector((state) => state.fmea.data);
 
-  console.log(mainData);
+  // console.log(mainData);
   const onChangeHandler = (e) => {
     const element = e.target;
 

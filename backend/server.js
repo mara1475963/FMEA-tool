@@ -31,14 +31,16 @@ io.on("connection", (socket) => {
     });
 
     socket.on("save-analysis", async (data) => {
-      await CreateDocument(analysisId, data);
+      await CreateDocument(analysisId, data.ownerId, data);
     });
     socket.on("update-analysis", async (data) => {
       await Analysis.deleteOne({ _id: analysisId });
-      await CreateDocument(analysisId, data);
+      await CreateDocument(analysisId, data.ownerId, data);
     });
-    socket.on("load-analyses", async () => {
-      const data = await Analysis.find({});
+
+    socket.on("load-analyses", async (userId) => {
+      console.log(userId);
+      const data = await Analysis.find({ "data.ownerId": userId });
       console.log(data);
       socket.emit("receive-analyses", data);
     });
@@ -49,13 +51,13 @@ app.listen(process.env.PORT, () => {
   console.log("listening!!!");
 });
 
-async function CreateDocument(id, data) {
+async function CreateDocument(id, userId, data) {
   console.log(id, data);
   if (id === null) return;
   // const analysis = await Analysis.findById(id);
   // if (false) {
 
-  return await Analysis.create({ _id: id, data: data });
+  return await Analysis.create({ _id: id, ownerId: userId, data: data });
 }
 
 async function UpdateDocument(id, data) {

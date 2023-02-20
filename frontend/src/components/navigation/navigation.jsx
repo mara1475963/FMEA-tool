@@ -1,3 +1,4 @@
+import { signOut } from "firebase/auth";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -7,6 +8,11 @@ import {
   setModalAnalyses,
   setModalAnalysesIsOpen,
 } from "../../store/modal/modal.actions";
+import { googleSignIn } from "../../store/user/user.action";
+import {
+  signInWithGooglePopup,
+  signOutUser,
+} from "../../utils/firebase/firebase.utils";
 import "./navigation.css";
 
 const Navigation = () => {
@@ -14,6 +20,9 @@ const Navigation = () => {
   // const navigate = useNavigate();
   const mainData = useSelector((state) => state.fmea.data);
   const opened = useSelector((state) => state.modal.analysesIsOpen);
+  const currentUser = useSelector((state) => state.user.currentUser);
+
+  console.log(currentUser);
 
   const [socket, setSocket] = useState();
   const [data, setData] = useState(mainData);
@@ -24,17 +33,29 @@ const Navigation = () => {
   };
 
   const saveAnalysis = () => {
+    data["ownerId"] = currentUser.uid;
     console.log(data);
+
     socket.emit("save-analysis", data);
   };
   const updateAnalysis = () => {
+    data["ownerId"] = currentUser.uid;
     console.log(data);
     socket.emit("update-analysis", data);
   };
 
   const uploadAnalysis = () => {
     dispatch(setModalAnalysesIsOpen(!opened));
-    socket.emit("load-analyses", data);
+    socket.emit("load-analyses", currentUser.uid);
+  };
+
+  const signOut = () => {
+    dispatch(fetchFMEAData(data.header.type.name));
+    signOutUser();
+  };
+
+  const signInWithGoogle = async () => {
+    await signInWithGooglePopup();
   };
 
   useEffect(() => {
@@ -109,37 +130,42 @@ const Navigation = () => {
                     </li>
                   </ul>
                 </li>
-                <li>
-                  <a
-                    className="dropdown-item"
-                    href="#"
-                    onClick={() => saveAnalysis()}
-                  >
-                    Save New
-                  </a>
-                </li>
-                <li>
-                  <a
-                    className="dropdown-item"
-                    href="#"
-                    onClick={() => updateAnalysis()}
-                  >
-                    Save
-                  </a>
-                </li>
-                <li>
-                  <a
-                    className="dropdown-item"
-                    href="#"
-                    onClick={(e) => {
-                      e.preventDefault();
+                {currentUser && (
+                  <>
+                    <li>
+                      <a
+                        className="dropdown-item"
+                        href="#"
+                        onClick={() => saveAnalysis()}
+                      >
+                        Save New
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        className="dropdown-item"
+                        href="#"
+                        onClick={() => updateAnalysis()}
+                      >
+                        Save
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        className="dropdown-item"
+                        href="#"
+                        onClick={(e) => {
+                          e.preventDefault();
 
-                      return uploadAnalysis();
-                    }}
-                  >
-                    Load
-                  </a>
-                </li>
+                          return uploadAnalysis();
+                        }}
+                      >
+                        Load
+                      </a>
+                    </li>
+                  </>
+                )}
+
                 <li>
                   <a className="dropdown-item" href="#">
                     About
@@ -147,6 +173,41 @@ const Navigation = () => {
                 </li>
               </ul>
             </li>
+          </ul>
+
+          <ul className="navbar-nav ms-auto">
+            {currentUser ? (
+              <>
+                <li className="nav-item">
+                  <a className="nav-link" href="#" style={{ cursor: "auto" }}>
+                    Welcome {currentUser.displayName}
+                  </a>
+                </li>
+                <li className="nav-item">
+                  <a
+                    className="nav-link"
+                    href="#"
+                    id="navbarDropdownMenuLink"
+                    role="button"
+                    onClick={signOut}
+                  >
+                    Sign Out
+                  </a>
+                </li>
+              </>
+            ) : (
+              <li className="nav-item">
+                <a
+                  className="nav-link"
+                  href="#"
+                  id="navbarDropdownMenuLink"
+                  role="button"
+                  onClick={signInWithGoogle}
+                >
+                  Sign In
+                </a>
+              </li>
+            )}
           </ul>
         </div>
       </nav>
