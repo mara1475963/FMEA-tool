@@ -18,6 +18,10 @@ export const setModalAnalyses = (data) => {
 export const setModalSOD_IsOpen = (open) =>
   createAction(MODAL_ACTION_TYPES.SET_MODAL_SOD_IS_OPEN, open);
 
-export const setModalSOD = (data) => {
-  return createAction(MODAL_ACTION_TYPES.SET_SOD, data);
+export const setModalSODtype = (data) => {
+  return createAction(MODAL_ACTION_TYPES.SET_SOD_TYPE, data);
+};
+
+export const setModalSODobject = (object) => {
+  return createAction(MODAL_ACTION_TYPES.SET_SOD_OBJECT, object);
 };

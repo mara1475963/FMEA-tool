@@ -259,6 +259,7 @@ export const severity = {
         "Affects safe operation of the vehicle and/or other vehicles, the health of driver or passenger(s) or road users or pedestrians",
         "Noncompliance with regulations",
       ],
+      examples: [``, ``],
     },
     {
       name: "Moderately High",
@@ -267,6 +268,7 @@ export const severity = {
         "Loss of primary vehicle function necessary for normal driving during expected service life.",
         "Degradation of primary vehicle function necessary for normal driving during expected service life.",
       ],
+      examples: [``, ``],
     },
     {
       name: "Moderately Low",
@@ -276,6 +278,7 @@ export const severity = {
         "Degradation of secondary vehicle function.",
         "Very objectionable appearance, sound, vibration, harshness, or haptics.",
       ],
+      examples: [``, ``, ``],
     },
     {
       name: "Low",
@@ -284,11 +287,13 @@ export const severity = {
         "Moderately objectionable appearance, sound, vibration, harshness, or haptics.",
         "Slightily objectionable appearance, sound, vibration, harshness, or haptics.",
       ],
+      examples: [``, ``],
     },
     {
       name: "Very Low",
       numValues: [1],
       criteria: ["No discernable effect"],
+      examples: [``],
     },
   ],
 };
@@ -302,6 +307,7 @@ export const occurence = {
         `First application of new technology whithout operating experience and/or uncontrolled operating conditions. No product verfication and/ or validation experience.
         Standards do not exist and best practices have not yet been determined. Prevention controls not able to predict field performance or do not exist.`,
       ],
+      examples: [``],
     },
     {
       name: "Very High",
@@ -312,6 +318,7 @@ export const occurence = {
         `First use of design with technical innovations or materials in a new application. New application or change in duty cycle/ operating conditions. No product verification and/or validation experience.
       Few existing standards and best practices, not directly applicable for this design. Prevention controls not a realible indicator of field performance.`,
       ],
+      examples: [``, ``],
     },
     {
       name: "High",
@@ -322,6 +329,7 @@ export const occurence = {
         `Similar to previous designs, using existing technology and materials. Similar application, with changes in duty cycle or operating conditions. Previous testing or field experience.
       Standards and design rules exist but are insufficient to ensure that the failure cause will not occur. Prevention controls provide some ability to prevent a failure cause.`,
       ],
+      examples: [``, ``],
     },
     {
       name: "Moderate",
@@ -331,6 +339,7 @@ export const occurence = {
       Design addresses lessons learned from previous designs. Best practices re-evaluated for this design but have not yet been proven. Prevention controls capable of finding deficiens `,
         ``,
       ],
+      examples: [``, ``],
     },
     {
       name: "Low",
@@ -339,6 +348,7 @@ export const occurence = {
         `Detail changes to known design (same application, with minor change in duty cycle or operating conditions) and testing or field experience under comparable operating conditions, or new design with  succesfully completed test procedure.
       Design expected to conform to Standards and Best Practices`,
       ],
+      examples: [``],
     },
     {
       name: "Very Low",
@@ -347,6 +357,7 @@ export const occurence = {
         `Almost identical mature design with long term field exposure. Same application, with comparable duty cycle and operating conditions. Testing or field experience under comparable operating conditions.
       Design expected to conform to standards and best practices, considering Lessons Learned from previous design, with significant margin of confidence. Prevention controls capable of finding defincies in the product related to the failure cause and indicate confidence in design conformance.`,
       ],
+      examples: [``],
     },
     {
       name: "Extremly Low",
@@ -354,6 +365,7 @@ export const occurence = {
       criteria: [
         `Failure eliminated through prevention control and failure cause is not possible by design.`,
       ],
+      examples: [``],
     },
   ],
 };
@@ -371,6 +383,7 @@ export const detection = {
         `Test method not defined`,
         `Pass-Fail, Test-to-Fail, Degradation Testing`,
       ],
+      examples: [``, ``],
     },
     {
       name: "Low",
@@ -380,6 +393,7 @@ export const detection = {
         `Pass-Fail, Test-to-Fail, Degradation Testing`,
         `Pass-Fail Testing`,
       ],
+      examples: [``, ``],
     },
     {
       name: "Moderate",
@@ -389,6 +403,7 @@ export const detection = {
         ``,
       ],
       opportunity: [`Test-to-Failure`, `Degradation Testing`],
+      examples: [``, ``],
     },
     {
       name: "High",
@@ -403,6 +418,7 @@ export const detection = {
         `Test-to-Failure`,
         `Degradation Testing`,
       ],
+      examples: [``, ``, ``],
     },
     {
       name: "Very High",
@@ -411,6 +427,7 @@ export const detection = {
         `Prior testing confirmed that failure mode or cause cannot occur, or detection methods  proven to always detect the failure mode or failure cause.`,
       ],
       opportunity: [``],
+      examples: [``],
     },
   ],
 };

@@ -22,7 +22,7 @@ const Navigation = () => {
   const opened = useSelector((state) => state.modal.analysesIsOpen);
   const currentUser = useSelector((state) => state.user.currentUser);
 
-  console.log(currentUser);
+  //console.log(currentUser);
 
   const [socket, setSocket] = useState();
   const [data, setData] = useState(mainData);

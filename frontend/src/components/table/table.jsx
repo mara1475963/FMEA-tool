@@ -7,7 +7,11 @@ import parse from "html-react-parser";
 import { findObject } from "../../helpers";
 import { updateNodeData } from "../../store/fmea/fmea.actions";
 import { mainSocket } from "../../socket";
-import { setModalSOD_IsOpen } from "../../store/modal/modal.actions";
+import {
+  setModalSODobject,
+  setModalSODtype,
+  setModalSOD_IsOpen,
+} from "../../store/modal/modal.actions";
 
 const Table = () => {
   const dispatch = useDispatch();
@@ -56,7 +60,11 @@ const Table = () => {
   });
   const handler2 = (e) => {
     e.preventDefault();
-    console.log(e.nativeEvent.submitter);
+    const element = e.nativeEvent.submitter;
+    console.log(element);
+
+    dispatch(setModalSODtype(element.id));
+    dispatch(setModalSODobject(element));
     dispatch(setModalSOD_IsOpen(!opened));
   };
 
@@ -209,15 +217,15 @@ const Table = () => {
     <input id='currentPreventionControl' type='text' value='${
       fc.currentPreventionControl ? fc.currentPreventionControl : ""
     }' /></td>
-    <td><button id='initialOccurance' style='width:40px; height:40px;'>${
-      fc.initialOccurance ? fc.initialOccurance : ""
+    <td><button id='initialOccurance' style='width:40px; '>${
+      fc.initialOccurance ? fc.initialOccurance : "--"
     }</button></td>
     <td><input id='currentDetectionControl' type='text' value='${
       fc.currentDetectionControl ? fc.currentDetectionControl : ""
     }'  /></td>
-    <td><input id='initialDetection' min='1' max='10' type='number'  value='${
-      fc.initialDetection ? fc.initialDetection : ""
-    }'   style='width:40px'/></td>
+    <td><button id='initialDetection' style='width:40px;'/>${
+      fc.initialDetection ? fc.initialDetection : "--"
+    } </button></td>
     <td id='initialAP' style='color:black;' >${
       fc.initialAP ? fc.initialAP : ""
     }</td>
@@ -242,16 +250,16 @@ const Table = () => {
     <td><input id='completionDate' type='date' value='${
       fc.completionDate ? fc.completionDate : ""
     }' /></td>
-    <td><input id='finalSeverity' min='1' max='10' type='number' value='${
-      fc.finalSeverity ? fc.finalSeverity : ""
-    }'  style='width:40px'/></td>
-    <td><input id='finalOccurance' min='1' max='10' type='number' value='${
-      fc.finalOccurance ? fc.finalOccurance : ""
-    }'  style='width:40px'/></td>
-    <td><input id='finalDetection' min='1' max='10' type='number' value='${
-      fc.finalDetection ? fc.finalDetection : ""
-    }'  style='width:40px'/></td>
-    <td id='finalAP' style='color:black;'>${fc.finalAP ? fc.finalAP : ""}</td>
+    <td><button id='finalSeverity'  style='width:40px'>${
+      fc.finalSeverity ? fc.finalSeverity : "--"
+    } </button></td>
+    <td><button id='finalOccurance' style='width:40px'>${
+      fc.finalOccurance ? fc.finalOccurance : "--"
+    } </button></td>
+    <td><button id='finalDetection' style='width:40px'>${
+      fc.finalDetection ? fc.finalDetection : "--"
+    } </button></td>
+    <td id='finalAP' style='color:black;'>${fc.finalAP ? fc.finalAP : "--"}</td>
     `;
 
     return FCform;
@@ -289,7 +297,7 @@ const Table = () => {
       <td rowSpan=${maxConnections}>
       <button name='initialSeverity' data-fmid=${
         lvl2F.id
-      }  style='width:40px; height:40px; color:red;' id='initialSeverity' >${
+      }  style='width:40px;  color:red;' id='initialSeverity' >${
         lvl2F.initialSeverity
       }</button>
       </td>
