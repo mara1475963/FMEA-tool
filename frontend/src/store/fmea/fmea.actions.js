@@ -72,10 +72,18 @@ const deleteNode = (nodes, nodeID, depth) => {
 
   if (depth === 1) {
     nodeObj.children.splice(nodeObj.children.indexOf(result), 1);
+    if (nodeObj.children.length === 0) {
+      nodeObj.children = null;
+    }
+    console.log(nodeObj.children);
   } else {
     nodeObj.children.forEach((k) => {
       if (!k.children) return;
       k.children = k.children.filter((v) => v.id != nodeID);
+      if (k.children.length === 0) {
+        k.children = null;
+      }
+      console.log(k.children);
     });
   }
 

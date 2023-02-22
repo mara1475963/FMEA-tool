@@ -1,17 +1,19 @@
-import "./sidebar.scss";
 import React, { useEffect, useState } from "react";
-
 import { useSelector } from "react-redux";
-import Spinner from "../spinner/spinner.component";
 import parse from "html-react-parser";
-const Sidebar = () => {
+
+import Spinner from "../spinner/spinner.component";
+import "./sidebar.scss";
+
+const Sidebar = ({ tableReference }) => {
+  const tableRef = tableReference;
   const data = useSelector((state) => state.fmea.data);
   const isLoading = useSelector((state) => state.fmea.isLoading);
   const headerData = useSelector((state) => state.fmea.header);
 
   let functions = [];
 
-  functions = data?.children.reduce((acc, cur) => {
+  functions = data?.children?.reduce((acc, cur) => {
     if (cur.functions) {
       acc.push(...cur.functions);
     }
@@ -24,26 +26,62 @@ const Sidebar = () => {
     setTreeData({ ...data });
   }, [data]);
 
-  // console.log(data, treeData);
+  const getNumberOfTreeNodes = (data) => {
+    let count = 0;
+    data?.children?.forEach((child) => {
+      if (!child.children) {
+        count++;
+      }
+      child.children?.forEach((_) => {
+        count++;
+      });
+    });
+
+    return count;
+  };
 
   const generateStrcutureHTML = () => {
-    let result = "";
+    if (treeData) {
+      let result = `<tr>
+      <td rowSpan=${getNumberOfTreeNodes(treeData)}>
+      ${treeData.name}
+    </td>`;
 
-    if (treeData?.children) {
-      for (let lvl2 of treeData.children) {
-        result += `<tr><td  rowSpan=${
-          lvl2.children && lvl2.children.length + 1
-        }>${lvl2.name}</td></tr>`;
+      console.log(treeData);
+      if (treeData.children) {
+        result += ` <td rowSpan=${treeData?.children[0].children?.length}>
+      ${treeData?.children[0].name}   
+      </td>`;
+      }
 
-        if (lvl2.children) {
-          for (let lvl3 of lvl2.children) {
-            result += `<tr><td>${lvl3.name}</td></tr>`;
+      if (treeData.children[0].children) {
+        result += `<td>${treeData.children[0].children[0].name}</td>`;
+      }
+      result += `</tr>`;
+
+      for (let j = 1; j < treeData.children[0].children?.length; j++) {
+        result += `<tr><td>${treeData.children[0].children[j].name}</td></tr>`;
+      }
+
+      for (let i = 1; i < treeData.children.length; i++) {
+        result += `<tr>
+        <td rowSpan=${treeData.children[i].children?.length}>${treeData.children[i].name}</td>`;
+        if (treeData.children[i].children) {
+          console.log(treeData.children[i]);
+          result += `<td>${treeData.children[i].children[0].name}</td>`;
+        }
+        result += `</tr>`;
+
+        if (treeData.children[i].children) {
+          for (let j = 1; j < treeData.children[i].children?.length; j++) {
+            result += `<tr><td>${treeData.children[i].children[j].name}</td></tr>`;
           }
         }
       }
-    }
 
-    return result;
+      return result;
+    }
+    return "";
   };
   const generateFunctionsHTML = () => {
     //console.log("functions", functions);
@@ -88,23 +126,6 @@ const Sidebar = () => {
     return result;
   };
 
-  const handler = (e) => {
-    const element = e.target;
-    if (
-      element.id !== "initial-severity" &&
-      element.id !== "initial-occurance" &&
-      element.id !== "initial-detection"
-    ) {
-      return;
-    }
-    const S = document.querySelector("#initial-severity");
-    const O = document.querySelector("#initial-occurance");
-    const D = document.querySelector("#initial-detection");
-    const AP = document.querySelector("#initial-AP");
-    AP.innerHTML = S.value * O.value * D.value;
-    console.log(AP.value);
-  };
-
   return (
     <div className="sidebar grid-item">
       {isLoading ? (
@@ -112,11 +133,17 @@ const Sidebar = () => {
       ) : (
         JSON.stringify(treeData) !== "{}" && (
           <div className="tables-container">
-            <form onChange={handler}>
-              <table className="side-table">
+            <form>
+              <table ref={tableRef} className="side-table">
                 <thead>
                   <tr>
-                    <th style={{ textTransform: "uppercase" }} colSpan={3}>
+                    <th
+                      style={{
+                        textTransform: "uppercase",
+                        backgroundColor: "whitesmoke",
+                      }}
+                      colSpan={3}
+                    >
                       Structure analysis(Step 2)
                     </th>
                   </tr>
@@ -134,15 +161,16 @@ const Sidebar = () => {
                     </th>
                   </tr>
                 </thead>
-                <tbody>
-                  <tr>
-                    <td rowSpan={30}>{treeData?.name}</td>
-                  </tr>
-                  {parse(generateStrcutureHTML())}
-                </tbody>
+                <tbody>{parse(generateStrcutureHTML())}</tbody>
                 <thead>
                   <tr>
-                    <th style={{ textTransform: "uppercase" }} colSpan={3}>
+                    <th
+                      style={{
+                        textTransform: "uppercase",
+                        backgroundColor: "whitesmoke",
+                      }}
+                      colSpan={3}
+                    >
                       Function analysis(Step 3)
                     </th>
                   </tr>

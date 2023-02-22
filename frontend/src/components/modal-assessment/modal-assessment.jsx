@@ -66,8 +66,8 @@ const ModalAssessment = () => {
       console.log(e.target.innerHTML);
 
       data.children.forEach((child) => {
-        child.functions.forEach((fce) => {
-          fce.failures.forEach((f) => {
+        child.functions?.forEach((fce) => {
+          fce.failures?.forEach((f) => {
             if (f.id === +element.dataset.fmid) {
               f.initialSeverity = +e.target.innerHTML;
             }
@@ -114,9 +114,9 @@ const ModalAssessment = () => {
 
       // AP.innerHTML = APproduct;
       data.children.forEach((child) => {
-        child.children.forEach((ch) => {
-          ch.functions.forEach((fce) => {
-            fce.failures.forEach((f) => {
+        child.children?.forEach((ch) => {
+          ch.functions?.forEach((fce) => {
+            fce.failures?.forEach((f) => {
               if (f.id === result.id) {
                 f["initialAP"] = APproduct;
               }
@@ -124,9 +124,9 @@ const ModalAssessment = () => {
           });
         });
       });
-      data.children.forEach((child) => {
-        child.functions.forEach((fce) => {
-          fce.failures.forEach((f) => {
+      data.children?.forEach((child) => {
+        child.functions?.forEach((fce) => {
+          fce.failures?.forEach((f) => {
             f.failures &&
               f.failures.forEach((fc) => {
                 if (fc.id === result.id) {
@@ -144,10 +144,10 @@ const ModalAssessment = () => {
     } else {
       const APproduct2 = +S2.innerHTML * +O2.innerHTML * +D2.innerHTML;
       //AP2.innerHTML = APproduct2;
-      data.children.forEach((child) => {
-        child.children.forEach((ch) => {
-          ch.functions.forEach((fce) => {
-            fce.failures.forEach((f) => {
+      data.children?.forEach((child) => {
+        child.children?.forEach((ch) => {
+          ch.functions?.forEach((fce) => {
+            fce.failures?.forEach((f) => {
               if (f.id === result.id) {
                 f["finalAP"] = APproduct2;
               }
@@ -156,8 +156,8 @@ const ModalAssessment = () => {
         });
       });
       data.children.forEach((child) => {
-        child.functions.forEach((fce) => {
-          fce.failures.forEach((f) => {
+        child.functions?.forEach((fce) => {
+          fce.failures?.forEach((f) => {
             f.failures &&
               f.failures.forEach((fc) => {
                 if (fc.id === result.id) {

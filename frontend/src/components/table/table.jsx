@@ -13,7 +13,8 @@ import {
   setModalSOD_IsOpen,
 } from "../../store/modal/modal.actions";
 
-const Table = () => {
+const Table = ({ tableReference }) => {
+  const tableRef = tableReference;
   const dispatch = useDispatch();
   const mainData = useSelector((state) => state.fmea.data);
   const isLoading = useSelector((state) => state.fmea.isLoading);
@@ -42,6 +43,7 @@ const Table = () => {
 
   let failures = [];
 
+  //presunout vyber funkci a failures do selectoru
   data?.children?.forEach((child) => {
     if (child.functions) {
       failures.push(
@@ -298,7 +300,7 @@ const Table = () => {
       <button name='initialSeverity' data-fmid=${
         lvl2F.id
       }  style='width:40px;  color:red;' id='initialSeverity' >${
-        lvl2F.initialSeverity
+        lvl2F.initialSeverity ? lvl2F.initialSeverity : "--"
       }</button>
       </td>
       <td rowSpan=${maxConnections}>${lvl2F.name}</td>

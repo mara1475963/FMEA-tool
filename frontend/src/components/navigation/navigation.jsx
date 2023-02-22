@@ -14,8 +14,14 @@ import {
   signOutUser,
 } from "../../utils/firebase/firebase.utils";
 import "./navigation.css";
+import {
+  DownloadTableExcel,
+  useDownloadExcel,
+} from "react-export-table-to-excel";
 
-const Navigation = () => {
+const Navigation = ({ tableReference }) => {
+  const tableRef = tableReference;
+
   const dispatch = useDispatch();
   // const navigate = useNavigate();
   const mainData = useSelector((state) => state.fmea.data);
@@ -57,6 +63,12 @@ const Navigation = () => {
   const signInWithGoogle = async () => {
     await signInWithGooglePopup();
   };
+
+  const { onDownload } = useDownloadExcel({
+    currentTableRef: tableRef.current,
+    filename: "FMEA-analysis",
+    sheet: "Structure+Function",
+  });
 
   useEffect(() => {
     setSocket(mainSocket);
@@ -170,6 +182,22 @@ const Navigation = () => {
                   <a className="dropdown-item" href="#">
                     About
                   </a>
+                </li>
+                <li>
+                  <a className="dropdown-item" href="#">
+                    Export &raquo;
+                  </a>
+                  <ul className="dropdown-menu dropdown-submenu">
+                    <li>
+                      <a
+                        className="dropdown-item"
+                        href="#"
+                        onClick={onDownload}
+                      >
+                        Excel
+                      </a>
+                    </li>
+                  </ul>
                 </li>
               </ul>
             </li>

@@ -7,7 +7,7 @@ import Table from "./components/table/table";
 import Header from "./components/header/header";
 import ModalWindow from "./components/modal/modal";
 import { useDispatch } from "react-redux";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { fetchFMEAData, fetchFMEADataAsync } from "./store/fmea/fmea.actions";
 import ModalLoad from "./components/modal-load-analysis/modal-load";
 import ModalAssessment from "./components/modal-assessment/modal-assessment";
@@ -16,6 +16,7 @@ import { setCurrentUser } from "./store/user/user.action";
 
 function App() {
   const dispatch = useDispatch();
+  const tableRef = useRef();
 
   useEffect(() => {
     dispatch(fetchFMEAData("DFMEA"));
@@ -36,11 +37,11 @@ function App() {
   return (
     <div className="App">
       <div className="grid-container">
-        <Navigation />
-        <Sidebar />
+        <Navigation tableReference={tableRef} />
+        <Sidebar tableReference={tableRef} />
         <Header />
         <TreeGraph />
-        <Table />
+        <Table tableReference={tableRef} />
       </div>
       <ModalWindow />
       <ModalLoad />
