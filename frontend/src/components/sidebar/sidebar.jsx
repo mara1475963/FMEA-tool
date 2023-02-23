@@ -20,6 +20,8 @@ const Sidebar = ({ tableReference }) => {
     return acc;
   }, []);
 
+  console.log();
+
   const [treeData, setTreeData] = useState(data);
 
   useEffect(() => {
@@ -134,6 +136,69 @@ const Sidebar = ({ tableReference }) => {
         JSON.stringify(treeData) !== "{}" && (
           <div className="tables-container">
             <form>
+              <div id="table-to-xls-1">
+                <table ref={tableRef} className="side-table">
+                  <thead>
+                    <tr>
+                      <th
+                        style={{
+                          textTransform: "uppercase",
+                          backgroundColor: "whitesmoke",
+                        }}
+                        colSpan={3}
+                      >
+                        Structure analysis(Step 2)
+                      </th>
+                    </tr>
+
+                    <tr>
+                      <th style={{ backgroundColor: "#cacaca" }} width="33%">
+                        {headerData.type.structure1}
+                      </th>
+
+                      <th style={{ backgroundColor: "#89e3f4" }} width="34%">
+                        {headerData.type.structure2}
+                      </th>
+                      <th style={{ backgroundColor: "#fb92c7" }} width="33%">
+                        {headerData.type.structure3}
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>{parse(generateStrcutureHTML())}</tbody>
+                  <thead>
+                    <tr>
+                      <th
+                        style={{
+                          textTransform: "uppercase",
+                          backgroundColor: "whitesmoke",
+                        }}
+                        colSpan={3}
+                      >
+                        Function analysis(Step 3)
+                      </th>
+                    </tr>
+                  </thead>
+                  <thead>
+                    <tr>
+                      <th style={{ backgroundColor: "#cacaca" }}>
+                        {headerData.type.function1}
+                      </th>
+                      <th style={{ backgroundColor: "#89e3f4" }}>
+                        {headerData.type.function2}
+                      </th>
+                      <th style={{ backgroundColor: "#fb92c7" }}>
+                        {headerData.type.function3}
+                      </th>
+                    </tr>
+                  </thead>
+
+                  <tbody style={{ color: "green" }}>
+                    {parse(generateFunctionsHTML())}
+                  </tbody>
+                </table>
+              </div>
+            </form>
+            <div id="table-to-xls" style={{ display: "none" }}>
               <table ref={tableRef} className="side-table">
                 <thead>
                   <tr>
@@ -142,14 +207,18 @@ const Sidebar = ({ tableReference }) => {
                         textTransform: "uppercase",
                         backgroundColor: "whitesmoke",
                       }}
-                      colSpan={3}
+                      colSpan={4}
                     >
                       Structure analysis(Step 2)
                     </th>
                   </tr>
 
                   <tr>
-                    <th style={{ backgroundColor: "#cacaca" }} width="33%">
+                    <th
+                      colSpan={2}
+                      style={{ backgroundColor: "#cacaca" }}
+                      width="33%"
+                    >
                       {headerData.type.structure1}
                     </th>
 
@@ -169,7 +238,7 @@ const Sidebar = ({ tableReference }) => {
                         textTransform: "uppercase",
                         backgroundColor: "whitesmoke",
                       }}
-                      colSpan={3}
+                      colSpan={4}
                     >
                       Function analysis(Step 3)
                     </th>
@@ -177,7 +246,7 @@ const Sidebar = ({ tableReference }) => {
                 </thead>
                 <thead>
                   <tr>
-                    <th style={{ backgroundColor: "#cacaca" }}>
+                    <th colSpan={2} style={{ backgroundColor: "#cacaca" }}>
                       {headerData.type.function1}
                     </th>
                     <th style={{ backgroundColor: "#89e3f4" }}>
@@ -193,7 +262,10 @@ const Sidebar = ({ tableReference }) => {
                   {parse(generateFunctionsHTML())}
                 </tbody>
               </table>
-            </form>
+
+              {document.querySelector("#table-to-xls-2") &&
+                parse(document.querySelector("#table-to-xls-2").innerHTML)}
+            </div>
           </div>
         )
       )}

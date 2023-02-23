@@ -338,152 +338,175 @@ const Table = ({ tableReference }) => {
         JSON.stringify(data) !== "{}" && (
           <div className="scroll-container tables-container">
             <form onChange={handler} onSubmit={handler2}>
-              <table>
-                <thead>
-                  <tr>
-                    <th style={{ textTransform: "uppercase" }} width={355}>
-                      Failure Analysis (Step 4)
-                    </th>
-                    <th width={275} style={{ textTransform: "uppercase" }}>
-                      Risk Analysis (Step 5)
-                    </th>
-                    <th width={685} style={{ textTransform: "uppercase" }}>
-                      OPTIMIZATION (Step 6)
-                    </th>
-                  </tr>
-                </thead>
-              </table>
-              {/* <ScrollContainer className="scroll-container"> */}
-              <table>
-                <thead>
-                  <tr>
-                    <th style={{ backgroundColor: "#cacaca" }} width="140">
-                      1. Failure Effects (FE) <br /> to the next higher level
-                      and/or End User
-                    </th>
-                    <th
-                      width="40"
-                      style={{
-                        writingMode: "vertical-rl",
-                        backgroundColor: "#cacaca",
-                      }}
-                    >
-                      Severity (S) <br /> of FE
-                    </th>
-                    <th width="180" style={{ backgroundColor: "#89e3f4" }}>
-                      2. Failure Mode (FM) <br /> of the Focus Element
-                    </th>
-                    <th width="180" style={{ backgroundColor: "#fb92c7" }}>
-                      {header.type?.name === "DFMEA"
-                        ? parse(
-                            `3. Failure Cause (FC) <br /> of the Next Lower Level Element or Characteristic`
-                          )
-                        : parse(
-                            `3. Failure Cause (FC) <br /> of the Work Element`
-                          )}
-                    </th>
+              <div id="table-to-xls-2">
+                <table>
+                  <thead>
+                    <tr>
+                      <th
+                        colSpan={4}
+                        style={{
+                          textTransform: "uppercase",
+                          backgroundColor: "whitesmoke",
+                        }}
+                        width={355}
+                      >
+                        Failure Analysis (Step 4)
+                      </th>
+                      <th
+                        colSpan={5}
+                        width={275}
+                        style={{
+                          textTransform: "uppercase",
+                          backgroundColor: "whitesmoke",
+                        }}
+                      >
+                        Risk Analysis (Step 5)
+                      </th>
+                      <th
+                        colSpan={11}
+                        width={685}
+                        style={{
+                          textTransform: "uppercase",
+                          backgroundColor: "whitesmoke",
+                        }}
+                      >
+                        OPTIMIZATION (Step 6)
+                      </th>
+                    </tr>
+                  </thead>
+                </table>
+                {/* <ScrollContainer className="scroll-container"> */}
+                <table>
+                  <thead>
+                    <tr>
+                      <th style={{ backgroundColor: "#cacaca" }} width="140">
+                        1. Failure Effects (FE) <br /> to the next higher level
+                        and/or End User
+                      </th>
+                      <th
+                        width="40"
+                        style={{
+                          writingMode: "vertical-rl",
+                          backgroundColor: "#cacaca",
+                        }}
+                      >
+                        Severity (S) <br /> of FE
+                      </th>
+                      <th width="180" style={{ backgroundColor: "#89e3f4" }}>
+                        2. Failure Mode (FM) <br /> of the Focus Element
+                      </th>
+                      <th width="180" style={{ backgroundColor: "#fb92c7" }}>
+                        {header.type?.name === "DFMEA"
+                          ? parse(
+                              `3. Failure Cause (FC) <br /> of the Next Lower Level Element or Characteristic`
+                            )
+                          : parse(
+                              `3. Failure Cause (FC) <br /> of the Work Element`
+                            )}
+                      </th>
 
-                    <th width="155" style={{ backgroundColor: "#e7e726" }}>
-                      Current preventive control (PC) for FC
-                    </th>
-                    <th
-                      width="40"
-                      style={{
-                        writingMode: "vertical-rl",
-                        backgroundColor: "#e7e726",
-                      }}
-                    >
-                      Occurence (O) <br /> of FC
-                    </th>
-                    <th width="155" style={{ backgroundColor: "#e7e726" }}>
-                      Current detection control (DC) for FC or FM
-                    </th>
-                    <th
-                      width="40"
-                      style={{
-                        writingMode: "vertical-rl",
-                        backgroundColor: "#e7e726",
-                      }}
-                    >
-                      Detection (D) <br /> of FC or FM
-                    </th>
-                    <th
-                      width="30"
-                      style={{
-                        writingMode: "vertical-rl",
-                        backgroundColor: "#e7e726",
-                      }}
-                    >
-                      {header.type?.name === "DFMEA" ? "D" : "P"}FMEA AP
-                    </th>
+                      <th width="155" style={{ backgroundColor: "#e7e726" }}>
+                        Current preventive control (PC) for FC
+                      </th>
+                      <th
+                        width="40"
+                        style={{
+                          writingMode: "vertical-rl",
+                          backgroundColor: "#e7e726",
+                        }}
+                      >
+                        Occurence (O) <br /> of FC
+                      </th>
+                      <th width="155" style={{ backgroundColor: "#e7e726" }}>
+                        Current detection control (DC) for FC or FM
+                      </th>
+                      <th
+                        width="40"
+                        style={{
+                          writingMode: "vertical-rl",
+                          backgroundColor: "#e7e726",
+                        }}
+                      >
+                        Detection (D) <br /> of FC or FM
+                      </th>
+                      <th
+                        width="30"
+                        style={{
+                          writingMode: "vertical-rl",
+                          backgroundColor: "#e7e726",
+                        }}
+                      >
+                        {header.type?.name === "DFMEA" ? "D" : "P"}FMEA AP
+                      </th>
 
-                    <th width="155" style={{ backgroundColor: "#50f424" }}>
-                      {header.type?.name === "DFMEA" ? "D" : "P"}FMEA Prevention
-                      Action
-                    </th>
-                    <th width="155" style={{ backgroundColor: "#50f424" }}>
-                      {header.type?.name === "DFMEA" ? "D" : "P"}FMEA Detection
-                      Action
-                    </th>
-                    <th width="155" style={{ backgroundColor: "#50f424" }}>
-                      Responsible Persons Name
-                    </th>
-                    <th width="115" style={{ backgroundColor: "#50f424" }}>
-                      Target Completion Date
-                    </th>
-                    <th width="50" style={{ backgroundColor: "#50f424" }}>
-                      Status
-                    </th>
-                    <th width="155" style={{ backgroundColor: "#50f424" }}>
-                      Action taken with Pointer to Evidence
-                    </th>
-                    <th width="115" style={{ backgroundColor: "#50f424" }}>
-                      Completion Date
-                    </th>
-                    <th
-                      width="40"
-                      style={{
-                        writingMode: "vertical-rl",
-                        backgroundColor: "#50f424",
-                      }}
-                    >
-                      Severity (S)
-                    </th>
-                    <th
-                      width="40"
-                      style={{
-                        writingMode: "vertical-rl",
-                        backgroundColor: "#50f424",
-                      }}
-                    >
-                      Occurence (O)
-                    </th>
-                    <th
-                      width="40"
-                      style={{
-                        writingMode: "vertical-rl",
-                        backgroundColor: "#50f424",
-                      }}
-                    >
-                      Detection (D)
-                    </th>
-                    <th
-                      width="20"
-                      style={{
-                        writingMode: "vertical-rl",
-                        backgroundColor: "#50f424",
-                      }}
-                    >
-                      {header.type?.name === "DFMEA" ? "D" : "P"}FMEA AP
-                    </th>
-                  </tr>
-                </thead>
-                {/* </ScrollContainer> */}
+                      <th width="155" style={{ backgroundColor: "#50f424" }}>
+                        {header.type?.name === "DFMEA" ? "D" : "P"}FMEA
+                        Prevention Action
+                      </th>
+                      <th width="155" style={{ backgroundColor: "#50f424" }}>
+                        {header.type?.name === "DFMEA" ? "D" : "P"}FMEA
+                        Detection Action
+                      </th>
+                      <th width="155" style={{ backgroundColor: "#50f424" }}>
+                        Responsible Persons Name
+                      </th>
+                      <th width="115" style={{ backgroundColor: "#50f424" }}>
+                        Target Completion Date
+                      </th>
+                      <th width="50" style={{ backgroundColor: "#50f424" }}>
+                        Status
+                      </th>
+                      <th width="155" style={{ backgroundColor: "#50f424" }}>
+                        Action taken with Pointer to Evidence
+                      </th>
+                      <th width="115" style={{ backgroundColor: "#50f424" }}>
+                        Completion Date
+                      </th>
+                      <th
+                        width="40"
+                        style={{
+                          writingMode: "vertical-rl",
+                          backgroundColor: "#50f424",
+                        }}
+                      >
+                        Severity (S)
+                      </th>
+                      <th
+                        width="40"
+                        style={{
+                          writingMode: "vertical-rl",
+                          backgroundColor: "#50f424",
+                        }}
+                      >
+                        Occurence (O)
+                      </th>
+                      <th
+                        width="40"
+                        style={{
+                          writingMode: "vertical-rl",
+                          backgroundColor: "#50f424",
+                        }}
+                      >
+                        Detection (D)
+                      </th>
+                      <th
+                        width="20"
+                        style={{
+                          writingMode: "vertical-rl",
+                          backgroundColor: "#50f424",
+                        }}
+                      >
+                        {header.type?.name === "DFMEA" ? "D" : "P"}FMEA AP
+                      </th>
+                    </tr>
+                  </thead>
+                  {/* </ScrollContainer> */}
 
-                <tbody style={{ color: "red " }}>
-                  {parse(generateFailuresHTML())}
-                </tbody>
-              </table>
+                  <tbody style={{ color: "red " }}>
+                    {parse(generateFailuresHTML())}
+                  </tbody>
+                </table>
+              </div>
             </form>
           </div>
         )

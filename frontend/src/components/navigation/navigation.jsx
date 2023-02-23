@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { mainSocket } from "../../socket";
-import { fetchFMEAData } from "../../store/fmea/fmea.actions";
+import { fetchFMEAData, updateNodeData } from "../../store/fmea/fmea.actions";
 import {
   setModalAnalyses,
   setModalAnalysesIsOpen,
@@ -14,10 +14,10 @@ import {
   signOutUser,
 } from "../../utils/firebase/firebase.utils";
 import "./navigation.css";
-import {
-  DownloadTableExcel,
-  useDownloadExcel,
-} from "react-export-table-to-excel";
+
+import { TableToExcelReact } from "table-to-excel-react";
+import { useDownloadExcel } from "table-to-excel-react";
+import { Button } from "@mui/material";
 
 const Navigation = ({ tableReference }) => {
   const tableRef = tableReference;
@@ -32,6 +32,17 @@ const Navigation = ({ tableReference }) => {
 
   const [socket, setSocket] = useState();
   const [data, setData] = useState(mainData);
+  const [files, setFiles] = useState("");
+
+  const handleChange = (e) => {
+    const fileReader = new FileReader();
+    fileReader.readAsText(e.target.files[0], "UTF-8");
+    fileReader.onload = (e) => {
+      const importedData = JSON.parse(e.target.result);
+      dispatch(updateNodeData(data, { ...importedData }));
+      setData({ ...importedData });
+    };
+  };
 
   const createNewFMEA = (type) => {
     dispatch(fetchFMEAData(type));
@@ -65,10 +76,21 @@ const Navigation = ({ tableReference }) => {
   };
 
   const { onDownload } = useDownloadExcel({
-    currentTableRef: tableRef.current,
-    filename: "FMEA-analysis",
-    sheet: "Structure+Function",
+    fileName: "myFile",
+    table: "table-to-xls",
+    sheet: "sheet 1",
   });
+
+  const exportDataJSON = () => {
+    const jsonString = `data:text/json;chatset=utf-8,${encodeURIComponent(
+      JSON.stringify(data)
+    )}`;
+    const link = document.createElement("a");
+    link.href = jsonString;
+    link.download = "data.json";
+
+    link.click();
+  };
 
   useEffect(() => {
     setSocket(mainSocket);
@@ -194,7 +216,38 @@ const Navigation = ({ tableReference }) => {
                         href="#"
                         onClick={onDownload}
                       >
-                        Excel
+                        Table => Excel
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        className="dropdown-item"
+                        href="#"
+                        onClick={exportDataJSON}
+                      >
+                        Analysis Data => JSON
+                      </a>
+                    </li>
+                  </ul>
+                </li>
+                <li>
+                  <a className="dropdown-item" href="#">
+                    Import &raquo;
+                  </a>
+                  <ul className="dropdown-menu dropdown-submenu">
+                    <li>
+                      <a className="dropdown-item" href="#">
+                        <Button
+                          variant="text"
+                          component="label"
+                          style={{
+                            color: "#9e9e9e",
+                            textTransform: "lowercase",
+                          }}
+                        >
+                          Import
+                          <input type="file" onChange={handleChange} hidden />
+                        </Button>
                       </a>
                     </li>
                   </ul>
