@@ -123,9 +123,9 @@ const TreeGraph = () => {
           zoom="0.2588162309603444"
           orientation="vertical"
           pathFunc={straightPathFunc}
-          rootNodeClassName="node__root"
-          branchNodeClassName="node__branch"
-          leafNodeClassName="node__leaf"
+          // rootNodeClassName="node__root"
+          // branchNodeClassName="node__branch"
+          // leafNodeClassName="node__leaf"
         />
       )}
     </div>

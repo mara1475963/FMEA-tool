@@ -3,24 +3,28 @@
   float: left;
 }
 
-.node__root g > rect {
-  fill: #c5c2c2;
+/* .node__root g > rect {
+  fill: #cacaca;
 }
 
 .node__branch g > rect {
-  fill: #ebeaea;
+  fill: #89e3f4;
 }
 
-/* .node__leaf g > rect {
-  fill: #b8f39a;
+.node__leaf g > rect {
+  fill: #fb92c7;
 } */
 
 .tree-graph {
   grid-column-start: 2;
   grid-column-end: 3;
   box-shadow: 0px 0px 15px #e8e8e8;
+  background-color: whitesmoke;
+  /* background-size: 20px 20px;
+  background-image: linear-gradient(to right, blue 1px, transparent 1px),
+    linear-gradient(to bottom, blue 1px, transparent 1px);
 
-  margin-top: 5px;
+  margin-top: 5px; */
 }
 
 .tree-graph button {

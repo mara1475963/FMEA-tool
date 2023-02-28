@@ -10,6 +10,7 @@ import { setHeaderData, updateNodeData } from "../../store/fmea/fmea.actions";
 const Header = () => {
   const dispatch = useDispatch();
   const mainData = useSelector((state) => state.fmea.data);
+  const currentUser = useSelector((state) => state.user.currentUser);
 
   // console.log(mainData);
   const onChangeHandler = (e) => {
@@ -150,7 +151,12 @@ const Header = () => {
                 !e.target.value && setShrink(false);
               }}
               InputLabelProps={{ shrink: shrink }}
-              placeholder={headerData.responsibility}
+              disabled={currentUser ? true : false}
+              placeholder={
+                currentUser
+                  ? currentUser.displayName
+                  : headerData.responsibility
+              }
             />
 
             <TextField

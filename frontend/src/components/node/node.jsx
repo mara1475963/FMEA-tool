@@ -13,6 +13,20 @@ const Node = ({
 }) => {
   const dispatch = useDispatch();
   const opened = useSelector((state) => state.modal.isOpen);
+  let nodeColor = "";
+  switch (nodeDatum.__rd3t.depth) {
+    case 0:
+      nodeColor = "#cacaca";
+      break;
+    case 1:
+      nodeColor = "#89e3f4";
+      break;
+    case 2:
+      nodeColor = "#fb92c7";
+      break;
+    default:
+      nodeColor = "gray";
+  }
 
   const toggleWindow = () => {
     dispatch(setModalIsOpen(!opened));
@@ -20,7 +34,7 @@ const Node = ({
   };
 
   return (
-    <g className="test">
+    <g className="test" style={{ fill: nodeColor }}>
       <rect width="500" height="500" />
       <foreignObject {...foreignObjectProps}>
         <div

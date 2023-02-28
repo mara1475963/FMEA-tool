@@ -18,6 +18,7 @@ import "./navigation.css";
 import { TableToExcelReact } from "table-to-excel-react";
 import { useDownloadExcel } from "table-to-excel-react";
 import { Button } from "@mui/material";
+import { saveSvgAsPng } from "save-svg-as-png";
 
 const Navigation = ({ tableReference }) => {
   const tableRef = tableReference;
@@ -33,6 +34,8 @@ const Navigation = ({ tableReference }) => {
   const [socket, setSocket] = useState();
   const [data, setData] = useState(mainData);
   const [files, setFiles] = useState("");
+
+  const FILENAME = data?.name.replaceAll(" ", "_");
 
   const handleChange = (e) => {
     const fileReader = new FileReader();
@@ -76,7 +79,7 @@ const Navigation = ({ tableReference }) => {
   };
 
   const { onDownload } = useDownloadExcel({
-    fileName: "myFile",
+    fileName: FILENAME,
     table: "table-to-xls",
     sheet: "sheet 1",
   });
@@ -87,9 +90,13 @@ const Navigation = ({ tableReference }) => {
     )}`;
     const link = document.createElement("a");
     link.href = jsonString;
-    link.download = "data.json";
+    link.download = FILENAME + ".json";
 
     link.click();
+  };
+
+  const exportToSVG = () => {
+    saveSvgAsPng(document.querySelector(".rd3t-svg"), FILENAME + ".png");
   };
 
   useEffect(() => {
@@ -202,11 +209,6 @@ const Navigation = ({ tableReference }) => {
 
                 <li>
                   <a className="dropdown-item" href="#">
-                    About
-                  </a>
-                </li>
-                <li>
-                  <a className="dropdown-item" href="#">
                     Export &raquo;
                   </a>
                   <ul className="dropdown-menu dropdown-submenu">
@@ -216,7 +218,7 @@ const Navigation = ({ tableReference }) => {
                         href="#"
                         onClick={onDownload}
                       >
-                        Table => Excel
+                        {"Table => Excel"}
                       </a>
                     </li>
                     <li>
@@ -225,7 +227,16 @@ const Navigation = ({ tableReference }) => {
                         href="#"
                         onClick={exportDataJSON}
                       >
-                        Analysis Data => JSON
+                        {"Analysis Data => JSON"}
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        className="dropdown-item"
+                        href="#"
+                        onClick={exportToSVG}
+                      >
+                        {"Structure => SVG"}
                       </a>
                     </li>
                   </ul>
@@ -242,10 +253,9 @@ const Navigation = ({ tableReference }) => {
                           component="label"
                           style={{
                             color: "#9e9e9e",
-                            textTransform: "lowercase",
                           }}
                         >
-                          Import
+                          {"<= JSON"}
                           <input type="file" onChange={handleChange} hidden />
                         </Button>
                       </a>

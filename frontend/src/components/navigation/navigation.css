@@ -21,3 +21,14 @@
 .dropdown-menu > li:hover > .dropdown-submenu {
   display: block;
 }
+
+@media (min-width: 100px) {
+  .navbar-expand-lg {
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    flex-direction: row;
+  }
+  .navbar-nav {
+    flex-direction: row;
+  }
+}

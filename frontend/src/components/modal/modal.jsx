@@ -55,7 +55,7 @@ const ModalWindow = () => {
 
   let failures = [];
 
-  nodes?.children.forEach((child) => {
+  nodes?.children?.forEach((child) => {
     if (child.functions) {
       failures.push(
         ...child.functions.reduce((acc, cur) => {
@@ -74,7 +74,7 @@ const ModalWindow = () => {
 
   let functions = [];
 
-  functions = nodes?.children.reduce((acc, cur) => {
+  functions = nodes?.children?.reduce((acc, cur) => {
     if (cur.functions) {
       cur.functions = cur.functions.map((f) => {
         f["nodeID"] = cur.id;

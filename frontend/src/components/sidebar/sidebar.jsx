@@ -50,10 +50,12 @@ const Sidebar = ({ tableReference }) => {
     </td>`;
 
       console.log(treeData);
-      if (treeData.children) {
+      if (treeData.children && treeData.children.length !== 0) {
         result += ` <td rowSpan=${treeData?.children[0].children?.length}>
       ${treeData?.children[0].name}   
       </td>`;
+      } else {
+        return result;
       }
 
       if (treeData.children[0].children) {
@@ -89,41 +91,43 @@ const Sidebar = ({ tableReference }) => {
     //console.log("functions", functions);
     let result = "";
 
-    for (let lvl2F of functions) {
-      //console.log(lvl2F);
-      if (!lvl2F.functions) {
-        result += `<tr>
+    if (functions) {
+      for (let lvl2F of functions) {
+        //console.log(lvl2F);
+        if (!lvl2F.functions) {
+          result += `<tr>
         <td></td>
         <td>${lvl2F.name}</td>
         <td></td>
         </tr>`;
-        continue;
-      }
-      const lvl1F = lvl2F.functions.filter((f) => f.depth === 0);
-      const lvl3F = lvl2F.functions.filter((f) => f.depth === 2);
-      //console.log("lvl1", lvl1F);
-      //console.log("lvl3", lvl3F);
+          continue;
+        }
+        const lvl1F = lvl2F.functions.filter((f) => f.depth === 0);
+        const lvl3F = lvl2F.functions.filter((f) => f.depth === 2);
+        //console.log("lvl1", lvl1F);
+        //console.log("lvl3", lvl3F);
 
-      let maxConnections = 0;
+        let maxConnections = 0;
 
-      if (lvl1F.length >= lvl3F.length) {
-        maxConnections = lvl1F.length;
-      }
-      if (lvl1F.length < lvl3F.length) {
-        maxConnections = lvl3F.length;
-      }
-      result += `<tr>
+        if (lvl1F.length >= lvl3F.length) {
+          maxConnections = lvl1F.length;
+        }
+        if (lvl1F.length < lvl3F.length) {
+          maxConnections = lvl3F.length;
+        }
+        result += `<tr>
       <td >${lvl1F[0] ? lvl1F[0].name : ""}</td>
       <td rowSpan=${maxConnections}>${lvl2F.name}</td>
       <td>${lvl3F[0] ? lvl3F[0].name : ""}</td>
     </tr>`;
-      for (let i = 1; i < maxConnections; i++) {
-        result += `<tr>
+        for (let i = 1; i < maxConnections; i++) {
+          result += `<tr>
                     <td >${lvl1F[i] ? lvl1F[i].name : ""}</td>              
                     <td>${lvl3F[i] ? lvl3F[i].name : ""}</td>
                   </tr>`;
+        }
+        //console.log(result);
       }
-      //console.log(result);
     }
     return result;
   };

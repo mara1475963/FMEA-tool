@@ -243,11 +243,11 @@ export const structure1 = {
   id: 8,
   depth: 0,
   name: "Structure 1",
-  functions: [functions[0]],
-  children: [structure2[0]],
+  // functions: [functions[0]],
+  // children: [structure2[0]],
   header: header,
-  // functions: [],
-  // children: [],
+  functions: [],
+  children: [],
 };
 
 export const severity = {
