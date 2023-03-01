@@ -1,11 +1,12 @@
 \chapter{FMEA}
 \label{sec:FMEA}
-FMEA je zkratka z anglického výrazu Failure Mode and Effect Analysis, česky lze toto označení přeložit jako Analýza výskytu vad a jejich dopadu nebo Analýza příčin a důsledků. Jedná se tedy o analytickou metodu, která ma za cíl odhalení možných vad ve výrobním procesu nebo návrhu produktu, nalezení příčin výskytu těchto vad, ohodnocení závažnosti daného rizika a snaha o jeho zmírnění nebo odstranění. Na vypracování této analýzy se většinou podílí tým odborníků z různých oblastí daného odvětví, kteří využají svých znalostí a zkušeností ze svých profesí k odbornému posouzení problémů v různých fázích analýzy. Obvykle tento tým tvoří vedoucí výroby, zástupce z oddělení pro kontrolu kvality, kontruktér, technolog popřípadě další odborníci. Mezi relevantní účastníky také může patřit zákazník, kterému mohou být poskytovány výstupy z jednotlivých verzí analýzy. V tomto případě může být FMEA součástí smluvní dohody mezi výrobcem a zákazníkem jako záruka kvality například v rámci PPAP (Production Part Approval Process). Přesto, že je FMEA prováděna před začátkem realizace je dobré přistupovat k dokumentům obsahujícím analýzu jako k dynamickým a v čase zlepšovat jejich kvalitu a přesnost.  
+FMEA je zkratka z anglického výrazu Failure Mode and Effect Analysis, česky lze toto označení přeložit jako Analýza výskytu vad a jejich dopadů nebo Analýza příčin a důsledků. Jedná se tedy o analytickou metodu, která ma za cíl odhalení možných vad ve výrobním procesu nebo návrhu produktu, nalezení příčin výskytu těchto vad, ohodnocení závažnosti daného rizika a snaha o jeho zmírnění nebo odstranění. Na vypracování této analýzy se většinou podílí tým odborníků z různých oblastí daného odvětví, kteří využají svých znalostí a zkušeností ze svých profesí k odbornému posouzení problémů v různých fázích analýzy. Obvykle tento tým tvoří vedoucí výroby, zástupce z oddělení pro kontrolu kvality, konstruktér, technolog popřípadě další odborníci. Mezi relevantní účastníky také může patřit zákazník, kterému mohou být poskytovány výstupy z jednotlivých verzí analýzy. V tomto případě může být FMEA součástí smluvní dohody mezi výrobcem a zákazníkem jako záruka kvality například v rámci PPAP (Production Part Approval Process). Přesto, že je FMEA prováděna před začátkem realizace dané fáze vývoje, je dobré přistupovat k dokumentům obsahujícím analýzu jako k dynamickým a v čase zlepšovat jejich kvalitu a přesnost.  
 
 \section{Historie FMEA}
 Počátky FMEA sahají do 40. let minulého století, kdy byla FMEA poprvé použita americkou armádou pro redukci potenciálních závad při výrobě munice. Metoda se ukázala jako vysoce efektivní a kolem roku 1960 ji začlenila do svých přípravných technik i společnost NASA. FMEA se ukázala jako podstatná součást mise Apollo. Od 70.let 20. století již následoval automobilový průmysl, který tvoří jedno z hlavních odvětví, kde je tato metoda využívána. Prvotním uživatelem byla automobilka Ford, která přijala FMEA jako reakci na špatný bezpečnostní stav jejich modelu Ford Pinto. Jejich příkladu pak následovali další američtí i evropští výrobci. Tyto události vedly ke vzniku asociací AIAG a VDA, které definují standardy pro zvýšení kvality pomocí nástrojů jako je FMEA, SPC(statistical process controll) nebo MSA(Measurement system analysis). Z důvodu rozšířenosti použití FMEA analýzy v tomto průmyslu bude i v následujících popisech a příkladech brán pohled na tvorbu FMEA z toho odvětví.  
 
 \section{Aplikace FMEA}
+
 FMEA se člení zejména na tři typy, které se odvíjejí podle fáze vývoje. Jedná se o tyto tři druhy: 
 
 \begin{itemize}
@@ -16,6 +17,7 @@ FMEA se člení zejména na tři typy, které se odvíjejí podle fáze vývoje.
 V této diplomové práci bude věnována pozornost hlavně analýze zaměřené na návrh a proces. Tyto dvě zaměření jsou v praxi využívány nejvíce pravděpodobně díky tomu, že se zaměřují na specifičtější části vývoje produktu. Součástí FMEA analýzy je dekompozice subjektu ve fázi strukturální analýzy na nízkoúrovňové části, pro které se lépe hledájí možné způsoby selhání. Použití metody na celý systém se tak může zdát jako zbytečně komplexní řešení a v některých případech tato možnost ani nepřipadá v úvahu. Konkrétně je dobré uvést příklad z rozsáhlého autombilového průmyslu, kde se výroba vozu skládá ze spolupráce několika různých výrobců komponent, kteří často nemusí mít přehled o práci ostatních dodavatelů. V některých případech jsou výrobky součástí většího celku a těžko se při použití metody DFMEA nalézají všechny možné rizikové scénáře. V těchto případech se například provádí pouze analýza zaměřená na konkrétní výrobní proces(PFMEA), u kterého lze určit možná rizika. 
 
 \subsection{DFMEA}
+\label{subsec:DFMEA}
 DFMEA se používá pro analýzu nových návrhu produktů. Měla by tedy navazovat na ukončení fáze návrhu a vycházet tak ze softwarových artefaktů z toho vyplývajících. Jedním z těchto artefaktů může být například blokový diagram(Boundary diagram), který pokrývá určitou část systému. Pomocí blokového diagramu lze zobrazit rozhraní a vztahy mezi jednolivými komponentami. Mezi další podklady pro tvorbu DFMEA může patřit: 
 \begin{itemize}
 	\item  Normy a předpisy
@@ -27,17 +29,18 @@ DFMEA se používá pro analýzu nových návrhu produktů. Měla by tedy navazo
 	
 \end{itemize}
 
-Stejně jako u ostatních typů FMEA analýz je i zde potřeba průběžně aktualizovat softwarové artefakty i při přechodu do dalších fází vývoje produktu. Postup pro vypracovaní DFMEA by se dal rámcově shrnout do těchto bodů: 
+Stejně jako u ostatních typů FMEA je i zde potřeba průběžně aktualizovat softwarové artefakty i při přechodu do dalších fází vývoje produktu. Postup pro vypracovaní DFMEA by se dal rámcově shrnout do těchto bodů: 
 \begin{enumerate}
 	\item Identifikace rizik
 	\item Analýza rizik
 	\item Hodnocení a řízení rizik 
-	\item Návrh optmalizačních opatření
+	\item Návrh optimalizačních opatření
 	\item Přehodnocení rizik
 \end{enumerate}
-Podprobnějším popisem struktury a kroků, které se provádí při vypracování DFMEA se bude zabávat kapitola \ref{sec:FMEA_postup}
+Podprobnějším popisem struktury a kroků, které se provádí při vypracování DFMEA se bude zabývat kapitola \ref{sec:FMEA_postup}
 
 \subsection{PFMEA}
+\label{subsec:PFMEA}
 PFMEA se používá pro analýzu nových procesů zejména z pohledu výroby. Dá se říci, že by měla navazovat ne předchozí analýzu návrhu produktu, kdy výrobní proces je dalším logickým krokem při vývoji. Mezi další vstupní předpoklady patří například flow diagram, který dekomponuje proces do série nazujících kroků. V praxi je možné setkat se i s případem, kdy se PFMEA provádí až jako snaha o zlepšení stávajícího procesu. V tomto případě lze jako podklad pro vypracování také vzít v úvahu fyzickou prohlídku výrobní haly. Tuto analýzu často vykonává stejný tým jako v případě DFMEA.  
 
 

@@ -1,9 +1,9 @@
-\chapter{Vypracování FMEA analýzy}
+\chapter{Vypracování FMEA }
 \label{sec:FMEA_postup}
-V této kapitole bude podrobněji popsán postup při použití metody FMEA pro návrh a proces. Obě tyto varianty mají totožnou strukturu a tak budou jednotlivé její části popsány zároveň pro vytvoření obrazu v jakých atributech se konkrétní prvky budou lišit. Názorný příklad bude ze světa automobilismu. 
+V této kapitole bude podrobněji popsán postup při použití metody FMEA pro návrh a proces. Obě tyto varianty mají totožnou strukturu a tak budou její jednotlivé části popsány zároveň pro vytvoření obrazu v jakých atributech se konkrétní prvky obou typů analýz liší. Uvedené příklady budou ze světa automobilového průmyslu. 
 
-\section{1. krok Plánování a příprava}
-V kapitolách na DFMEa a PFMEa byly zmíněny předpoklady a vstupní podklady před začátkem samotné analýzy. V tomto kroku je také sestaven tým odborníků, kteří budou za pomocí společných setkání provádět samotnou analýzu. V tomto týmu je potřeba před začátkem práce definovat základní pravidla a pojmy. Je potřeba definovat škálu pro atributy, které pomocí kterých bude probíhat hodnocení nalezených rizik. Od této škály se například bude odvíjet, od jaké hodnoty bude akceptována určitá míra rizika. Tyto atributy jsou: 
+\section{Plánování a příprava(1. krok)}
+V kapitolách \ref{subsec:DFMEA} a \ref{subsec:PFMEA}  byly zmíněny předpoklady a vstupní podklady před začátkem samotné analýzy. V tomto kroku je také sestaven tým odborníků, kteří budou za pomocí společných setkání provádět samotnou analýzu. V tomto týmu je potřeba před začátkem práce definovat základní pravidla a pojmy. Je potřeba definovat škálu pro atributy, které pomocí kterých bude probíhat hodnocení nalezených rizik. Od této škály se například bude odvíjet, od jaké hodnoty bude akceptována určitá míra rizika. Tyto atributy jsou: 
 
 \begin{enumerate}
 	\item Severity (Vážnost)
@@ -18,20 +18,179 @@ Po stanovení těchto atributů je možné přistoupit k vyplnění úvodních i
 \begin{center}
 \begin{table}
 	\centering
-	\caption{Hlavička dokumentu}
+	\caption{Hlavička analýzy}
 	\label{tab:Head1}
         \begin{tabular}{|c | r | c |} 
          \hline
-          & Company Name & ABC  \\ [0.5ex] 
+ \multicolumn{3}{|c|}{Planning and preparation (Step 1)} \\
+
          \hline
-         1 & Engineering Location & Bratislava  \\ [0.5ex] 
+         1 & Company Name & ABC  \\ [0.5ex] 
          \hline
-         2 & Customer Name & VW Group  \\ [0.5ex] 
+         2 & Location & Bratislava  \\ [0.5ex] 
          \hline
-         3 & Model Year/Program(s) & 2006/J77 \\ [0.5ex] 
+         3 & Customer Name & VW Group  \\ [0.5ex] 
+         \hline
+         4 & Model Year / Program(s) & 2006/J77 \\ [0.5ex] 
+         \hline
+         5 & Subject & J77 Instrument Cluster \\ [0.5ex] 
+         \hline
+         6 & Responsibility & John Doe (Product Eng.) \\ [0.5ex] 
+         \hline
+         7 & D(P)FMEA Start Date & 1.1.2023  \\ [0.5ex] 
+         \hline
+         8 & D(P)FMEA Revision Date & 27.2.2023 \\ [0.5ex] 
+         \hline
+         9 & D(P)FMEA ID Number & 77 \\ [0.5ex] 
+         \hline
+         10 & Confidentiality Level & Proprietary \\ [0.5ex] 
+         \hline
+         11 & Cross-Functional team & John Doe, Henry Smith \\ [0.5ex] 
          \hline
         \end{tabular}
     \end{table}
 \end{center}
 
-Po stanovení těchto atributů je možné přistoupit k vyplnění úvodních informací tvořící hlavičku analýzy. Po stanovení těchto atributů je možné přistoupit k vyplnění úvodních informací tvořící hlavičku analýzy. 
+Tato tabulka obsahuje seznam atributů, které se vyplňují v rámci úvodní fáze analýzy. Zde je popis jednotlivých atributů:
+
+\begin{enumerate}
+	\item \textbf{Název společnosti} - jedná se o společnosti v rámci, které je analýza prováděna
+	\item \textbf{Lokace} - zde může lokace odpovídat buď lokací inženýrského týmu zodpovědného za návrh produktu(DFMEA) nebo umístěním výrobního závodu(PFMEA) 
+	\item \textbf{Jméno zákazníka} - Podle zaměření analýzy, může být zákazníkem jak koncový uživatel, tak i interní oddělení, které navazuje ve výrobním cyklu
+ \item \textbf{Modelový rok, Program} - specifikace modelu produktu, program(DFMEA) nebo platforma(PFMEA)
+ \item \textbf{Předmět} - vysokoúroňový popis zkoumaného prvku
+ \item \textbf{Zodpovědnost} - vlastník dokumentu analýzy, často v roli manažera setkání týmu
+ \item \textbf{Začátek analýzy} - počáteční datum
+ \item \textbf{Datum revize} 
+ \item \textbf{Interní identifikační číslo analýzy}
+ \item \textbf{Stupeň důvěrnosti} - může nabývat hodnot (obchodní, proprietární, důvěrný)
+ \item \textbf{Multioborový tým} - seznam lidi podílejících se na tvorbě analýzy
+\end{enumerate}
+
+\section{Analýza struktury(2. krok)}
+Cílem strukturální analýzy je dekompozice zkoumaného produktu na menší části, které pak slouží jako vstupní parametry v dalších krocích analýzy. Dekompozice slouží pro jednodušší pochopení zkoumaného produktu. Výsledkem je nejčastěji stromová struktura o výšce stromu tři, kdy kořenem stromu je přímo zkoumaný prvek.
+
+
+
+
+
+\begin{center}
+\begin{table}[h]
+	\centering
+	\caption{Formulář pro analýzu struktury(DFMEA) }
+	\label{tab:structure_DFMEA}
+\begin{tabular}{ |p{4cm}|p{3cm}|p{3cm}|  }
+ \hline
+ \multicolumn{3}{|c|}{Structure Analysis (Step 2)} \\
+ \hline
+ 1. Next Higher Level& 2.Focus Element
+No. And Name of Focus Element &3. Next Lower Level of Characteristic Type\\
+ \hline
+ Instrument Cluster B90   & 6. Speed clock    &Stepper motor\\
+
+
+ \hline
+\end{tabular}\  
+\end{table}
+\end{center}
+
+\begin{center}
+\begin{table}[h]
+	\centering
+	\caption{Formulář pro analýzu struktury(PFMEA) }
+	\label{tab:structure_PFMEA}
+\begin{tabular}{ |p{4cm}|p{3cm}|p{3cm}|  }
+ \hline
+ \multicolumn{3}{|c|}{Structure Analysis (Step 2)} \\
+ \hline
+1. Process Item
+System, Subsystem, Part Element or Name of Process
+& 2. Process Step
+No. And Name of Focus Element
+&3. Process Work Element
+
+4M Type\\
+ \hline
+X98 sun roll assembly line   & 020 Assembly body-mechanism   &Operator\\
+
+
+ \hline
+\end{tabular}\  
+\end{table}
+\end{center}
+
+V tomto kroku analýzy se nejvíce projevují rozdíly mezi jejími dvěma zmíněnými typy. Rozdílnost atributů, které jsou v této fázi vyplňovány je možné porovnat v tabulkách \ref{tab:structure_DFMEA} a  \ref{tab:structure_PFMEA} 
+Dále následuje popis jednotlivých atributů, které se vyplňují v rámci strukturální analýzy. 
+
+\begin{enumerate}
+	\item \textbf{Vyšší úroveň / Položka procesu systému, subsystému, dílu nebo název procesu} - Prvek na nejvýšší úrovni v rámci předmětu analýzy, pro tento prvek se v se v rámci analýzy selhání definují důsledky selhání
+	\item \textbf{Vybraný prvek, číslo a označení/Krok procesu, číslo a označení} - Prvek na druhé úrovni, pro tento prvek se v rámci analýzy selhání určuje jeden ze základních pílířů analýzy a to způsob selhání
+	\item \textbf{Nižší úroveň nebo druh charakteristiky/Prvek provádění činnosti, 4M} - Prvek na nejnižší úrovni, pro který se určují příčiny selhání. V analýze zaměřené na proces je zde uveden návodně typ 4M, který vyjadřuje(Machine, Man, Material, Milieu), tedy určité kategorie, do kterých by mohl hodnotící tým zařadit prvek na této úrovni. Další kategorie mohou také být Method, Measurement.  
+\end{enumerate}
+
+\section{Analýza funkcí(3. krok)}
+V rámci analýzy struktury byly vytvořeny objekty, pro které ve fázi analýza funkcí bude tým definovat jejich funkce. Nalezené funkce budou dále sloužit jako vstupní parametry pro analýzu selhání, kdy se bude zkoumat, jak by objekt o definované funkci mohl selhat. 
+
+Stejně jako v předchozím kroku, kdy výsledná analýza tvořila stromovou strukturu, neboli jednotlivé objekty měli mezi sebou definované vazby, tak je tomu obdobně i v této části analýzy. Zde je kladen důraz hlavně na funkcionalitu prvků na druhé úrovni. Pro tyto funkce se pak hledají funkce ze třetí úrovně, které zajišťují jejich funkcionalitu. Stejně je potřeba nalézt funkce na první úrovni, které jsou chápany jako výsledky funkce ze druhé úrovně. 
+
+Analýza funkcí je dalším příkladem, kdy se jednotlivé typy analýzy zaměřené na návrh a proces liší. Tyto odlišnosti znázorňují tabulky \ref{tab:function_DFMEA} a \ref{tab:function_PFMEA} 
+
+\begin{center}
+\begin{table}[h]
+	\centering
+	\caption{Formulář pro analýzu funkcí(DFMEA) }
+	\label{tab:function_DFMEA}
+\begin{tabular}{ |p{5cm}|p{4cm}|p{4cm}|  }
+ \hline
+ \multicolumn{3}{|c|}{Function Analysis (Step 3)} \\
+ \hline
+ 1. Next Higher Level Function and Requirement &
+2. Focus Element
+Function and Requirement &
+3. Next Lower Level Function and Requirement or Characteristic\\
+ \hline
+ Display vehicle status: spped, torq, gas level, engine temperature..   & Display vehicle speed    & Convert a train of input pulses into a precisely defined increment in the shaft position\\
+
+
+ \hline
+\end{tabular}\  
+\end{table}
+\end{center}
+
+\begin{center}
+\begin{table}[h]
+	\centering
+	\caption{Formulář pro analýzu funkcí(PFMEA) }
+	\label{tab:function_PFMEA}
+\begin{tabular}{ |p{5cm}|p{4cm}|p{4cm}|  }
+ \hline
+ \multicolumn{3}{|c|}{Function Analysis (Step 3)} \\
+ \hline
+1. Function of the Process Item
+Function of System, Subsystem, Part Element or Name of Process
+& 2. Function of the Process Step and Product Characteristics
+(Quantitative value is optional)
+& 3. Function of the Process Work Element and Process Characteristics
+\\
+ \hline
+Assembly body with mechanism   & Screw body with mechanism with 2 screws   &Take the first screw and insert into driver then press tool start button\\
+
+
+ \hline
+\end{tabular}\  
+\end{table}
+\end{center}
+
+Popis atributů v rámci analýzy funkcí:
+\begin{enumerate}
+	\item \textbf{Funkce a požadavek vyšší úrovně / Funkce položky procesu Funkce systému, subsystému, dílu/komponentu nebo procesu} - Funkce odpovídající prvku na nejvyšší úrovni nebo procesu 
+	\item \textbf{Funkce a požadavek vybraného prvku/Funkce kroku procesu a charakteristika produktu(kvantitaivní hodnota je volitelná)} - Funkce odpovídající prvku na druhé úrovni(subsystém, komponent) nebo kroku procesu(čeho musí daná stanice dosáhnout)
+	\item \textbf{Funkce a požadavek nebo charakteristika nižší úrovně/Funkce prvku provádějící činnost a charakteristika procesu} - Funkce odpovídající prvku na nejnižší úrovni(komponent, díl) nebo prvku provádějící nějakou činnost v procesu
+\end{enumerate}
+
+
+
+\section{Analýza selhání(4. krok)}
+\section{Analýza rizik(5. krok)}
+\section{Optimalizace(6. krok)}
+\section{Dokumentace výsledků(7. krok)}
