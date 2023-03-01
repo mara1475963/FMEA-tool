@@ -4,25 +4,45 @@ import parse from "html-react-parser";
 
 import Spinner from "../spinner/spinner.component";
 import "./sidebar.scss";
+import {
+  selectFMEAData,
+  selectFMEAHeader,
+  selectFMEAIsLoading,
+  selectMainFunctions,
+} from "../../store/fmea/fmea.selectors";
 
-const Sidebar = ({ tableReference }) => {
-  const tableRef = tableReference;
-  const data = useSelector((state) => state.fmea.data);
-  const isLoading = useSelector((state) => state.fmea.isLoading);
-  const headerData = useSelector((state) => state.fmea.header);
-
-  let functions = [];
-
-  functions = data?.children?.reduce((acc, cur) => {
-    if (cur.functions) {
-      acc.push(...cur.functions);
-    }
-    return acc;
-  }, []);
-
-  console.log();
+const Sidebar = () => {
+  const isLoading = useSelector(selectFMEAIsLoading);
+  const data = useSelector(selectFMEAData);
+  const headerData = useSelector(selectFMEAHeader);
+  const functions = useSelector(selectMainFunctions);
 
   const [treeData, setTreeData] = useState(data);
+
+  const table2 = document.querySelector("#table-to-xls-2")?.cloneNode(true);
+  const tableBody = table2?.querySelector(".table-form-controls");
+
+  const replaceInputsFromTable = (node) => {
+    if (!node) return;
+    if (!node.children) return;
+    for (let child of node.children) {
+      if (child.children[0]?.tagName?.toLowerCase() === "input") {
+        if (child.children[0].type === "hidden") {
+          child.innerHTML =
+            child.children[0].nextElementSibling.nextElementSibling.value;
+        } else {
+          child.innerHTML = child.children[0].value;
+        }
+      }
+      replaceInputsFromTable(child.children);
+    }
+  };
+
+  if (tableBody) {
+    for (const tr of tableBody.children) {
+      replaceInputsFromTable(tr);
+    }
+  }
 
   useEffect(() => {
     setTreeData({ ...data });
@@ -42,16 +62,17 @@ const Sidebar = ({ tableReference }) => {
     return count;
   };
 
-  const generateStrcutureHTML = () => {
+  const generateStrcutureHTML = (excelFormat) => {
     if (treeData) {
       let result = `<tr>
-      <td rowSpan=${getNumberOfTreeNodes(treeData)}>
+      <td style='textAlign: center;' colspan=${
+        excelFormat ? "2" : "1"
+      } rowSpan=${getNumberOfTreeNodes(treeData)}>
       ${treeData.name}
     </td>`;
 
-      console.log(treeData);
       if (treeData.children && treeData.children.length !== 0) {
-        result += ` <td rowSpan=${treeData?.children[0].children?.length}>
+        result += ` <td style='textAlign: center;' rowSpan=${treeData?.children[0].children?.length}>
       ${treeData?.children[0].name}   
       </td>`;
       } else {
@@ -59,26 +80,26 @@ const Sidebar = ({ tableReference }) => {
       }
 
       if (treeData.children[0].children) {
-        result += `<td>${treeData.children[0].children[0].name}</td>`;
+        result += `<td style='textAlign: center;'>${treeData.children[0].children[0].name}</td>`;
       }
       result += `</tr>`;
 
       for (let j = 1; j < treeData.children[0].children?.length; j++) {
-        result += `<tr><td>${treeData.children[0].children[j].name}</td></tr>`;
+        result += `<tr><td style='textAlign: center;'>${treeData.children[0].children[j].name}</td></tr>`;
       }
 
       for (let i = 1; i < treeData.children.length; i++) {
         result += `<tr>
-        <td rowSpan=${treeData.children[i].children?.length}>${treeData.children[i].name}</td>`;
+        <td style='textAlign: center;' rowSpan=${treeData.children[i].children?.length}>${treeData.children[i].name}</td>`;
         if (treeData.children[i].children) {
           console.log(treeData.children[i]);
-          result += `<td>${treeData.children[i].children[0].name}</td>`;
+          result += `<td style='textAlign: center;'>${treeData.children[i].children[0].name}</td>`;
         }
         result += `</tr>`;
 
         if (treeData.children[i].children) {
           for (let j = 1; j < treeData.children[i].children?.length; j++) {
-            result += `<tr><td>${treeData.children[i].children[j].name}</td></tr>`;
+            result += `<tr><td style='textAlign: center;'>${treeData.children[i].children[j].name}</td></tr>`;
           }
         }
       }
@@ -87,7 +108,7 @@ const Sidebar = ({ tableReference }) => {
     }
     return "";
   };
-  const generateFunctionsHTML = () => {
+  const generateFunctionsHTML = (excelFormat) => {
     //console.log("functions", functions);
     let result = "";
 
@@ -96,16 +117,14 @@ const Sidebar = ({ tableReference }) => {
         //console.log(lvl2F);
         if (!lvl2F.functions) {
           result += `<tr>
-        <td></td>
-        <td>${lvl2F.name}</td>
-        <td></td>
-        </tr>`;
+                      <td colspan=${excelFormat ? "2" : ""} ></td>
+                      <td>${lvl2F.name}</td>
+                      <td></td>
+                    </tr>`;
           continue;
         }
         const lvl1F = lvl2F.functions.filter((f) => f.depth === 0);
         const lvl3F = lvl2F.functions.filter((f) => f.depth === 2);
-        //console.log("lvl1", lvl1F);
-        //console.log("lvl3", lvl3F);
 
         let maxConnections = 0;
 
@@ -116,15 +135,17 @@ const Sidebar = ({ tableReference }) => {
           maxConnections = lvl3F.length;
         }
         result += `<tr>
-      <td >${lvl1F[0] ? lvl1F[0].name : ""}</td>
-      <td rowSpan=${maxConnections}>${lvl2F.name}</td>
-      <td>${lvl3F[0] ? lvl3F[0].name : ""}</td>
-    </tr>`;
+                    <td colspan=${excelFormat ? "2" : ""}  >${
+          lvl1F[0] ? lvl1F[0].name : ""
+        }</td>
+                    <td rowSpan=${maxConnections}>${lvl2F.name}</td>
+                    <td>${lvl3F[0] ? lvl3F[0].name : ""}</td>
+                  </tr>`;
         for (let i = 1; i < maxConnections; i++) {
           result += `<tr>
-                    <td >${lvl1F[i] ? lvl1F[i].name : ""}</td>              
-                    <td>${lvl3F[i] ? lvl3F[i].name : ""}</td>
-                  </tr>`;
+                      <td >${lvl1F[i] ? lvl1F[i].name : ""}</td>              
+                      <td>${lvl3F[i] ? lvl3F[i].name : ""}</td>
+                    </tr>`;
         }
         //console.log(result);
       }
@@ -141,7 +162,7 @@ const Sidebar = ({ tableReference }) => {
           <div className="tables-container">
             <form>
               <div id="table-to-xls-1">
-                <table ref={tableRef} className="side-table">
+                <table className="side-table">
                   <thead>
                     <tr>
                       <th
@@ -202,8 +223,10 @@ const Sidebar = ({ tableReference }) => {
                 </table>
               </div>
             </form>
+
+            {/* TABLE TO EXPORT */}
             <div id="table-to-xls" style={{ display: "none" }}>
-              <table ref={tableRef} className="side-table">
+              <table className="side-table">
                 <thead>
                   <tr>
                     <th
@@ -234,7 +257,7 @@ const Sidebar = ({ tableReference }) => {
                     </th>
                   </tr>
                 </thead>
-                <tbody>{parse(generateStrcutureHTML())}</tbody>
+                <tbody>{parse(generateStrcutureHTML(true))}</tbody>
                 <thead>
                   <tr>
                     <th
@@ -263,12 +286,11 @@ const Sidebar = ({ tableReference }) => {
                 </thead>
 
                 <tbody style={{ color: "green" }}>
-                  {parse(generateFunctionsHTML())}
+                  {parse(generateFunctionsHTML(true))}
                 </tbody>
               </table>
 
-              {document.querySelector("#table-to-xls-2") &&
-                parse(document.querySelector("#table-to-xls-2").innerHTML)}
+              {table2 && parse(table2.innerHTML)}
             </div>
           </div>
         )

@@ -11,6 +11,7 @@ import { updateNodeData } from "../../store/fmea/fmea.actions";
 import { severity, occurence, detection } from "../../data/dataJS";
 import { findObject } from "../../helpers";
 import { TextField } from "@mui/material";
+import { selectFMEAData } from "../../store/fmea/fmea.selectors";
 
 const ModalAssessment = () => {
   const dispatch = useDispatch();
@@ -18,9 +19,9 @@ const ModalAssessment = () => {
     dispatch(setModalSOD_IsOpen(false));
     setOpen(false);
   };
+  const nodes = useSelector(selectFMEAData);
   const opened = useSelector((state) => state.modal.sodIsOpen);
   const element = useSelector((state) => state.modal.SODobject);
-  const nodes = useSelector((state) => state.fmea.data);
   const type = useSelector((state) => state.modal.SODtype);
 
   const [open, setOpen] = useState(opened);

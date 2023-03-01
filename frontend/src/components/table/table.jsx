@@ -12,13 +12,20 @@ import {
   setModalSODtype,
   setModalSOD_IsOpen,
 } from "../../store/modal/modal.actions";
+import {
+  selectFMEAData,
+  selectFMEAHeader,
+  selectFMEAIsLoading,
+  selectMainFailures,
+} from "../../store/fmea/fmea.selectors";
 
-const Table = ({ tableReference }) => {
-  const tableRef = tableReference;
+const Table = () => {
   const dispatch = useDispatch();
-  const mainData = useSelector((state) => state.fmea.data);
-  const isLoading = useSelector((state) => state.fmea.isLoading);
-  const headerData = useSelector((state) => state.fmea.header);
+  const isLoading = useSelector(selectFMEAIsLoading);
+  const mainData = useSelector(selectFMEAData);
+  const headerData = useSelector(selectFMEAHeader);
+  const failures = useSelector(selectMainFailures);
+
   const opened = useSelector((state) => state.modal.sodIsOpen);
 
   const [header, setHeader] = useState(headerData);
@@ -41,25 +48,6 @@ const Table = ({ tableReference }) => {
     setHeader({ ...headerData });
   }, [headerData]);
 
-  let failures = [];
-
-  //presunout vyber funkci a failures do selectoru
-  data?.children?.forEach((child) => {
-    if (child.functions) {
-      failures.push(
-        ...child.functions.reduce((acc, cur) => {
-          if (cur.failures) {
-            cur.failures.forEach((f) => {
-              f["nodeID"] = child.id;
-            });
-
-            acc.push(...cur.failures);
-          }
-          return acc;
-        }, [])
-      );
-    }
-  });
   const handler2 = (e) => {
     e.preventDefault();
     const element = e.nativeEvent.submitter;
@@ -502,7 +490,10 @@ const Table = ({ tableReference }) => {
                   </thead>
                   {/* </ScrollContainer> */}
 
-                  <tbody style={{ color: "red " }}>
+                  <tbody
+                    className="table-form-controls"
+                    style={{ color: "red " }}
+                  >
                     {parse(generateFailuresHTML())}
                   </tbody>
                 </table>

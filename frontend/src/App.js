@@ -16,7 +16,6 @@ import { setCurrentUser } from "./store/user/user.action";
 
 function App() {
   const dispatch = useDispatch();
-  const tableRef = useRef();
 
   useEffect(() => {
     dispatch(fetchFMEAData("DFMEA"));
@@ -37,11 +36,11 @@ function App() {
   return (
     <div className="App">
       <div className="grid-container">
-        <Navigation tableReference={tableRef} />
-        <Sidebar tableReference={tableRef} />
+        <Navigation />
+        <Sidebar />
         <Header />
         <TreeGraph />
-        <Table tableReference={tableRef} />
+        <Table />
       </div>
       <ModalWindow />
       <ModalLoad />

@@ -8,22 +8,21 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   addNodeToData,
   deleteNodeFromData,
-  deleteNodeFunctions,
-  setMainFailures,
-  setMainFunctions,
   updateNodeData,
 } from "../../store/fmea/fmea.actions";
 import Spinner from "../spinner/spinner.component";
-import { structure1 } from "../../data/dataJS";
-import { findObject } from "../../helpers";
 import { useParams } from "react-router-dom";
+import {
+  selectFMEAData,
+  selectFMEAIsLoading,
+} from "../../store/fmea/fmea.selectors";
 const TreeGraph = () => {
   //State init
   const dispatch = useDispatch();
-  const { id: analysesId } = useParams();
+  const data = useSelector(selectFMEAData);
+  const isLoading = useSelector(selectFMEAIsLoading);
 
-  const data = useSelector((state) => state.fmea.data);
-  const isLoading = useSelector((state) => state.fmea.isLoading);
+  const { id: analysesId } = useParams();
 
   const [treeData, setTreeData] = useState({});
   const [socket, setSocket] = useState();

@@ -6,10 +6,11 @@ import "./header.scss";
 import { header } from "../../data/dataJS";
 import { useDispatch, useSelector } from "react-redux";
 import { setHeaderData, updateNodeData } from "../../store/fmea/fmea.actions";
+import { selectFMEAData } from "../../store/fmea/fmea.selectors";
 
 const Header = () => {
   const dispatch = useDispatch();
-  const mainData = useSelector((state) => state.fmea.data);
+  const mainData = useSelector(selectFMEAData);
   const currentUser = useSelector((state) => state.user.currentUser);
 
   // console.log(mainData);

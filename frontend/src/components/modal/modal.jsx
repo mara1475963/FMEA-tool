@@ -21,6 +21,7 @@ import CustomizedTreeView, {
   PlusSquare,
   StyledTreeItem,
 } from "../treeView/treeView";
+import { selectFMEAData } from "../../store/fmea/fmea.selectors";
 
 const ModalWindow = () => {
   const dispatch = useDispatch();
@@ -30,8 +31,8 @@ const ModalWindow = () => {
     dispatch(updateNodeData(nodes, node));
     return setOpen(false);
   };
+  const nodes = useSelector(selectFMEAData);
   const opened = useSelector((state) => state.modal.isOpen);
-  const nodes = useSelector((state) => state.fmea.data);
   let nodeModal = useSelector((state) => state.modal.node);
 
   const [open, setOpen] = useState(opened);

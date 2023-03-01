@@ -19,6 +19,7 @@ import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
 import StarBorder from "@mui/icons-material/StarBorder";
 import { updateNodeData } from "../../store/fmea/fmea.actions";
+import { selectFMEAData } from "../../store/fmea/fmea.selectors";
 
 const ModalLoad = () => {
   const dispatch = useDispatch();
@@ -26,9 +27,9 @@ const ModalLoad = () => {
     dispatch(setModalAnalysesIsOpen(false));
     setOpen(false);
   };
+  const nodes = useSelector(selectFMEAData);
   const opened = useSelector((state) => state.modal.analysesIsOpen);
   const data = useSelector((state) => state.modal.analyses);
-  const nodes = useSelector((state) => state.fmea.data);
 
   const [open, setOpen] = useState(opened);
   const [open2, setOpen2] = useState(true);
