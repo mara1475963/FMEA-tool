@@ -32,9 +32,12 @@ const Node = ({
     dispatch(setModalIsOpen(!opened));
     dispatch(setModalData(nodeDatum));
   };
+  const handl = (e) => {
+    console.log(e);
+  };
 
   return (
-    <g className="test" style={{ fill: nodeColor }}>
+    <g className="test" style={{ fill: nodeColor }} onChange={handl}>
       <rect width="500" height="500" />
       <foreignObject {...foreignObjectProps}>
         <div

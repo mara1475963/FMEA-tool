@@ -26,6 +26,16 @@ const TreeGraph = () => {
 
   const [treeData, setTreeData] = useState({});
   const [socket, setSocket] = useState();
+  const [zoomScale, setZoomScale] = useState();
+
+  const zoom = (event) => {
+    //console.log(event.zoom);
+    const zoomValue = event.zoom * 100 + "%";
+    console.log(zoomValue);
+    //setZoomScale(zoomValue);
+    document.querySelector(".zoom-slider").style.width = zoomValue;
+    //console.log(zoomValue);
+  };
 
   useEffect(() => {
     setSocket(mainSocket);
@@ -110,6 +120,7 @@ const TreeGraph = () => {
       ) : (
         // <Skeleton variant="rectangular" width={210} height={60} />
         <Tree
+          onUpdate={zoom}
           data={treeData}
           nodeSize={nodeSize}
           renderCustomNodeElement={(rd3tProps) => {
@@ -119,7 +130,7 @@ const TreeGraph = () => {
             });
           }}
           translate={{ x: 610.29, y: 10.605 }}
-          zoom="0.2588162309603444"
+          zoom="0.1"
           orientation="vertical"
           pathFunc={straightPathFunc}
           // rootNodeClassName="node__root"
@@ -127,6 +138,7 @@ const TreeGraph = () => {
           // leafNodeClassName="node__leaf"
         />
       )}
+      <div className="zoom-slider"></div>
     </div>
   );
 };

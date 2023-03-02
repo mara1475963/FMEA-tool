@@ -18,8 +18,11 @@
 .tree-graph {
   grid-column-start: 2;
   grid-column-end: 3;
-  box-shadow: 0px 0px 15px #e8e8e8;
+  box-shadow: -10px -10px 15px #e8e8e8;
   background-color: whitesmoke;
+  margin-bottom: 20px;
+  margin-top: 20px;
+  border-radius: 5px;
   /* background-size: 20px 20px;
   background-image: linear-gradient(to right, blue 1px, transparent 1px),
     linear-gradient(to bottom, blue 1px, transparent 1px);
@@ -30,4 +33,12 @@
 .tree-graph button {
   width: 150px;
   font-size: 3rem;
+}
+
+.zoom-slider {
+  background-color: #bab9b9;
+  border-radius: 5px;
+  height: 10px;
+  margin: auto;
+  margin-top: 5px !important;
 }
