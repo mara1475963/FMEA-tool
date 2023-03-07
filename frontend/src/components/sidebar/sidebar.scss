@@ -18,6 +18,9 @@
       font-size: 0.8rem;
       table-layout: fixed;
       width: 540px;
+      .selected {
+        background-color: #ffd433;
+      }
     }
     table td,
     th {

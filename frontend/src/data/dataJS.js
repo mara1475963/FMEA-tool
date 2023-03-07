@@ -246,6 +246,9 @@ export const structure1 = {
   functions: [functions[0]],
   children: [structure2[0]],
   header: header,
+  severityExamples: ["test", "", "", "", "", "", "", "", "asd", ""],
+  occuranceExamples: ["1", "", "", "", "", "5", "", "", "", ""],
+  detectionExamples: ["", "2", "", "", "", "", "", "7", "", ""],
   // functions: [],
   // children: [],
 };

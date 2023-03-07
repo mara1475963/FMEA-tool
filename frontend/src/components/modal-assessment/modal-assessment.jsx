@@ -12,10 +12,10 @@ import { severity, occurence, detection } from "../../data/dataJS";
 import { findObject } from "../../helpers";
 import { TextField } from "@mui/material";
 import { selectFMEAData } from "../../store/fmea/fmea.selectors";
-import { pfmesSeverity } from "./pfmea_severity";
-import { pfmeaOccurance } from "./pfmea_occurance";
-import { pfmeaDetection } from "./pfmea_detection";
-import { dmfmeaDetection } from "./dfmea_detection";
+import { getPFMEASeverity, pfmesSeverity } from "./pfmea_severity";
+import { getPFMEAOccurance, pfmeaOccurance } from "./pfmea_occurance";
+import { getPFMEADetection, pfmeaDetection } from "./pfmea_detection";
+import { dmfmeaDetection, getDFMEADetection } from "./dfmea_detection";
 
 const ModalAssessment = () => {
   const dispatch = useDispatch();
@@ -32,8 +32,6 @@ const ModalAssessment = () => {
   const [data, setData] = useState();
   const [socket, setSocket] = useState();
   const [SODtype, setSODtype] = useState(null);
-
-  console.log(nodes);
 
   useEffect(() => {
     setSocket(mainSocket);
@@ -212,6 +210,8 @@ const ModalAssessment = () => {
     //console.log(document.querySelector("#initialSeverity"));
   };
 
+  let counter = -1;
+
   return (
     SODtype && (
       <Modal
@@ -223,7 +223,7 @@ const ModalAssessment = () => {
         <Box sx={{ width: 1000, maxHeight: 650, overflowY: "auto" }}>
           {nodes.header.type.name === "DFMEA" ? (
             type === "initialDetection" ? (
-              dmfmeaDetection
+              getDFMEADetection(handler, element, data)
             ) : (
               <table className="side-table">
                 <thead style={{ backgroundColor: "#cacaca" }}>
@@ -261,6 +261,7 @@ const ModalAssessment = () => {
                     const examples = effect.examples.filter(
                       (_, idx) => idx !== 0
                     );
+                    counter++;
 
                     return (
                       <>
@@ -286,11 +287,17 @@ const ModalAssessment = () => {
                               id="w3review"
                               name="w3review"
                               style={{ width: "100%", height: 30 }}
-                              defaultValue={effect.examples[0]}
+                              defaultValue={
+                                type.includes("Severity")
+                                  ? data.severityExamples[counter]
+                                  : data.occuranceExamples[counter]
+                              }
                             ></textarea>
                           </td>
                         </tr>
+
                         {criteria.map((c, idx) => {
+                          counter++;
                           return (
                             <tr key={idx}>
                               <td
@@ -317,7 +324,7 @@ const ModalAssessment = () => {
                                   id="w3review"
                                   name="w3review"
                                   style={{ width: "100%", height: 30 }}
-                                  defaultValue={examples[idx]}
+                                  defaultValue={data.severityExamples[counter]}
                                 ></textarea>
                               </td>
                             </tr>
@@ -330,9 +337,10 @@ const ModalAssessment = () => {
               </table>
             )
           ) : (
-            (type === "initialSeverity" && pfmesSeverity) ||
-            (type === "initialOccurance" && pfmeaOccurance) ||
-            (type === "initialDetection" && pfmeaDetection)
+            (type.includes("Severity") && getPFMEASeverity(handler, element)) ||
+            (type.includes("Occurance") &&
+              getPFMEAOccurance(handler, element)) ||
+            (type.includes("Detection") && getPFMEADetection(handler, element))
           )}
         </Box>
       </Modal>

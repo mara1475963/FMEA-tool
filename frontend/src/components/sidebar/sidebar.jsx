@@ -9,6 +9,7 @@ import {
   selectFMEAHeader,
   selectFMEAIsLoading,
   selectMainFunctions,
+  selectNodeIDs,
 } from "../../store/fmea/fmea.selectors";
 
 const Sidebar = () => {
@@ -16,6 +17,7 @@ const Sidebar = () => {
   const data = useSelector(selectFMEAData);
   const headerData = useSelector(selectFMEAHeader);
   const functions = useSelector(selectMainFunctions);
+  const selectedIDs = useSelector(selectNodeIDs);
 
   const [treeData, setTreeData] = useState(data);
 
@@ -48,6 +50,10 @@ const Sidebar = () => {
     setTreeData({ ...data });
   }, [data]);
 
+  const isSelected = (id) => {
+    return selectedIDs.includes(id);
+  };
+
   const getNumberOfTreeNodes = (data) => {
     let count = 0;
     data?.children?.forEach((child) => {
@@ -65,14 +71,20 @@ const Sidebar = () => {
   const generateStrcutureHTML = (excelFormat) => {
     if (treeData) {
       let result = `<tr>
-      <td style='textAlign: center;' colspan=${
+      <td class="${
+        isSelected(treeData.id) ? "selected" : ""
+      }" style='textAlign: center;' colspan=${
         excelFormat ? "2" : "1"
       } rowSpan=${getNumberOfTreeNodes(treeData)}>
       ${treeData.name}
     </td>`;
 
       if (treeData.children && treeData.children.length !== 0) {
-        result += ` <td style='textAlign: center;' rowSpan=${treeData?.children[0].children?.length}>
+        result += ` <td class="${
+          isSelected(treeData?.children[0].id) ? "selected" : ""
+        }" style='textAlign: center;' rowSpan=${
+          treeData?.children[0].children?.length
+        }>
       ${treeData?.children[0].name}   
       </td>`;
       } else {
@@ -80,26 +92,45 @@ const Sidebar = () => {
       }
 
       if (treeData.children[0].children) {
-        result += `<td style='textAlign: center;'>${treeData.children[0].children[0].name}</td>`;
+        result += `<td class="${
+          isSelected(treeData.children[0].children[0].id) ? "selected" : ""
+        }" style='textAlign: center;'>${
+          treeData.children[0].children[0].name
+        }</td>`;
       }
       result += `</tr>`;
 
       for (let j = 1; j < treeData.children[0].children?.length; j++) {
-        result += `<tr><td style='textAlign: center;'>${treeData.children[0].children[j].name}</td></tr>`;
+        result += `<tr><td class="${
+          isSelected(treeData.children[0].children[j].id) ? "selected" : ""
+        }" style='textAlign: center;'>${
+          treeData.children[0].children[j].name
+        }</td></tr>`;
       }
 
       for (let i = 1; i < treeData.children.length; i++) {
         result += `<tr>
-        <td style='textAlign: center;' rowSpan=${treeData.children[i].children?.length}>${treeData.children[i].name}</td>`;
+        <td class="${
+          isSelected(treeData.children[i].id) ? "selected" : ""
+        }" style='textAlign: center;' rowSpan=${
+          treeData.children[i].children?.length
+        }>${treeData.children[i].name}</td>`;
         if (treeData.children[i].children) {
-          console.log(treeData.children[i]);
-          result += `<td style='textAlign: center;'>${treeData.children[i].children[0].name}</td>`;
+          result += `<td class="${
+            isSelected(treeData.children[i].children[0].id) ? "selected" : ""
+          }" style='textAlign: center;'>${
+            treeData.children[i].children[0].name
+          }</td>`;
         }
         result += `</tr>`;
 
         if (treeData.children[i].children) {
           for (let j = 1; j < treeData.children[i].children?.length; j++) {
-            result += `<tr><td style='textAlign: center;'>${treeData.children[i].children[j].name}</td></tr>`;
+            result += `<tr><td class="${
+              isSelected(treeData.children[i].children[j].id) ? "selected" : ""
+            }" style='textAlign: center;'>${
+              treeData.children[i].children[j].name
+            }</td></tr>`;
           }
         }
       }
@@ -118,7 +149,9 @@ const Sidebar = () => {
         if (!lvl2F.functions) {
           result += `<tr>
                       <td colspan=${excelFormat ? "2" : ""} ></td>
-                      <td>${lvl2F.name}</td>
+                      <td class="${isSelected(lvl2F.id) ? "selected" : ""}">${
+            lvl2F.name
+          }</td>
                       <td></td>
                     </tr>`;
           continue;
@@ -135,16 +168,26 @@ const Sidebar = () => {
           maxConnections = lvl3F.length;
         }
         result += `<tr>
-                    <td colspan=${excelFormat ? "2" : ""}  >${
-          lvl1F[0] ? lvl1F[0].name : ""
+                    <td class="${
+                      isSelected(lvl1F[0]?.id) ? "selected" : ""
+                    }" colspan=${excelFormat ? "2" : ""} class="${
+          isSelected(lvl1F[0].id) ? "selected" : ""
+        }"  >${lvl1F[0] ? lvl1F[0].name : ""}</td>
+                    <td class="${
+                      isSelected(lvl2F.id) ? "selected" : ""
+                    }" rowSpan=${maxConnections}>${lvl2F.name}</td>
+                    <td class="${isSelected(lvl3F[0]?.id) ? "selected" : ""}">${
+          lvl3F[0] ? lvl3F[0].name : ""
         }</td>
-                    <td rowSpan=${maxConnections}>${lvl2F.name}</td>
-                    <td>${lvl3F[0] ? lvl3F[0].name : ""}</td>
                   </tr>`;
         for (let i = 1; i < maxConnections; i++) {
           result += `<tr>
-                      <td >${lvl1F[i] ? lvl1F[i].name : ""}</td>              
-                      <td>${lvl3F[i] ? lvl3F[i].name : ""}</td>
+                      <td class="${
+                        isSelected(lvl1F[i]?.id) ? "selected" : ""
+                      }">${lvl1F[i] ? lvl1F[i].name : ""}</td>              
+                      <td class="${
+                        isSelected(lvl3F[i]?.id) ? "selected" : ""
+                      }">${lvl3F[i] ? lvl3F[i].name : ""}</td>
                     </tr>`;
         }
         //console.log(result);

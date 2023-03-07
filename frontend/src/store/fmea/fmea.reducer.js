@@ -5,6 +5,7 @@ export const INITIAL_STATE = {
   data: null,
   isLoading: true,
   error: null,
+  selectedNode: {},
 };
 
 export const fmeaReducer = (state = INITIAL_STATE, action) => {
@@ -15,6 +16,8 @@ export const fmeaReducer = (state = INITIAL_STATE, action) => {
       return { ...state, header: payload };
     case FMEA_ACTION_TYPES.SET_FMEA_DATA:
       return { ...state, data: payload, isLoading: false };
+    case FMEA_ACTION_TYPES.SET_SELECTED_NODE:
+      return { ...state, selectedNode: payload };
     case FMEA_ACTION_TYPES.FETCH_FMEA_START:
       return {
         ...state,

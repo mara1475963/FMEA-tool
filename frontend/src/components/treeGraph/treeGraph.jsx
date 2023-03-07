@@ -26,15 +26,10 @@ const TreeGraph = () => {
 
   const [treeData, setTreeData] = useState({});
   const [socket, setSocket] = useState();
-  const [zoomScale, setZoomScale] = useState();
 
   const zoom = (event) => {
-    //console.log(event.zoom);
     const zoomValue = event.zoom * 100 + "%";
-    console.log(zoomValue);
-    //setZoomScale(zoomValue);
     document.querySelector(".zoom-slider").style.width = zoomValue;
-    //console.log(zoomValue);
   };
 
   useEffect(() => {

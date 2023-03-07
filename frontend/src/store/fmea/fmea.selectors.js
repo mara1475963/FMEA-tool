@@ -17,6 +17,18 @@ export const selectFMEAData = createSelector(
   (fmea) => fmea.data
 );
 
+export const selectNodeIDs = createSelector([selectFMEAReducer], (data) => {
+  let IDs = [];
+  IDs.push(data.selectedNode.id);
+  data.selectedNode.functions?.forEach((func) => {
+    IDs.push(func.id);
+    func.failures?.forEach((fail) => {
+      IDs.push(fail.id);
+    });
+  });
+  return IDs;
+});
+
 export const selectMainFunctions = createSelector([selectFMEAData], (data) =>
   data?.children?.reduce((acc, cur) => {
     cur.functions && acc.push(...cur.functions);

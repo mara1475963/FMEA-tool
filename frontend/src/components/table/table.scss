@@ -7,6 +7,9 @@
     font-size: 0.8rem;
     table-layout: fixed;
     width: 100%;
+    .selected {
+      background-color: #ffd433;
+    }
   }
   table td,
   th {

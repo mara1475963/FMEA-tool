@@ -235,6 +235,10 @@ export const setHeaderData = (header) => {
   return createAction(FMEA_ACTION_TYPES.SET_FMEA_HEADER, header);
 };
 
+export const setSelectedNode = (node) => {
+  return createAction(FMEA_ACTION_TYPES.SET_SELECTED_NODE, node);
+};
+
 export const fetchFMEADataAsync = () => {
   return async (dispatch) => {
     dispatch(fetchFMEAStart());

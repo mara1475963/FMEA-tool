@@ -17,6 +17,7 @@ import {
   selectFMEAHeader,
   selectFMEAIsLoading,
   selectMainFailures,
+  selectNodeIDs,
 } from "../../store/fmea/fmea.selectors";
 
 const Table = () => {
@@ -25,6 +26,7 @@ const Table = () => {
   const mainData = useSelector(selectFMEAData);
   const headerData = useSelector(selectFMEAHeader);
   const failures = useSelector(selectMainFailures);
+  const selectedIDs = useSelector(selectNodeIDs);
 
   const opened = useSelector((state) => state.modal.sodIsOpen);
 
@@ -47,6 +49,10 @@ const Table = () => {
   useEffect(() => {
     setHeader({ ...headerData });
   }, [headerData]);
+
+  const isSelected = (id) => {
+    return selectedIDs.includes(id);
+  };
 
   const handler2 = (e) => {
     e.preventDefault();
@@ -200,6 +206,23 @@ const Table = () => {
   };
 
   const generateFCform = (fc, initialSeverity) => {
+    let initialAP = "";
+    let finalAP = "";
+    if (fc.initialAP && fc.initialAP <= 250) {
+      initialAP = "L";
+    } else if (fc.initialAP > 250 && fc.initialAP <= 500) {
+      initialAP = "M";
+    } else {
+      initialAP = "H";
+    }
+
+    if (fc.finalAP && fc.finalAP <= 250) {
+      finalAP = "L";
+    } else if (fc.finalAP > 250 && fc.finalAP <= 500) {
+      finalAP = "M";
+    } else {
+      finalAP = "H";
+    }
     const FCform = `
     <td ><input id='failure-cause-id'  type='hidden' value='${
       fc.id
@@ -207,17 +230,19 @@ const Table = () => {
     <input id='currentPreventionControl' type='text' value='${
       fc.currentPreventionControl ? fc.currentPreventionControl : ""
     }' /></td>
-    <td><button id='initialOccurance' style='width:40px; '>${
+    <td><button id='initialOccurance' style='width:40px;background-color: transparent;
+    border: none; '>${
       fc.initialOccurance ? fc.initialOccurance : "--"
     }</button></td>
     <td><input id='currentDetectionControl' type='text' value='${
       fc.currentDetectionControl ? fc.currentDetectionControl : ""
     }'  /></td>
-    <td><button id='initialDetection' style='width:40px;'/>${
+    <td><button id='initialDetection' style='width:40px;background-color: transparent;
+    border: none;'/>${
       fc.initialDetection ? fc.initialDetection : "--"
     } </button></td>
     <td id='initialAP' style='color:black;' >${
-      fc.initialAP ? fc.initialAP : ""
+      fc.initialAP ? fc.initialAP + "(" + initialAP + ")" : ""
     }</td>
     <td><input id='preventionAction' type='text' value='${
       fc.preventionAction ? fc.preventionAction : ""
@@ -240,16 +265,19 @@ const Table = () => {
     <td><input id='completionDate' type='date' value='${
       fc.completionDate ? fc.completionDate : ""
     }' /></td>
-    <td><button id='finalSeverity'  style='width:40px'>${
-      fc.finalSeverity ? fc.finalSeverity : "--"
-    } </button></td>
-    <td><button id='finalOccurance' style='width:40px'>${
+    <td><button id='finalSeverity'  style='width:40px;background-color: transparent;
+    border: none;'>${fc.finalSeverity ? fc.finalSeverity : "--"} </button></td>
+    <td><button id='finalOccurance' style='width:40px;background-color: transparent;
+    border: none;'>${
       fc.finalOccurance ? fc.finalOccurance : "--"
     } </button></td>
-    <td><button id='finalDetection' style='width:40px'>${
+    <td><button id='finalDetection' style='width:40px;background-color: transparent;
+    border: none;'>${
       fc.finalDetection ? fc.finalDetection : "--"
     } </button></td>
-    <td id='finalAP' style='color:black;'>${fc.finalAP ? fc.finalAP : "--"}</td>
+    <td id='finalAP' style='color:black;'>${
+      fc.finalAP ? fc.finalAP + "(" + finalAP + ")" : "--"
+    }</td>
     `;
 
     return FCform;
@@ -263,7 +291,7 @@ const Table = () => {
         result += `<tr>
         <td></td>
         <td></td>
-        <td>${lvl2F.name}</td>
+        <td class="${isSelected(lvl2F.id) ? "selected" : ""}">${lvl2F.name}</td>
         <td></td>
         </tr>`;
         continue;
@@ -283,30 +311,40 @@ const Table = () => {
       }
 
       result += `<tr>
-      <td>${lvl1F[0] ? lvl1F[0].name : ""}</td>
+      <td class="${isSelected(lvl1F[0]?.id) ? "selected" : ""}">${
+        lvl1F[0] ? lvl1F[0].name : ""
+      }</td>
       <td rowSpan=${maxConnections}>
       <button name='initialSeverity' data-fmid=${
         lvl2F.id
-      }  style='width:40px;  color:red;' id='initialSeverity' >${
+      }  style='width:40px;  color:red;background-color: transparent;
+      border: none;' id='initialSeverity' >${
         lvl2F.initialSeverity ? lvl2F.initialSeverity : "--"
       }</button>
       </td>
-      <td rowSpan=${maxConnections}>${lvl2F.name}</td>
+      <td class="${
+        isSelected(lvl2F.id) ? "selected" : ""
+      }" rowSpan=${maxConnections}>${lvl2F.name}</td>
       ${
         lvl3F[0]
-          ? `<td>${lvl3F[0].name}</td>` +
-            generateFCform(lvl3F[0], lvl2F.initialSeverity)
+          ? `<td class="${isSelected(lvl3F[0].id) ? "selected" : ""}">${
+              lvl3F[0].name
+            }</td>` + generateFCform(lvl3F[0], lvl2F.initialSeverity)
           : "<td></td>"
       }
     </tr>`;
 
       for (let i = 1; i < maxConnections; i++) {
         result += `<tr>
-                    <td>${lvl1F[i] ? lvl1F[i].name : ""}</td>
+                    <td class="${isSelected(lvl1F[i]?.id) ? "selected" : ""}">${
+          lvl1F[i] ? lvl1F[i].name : ""
+        }</td>
                 
                     ${
                       lvl3F[i]
-                        ? `<td>${lvl3F[i].name}</td>` +
+                        ? `<td class="${
+                            isSelected(lvl3F[i].id) ? "selected" : ""
+                          }">${lvl3F[i].name}</td>` +
                           generateFCform(lvl3F[i], lvl2F.initialSeverity)
                         : "<td></td>"
                     }
