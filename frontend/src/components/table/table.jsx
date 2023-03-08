@@ -50,14 +50,9 @@ const Table = () => {
     setHeader({ ...headerData });
   }, [headerData]);
 
-  const isSelected = (id) => {
-    return selectedIDs.includes(id);
-  };
-
   const handler2 = (e) => {
     e.preventDefault();
     const element = e.nativeEvent.submitter;
-    console.log(element);
 
     dispatch(setModalSODtype(element.id));
     dispatch(setModalSODobject(element));
@@ -65,6 +60,7 @@ const Table = () => {
   };
 
   const handler = (e) => {
+    e.preventDefault();
     const element = e.target;
     let result = {};
     if (element.id === "initialSeverity") {
@@ -205,6 +201,24 @@ const Table = () => {
     socket && socket.emit("send-changes", data);
   };
 
+  const isSelected = (id) => {
+    return selectedIDs.includes(id);
+  };
+
+  // const test = (e) => {
+  //   let el = document.querySelector("#" + e);
+  //   if (e === "initialOccurance") {
+  //     el = document.querySelector("#currentPreventionControl");
+  //     return el?.value === "";
+  //   }
+  //   console.log(el);
+  //   //console.log(el.parentElement.previousSibling.firstChild.value === "");
+  //   return (
+  //     el?.parentElement.previousSibling.firstChild.value === "" &&
+  //     el?.parentElement.previousSibling.firstChild.innerHtml === ""
+  //   );
+  // };
+
   const generateFCform = (fc, initialSeverity) => {
     let initialAP = "";
     let finalAP = "";
@@ -227,14 +241,14 @@ const Table = () => {
     <td ><input id='failure-cause-id'  type='hidden' value='${
       fc.id
     }' /><input id='initialSeverity'   type='hidden' value='${initialSeverity}' />
-    <input id='currentPreventionControl' type='text' value='${
+    <input  id='currentPreventionControl' type='text' value='${
       fc.currentPreventionControl ? fc.currentPreventionControl : ""
     }' /></td>
-    <td><button id='initialOccurance' style='width:40px;background-color: transparent;
+    <td><button  id='initialOccurance' style='width:40px;background-color: transparent;
     border: none; '>${
       fc.initialOccurance ? fc.initialOccurance : "--"
     }</button></td>
-    <td><input id='currentDetectionControl' type='text' value='${
+    <td><input  id='currentDetectionControl' type='text' value='${
       fc.currentDetectionControl ? fc.currentDetectionControl : ""
     }'  /></td>
     <td><button id='initialDetection' style='width:40px;background-color: transparent;
@@ -256,7 +270,7 @@ const Table = () => {
     <td><input id='targetDate' type='date' value='${
       fc.targetDate ? fc.targetDate : ""
     }' /></td>
-    <td><input id='status' type='text' value='${
+    <td><input id='status' type='text' style='width:50px;' value='${
       fc.status ? fc.status : ""
     }' /></td>
     <td><input id='actionTaken' type='text' value='${
@@ -380,7 +394,7 @@ const Table = () => {
                       </th>
                       <th
                         colSpan={5}
-                        width={275}
+                        width={276}
                         style={{
                           textTransform: "uppercase",
                           backgroundColor: "whitesmoke",

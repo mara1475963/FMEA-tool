@@ -246,9 +246,9 @@ export const structure1 = {
   functions: [functions[0]],
   children: [structure2[0]],
   header: header,
-  severityExamples: ["test", "", "", "", "", "", "", "", "asd", ""],
-  occuranceExamples: ["1", "", "", "", "", "5", "", "", "", ""],
-  detectionExamples: ["", "2", "", "", "", "", "", "7", "", ""],
+  severityExamples: ["", "", "", "", "", "", "", "", "", ""],
+  occuranceExamples: ["", "", "", "", "", "", "", "", "", ""],
+  detectionExamples: ["", "", "", "", "", "", "", "", "", ""],
   // functions: [],
   // children: [],
 };
@@ -373,67 +373,67 @@ export const occurence = {
   ],
 };
 
-export const detection = {
-  effects: [
-    {
-      name: "Very Low",
-      numValues: [10, 9],
-      criteria: [
-        `Test procedure yet to be developed.`,
-        `Test method not designed specifically to detect failure mode or cause.`,
-      ],
-      opportunity: [
-        `Test method not defined`,
-        `Pass-Fail, Test-to-Fail, Degradation Testing`,
-      ],
-      examples: [``, ``],
-    },
-    {
-      name: "Low",
-      numValues: [8, 7],
-      criteria: [`New test method; not proven.`, ``],
-      opportunity: [
-        `Pass-Fail, Test-to-Fail, Degradation Testing`,
-        `Pass-Fail Testing`,
-      ],
-      examples: [``, ``],
-    },
-    {
-      name: "Moderate",
-      numValues: [6, 5],
-      criteria: [
-        `Proven test method for verification of functionality or validation of performance, quality, reliability and durability; planned timing is later in the product development cycle such that test failures may result in production delays for re-design and/or re-tooling.`,
-        ``,
-      ],
-      opportunity: [`Test-to-Failure`, `Degradation Testing`],
-      examples: [``, ``],
-    },
-    {
-      name: "High",
-      numValues: [4, 3, 2],
-      criteria: [
-        `Proven test for verification of functionality or validation of performance, quality, reliability and durability; planned timming is sufficient to modify production tools before release for production.`,
-        ``,
-        ``,
-      ],
-      opportunity: [
-        `Pass-Fail Testing`,
-        `Test-to-Failure`,
-        `Degradation Testing`,
-      ],
-      examples: [``, ``, ``],
-    },
-    {
-      name: "Very High",
-      numValues: [1],
-      criteria: [
-        `Prior testing confirmed that failure mode or cause cannot occur, or detection methods  proven to always detect the failure mode or failure cause.`,
-      ],
-      opportunity: [``],
-      examples: [``],
-    },
-  ],
-};
+// export const detection = {
+//   effects: [
+//     {
+//       name: "Very Low",
+//       numValues: [10, 9],
+//       criteria: [
+//         `Test procedure yet to be developed.`,
+//         `Test method not designed specifically to detect failure mode or cause.`,
+//       ],
+//       opportunity: [
+//         `Test method not defined`,
+//         `Pass-Fail, Test-to-Fail, Degradation Testing`,
+//       ],
+//       examples: [``, ``],
+//     },
+//     {
+//       name: "Low",
+//       numValues: [8, 7],
+//       criteria: [`New test method; not proven.`, ``],
+//       opportunity: [
+//         `Pass-Fail, Test-to-Fail, Degradation Testing`,
+//         `Pass-Fail Testing`,
+//       ],
+//       examples: [``, ``],
+//     },
+//     {
+//       name: "Moderate",
+//       numValues: [6, 5],
+//       criteria: [
+//         `Proven test method for verification of functionality or validation of performance, quality, reliability and durability; planned timing is later in the product development cycle such that test failures may result in production delays for re-design and/or re-tooling.`,
+//         ``,
+//       ],
+//       opportunity: [`Test-to-Failure`, `Degradation Testing`],
+//       examples: [``, ``],
+//     },
+//     {
+//       name: "High",
+//       numValues: [4, 3, 2],
+//       criteria: [
+//         `Proven test for verification of functionality or validation of performance, quality, reliability and durability; planned timming is sufficient to modify production tools before release for production.`,
+//         ``,
+//         ``,
+//       ],
+//       opportunity: [
+//         `Pass-Fail Testing`,
+//         `Test-to-Failure`,
+//         `Degradation Testing`,
+//       ],
+//       examples: [``, ``, ``],
+//     },
+//     {
+//       name: "Very High",
+//       numValues: [1],
+//       criteria: [
+//         `Prior testing confirmed that failure mode or cause cannot occur, or detection methods  proven to always detect the failure mode or failure cause.`,
+//       ],
+//       opportunity: [``],
+//       examples: [``],
+//     },
+//   ],
+// };
 
 // export const header = {
 //   companyName: "ABC Gmbh",

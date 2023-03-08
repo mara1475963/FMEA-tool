@@ -33,15 +33,15 @@ const Navigation = ({ tableReference }) => {
 
   const [socket, setSocket] = useState();
   const [data, setData] = useState(mainData);
-  const [files, setFiles] = useState("");
 
-  const FILENAME = data?.name.replaceAll(" ", "_");
+  const FILENAME = data?.name?.replaceAll(" ", "_");
 
   const handleChange = (e) => {
     const fileReader = new FileReader();
     fileReader.readAsText(e.target.files[0], "UTF-8");
     fileReader.onload = (e) => {
       const importedData = JSON.parse(e.target.result);
+      console.log(importedData);
       dispatch(updateNodeData(data, { ...importedData }));
       setData({ ...importedData });
     };

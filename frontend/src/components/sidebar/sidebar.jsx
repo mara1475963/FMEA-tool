@@ -21,8 +21,9 @@ const Sidebar = () => {
 
   const [treeData, setTreeData] = useState(data);
 
-  const table2 = document.querySelector("#table-to-xls-2")?.cloneNode(true);
-  const tableBody = table2?.querySelector(".table-form-controls");
+  useEffect(() => {
+    setTreeData({ ...data });
+  }, [data]);
 
   const replaceInputsFromTable = (node) => {
     if (!node) return;
@@ -40,15 +41,14 @@ const Sidebar = () => {
     }
   };
 
+  const table2 = document.querySelector("#table-to-xls-2")?.cloneNode(true);
+  const tableBody = table2?.querySelector(".table-form-controls");
+
   if (tableBody) {
     for (const tr of tableBody.children) {
       replaceInputsFromTable(tr);
     }
   }
-
-  useEffect(() => {
-    setTreeData({ ...data });
-  }, [data]);
 
   const isSelected = (id) => {
     return selectedIDs.includes(id);
@@ -139,13 +139,12 @@ const Sidebar = () => {
     }
     return "";
   };
+
   const generateFunctionsHTML = (excelFormat) => {
-    //console.log("functions", functions);
     let result = "";
 
     if (functions) {
       for (let lvl2F of functions) {
-        //console.log(lvl2F);
         if (!lvl2F.functions) {
           result += `<tr>
                       <td colspan=${excelFormat ? "2" : ""} ></td>
@@ -190,7 +189,6 @@ const Sidebar = () => {
                       }">${lvl3F[i] ? lvl3F[i].name : ""}</td>
                     </tr>`;
         }
-        //console.log(result);
       }
     }
     return result;

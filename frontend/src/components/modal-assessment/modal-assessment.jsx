@@ -8,14 +8,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { setModalSOD_IsOpen } from "../../store/modal/modal.actions";
 import { mainSocket } from "../../socket";
 import { updateNodeData } from "../../store/fmea/fmea.actions";
-import { severity, occurence, detection } from "../../data/dataJS";
+import { severity, occurence } from "../../data/dataJS";
 import { findObject } from "../../helpers";
-import { TextField } from "@mui/material";
 import { selectFMEAData } from "../../store/fmea/fmea.selectors";
-import { getPFMEASeverity, pfmesSeverity } from "./pfmea_severity";
-import { getPFMEAOccurance, pfmeaOccurance } from "./pfmea_occurance";
-import { getPFMEADetection, pfmeaDetection } from "./pfmea_detection";
-import { dmfmeaDetection, getDFMEADetection } from "./dfmea_detection";
+import { getPFMEASeverity } from "./table-views/pfmea_severity";
+import { getPFMEAOccurance } from "./table-views/pfmea_occurance";
+import { getPFMEADetection } from "./table-views/pfmea_detection";
+import { getDFMEADetection } from "./table-views/dfmea_detection";
 
 const ModalAssessment = () => {
   const dispatch = useDispatch();
@@ -52,33 +51,30 @@ const ModalAssessment = () => {
   useEffect(() => {
     switch (type) {
       case "initialSeverity":
+      case "finalSeverity":
         setSODtype(severity);
         return;
       case "initialOccurance":
+      case "finalOccurance":
         setSODtype(occurence);
         return;
-      case "initialDetection":
-        setSODtype(detection);
+      default:
+        setSODtype(occurence);
         return;
     }
   }, [type]);
 
   const handler = (e) => {
-    let result = {};
-    if (type === "initialSeverity") {
-      console.log(e.target.innerHTML);
-
+    if (type.includes("Severity")) {
       data.children.forEach((child) => {
         child.functions?.forEach((fce) => {
           fce.failures?.forEach((f) => {
             if (f.id === +element.dataset.fmid) {
-              f.initialSeverity = +e.target.innerHTML;
+              f[type] = +e.target.innerHTML;
             }
           });
         });
       });
-
-      console.log(data);
 
       dispatch(updateNodeData(data, { ...data }));
       setData({ ...data });
@@ -90,10 +86,8 @@ const ModalAssessment = () => {
         "#failure-cause-id"
       ).value;
 
-    [result] = findObject(data, "id", id);
-
+    const [result] = findObject(data, "id", id);
     result[element.id] = +e.target.innerHTML;
-    console.log(result);
 
     const S =
       element.parentElement.parentElement.querySelector("#initialSeverity");
@@ -108,14 +102,14 @@ const ModalAssessment = () => {
     const D2 =
       element.parentElement.parentElement.querySelector("#finalDetection");
 
-    console.log(S.innerHTML);
+    if (S.innerHTML && O.innerHTML && D.innerHTML) {
+      let APproduct = 0;
+      if (type.includes("Severity")) {
+        APproduct = +e.target.innerHTML * +O.innerHTML * +D.innerHTML;
+      } else {
+        APproduct = +S.innerHTML * +O.innerHTML * +D.innerHTML;
+      }
 
-    if (!S.innerHTML || !O.innerHTML || !D.innerHTML) {
-    } else {
-      //console.log(+S.innerHTML, +O.innerHTML, +D.innerHTML);
-      const APproduct = +S.innerHTML * +O.innerHTML * +D.innerHTML;
-
-      // AP.innerHTML = APproduct;
       data.children.forEach((child) => {
         child.children?.forEach((ch) => {
           ch.functions?.forEach((fce) => {
@@ -127,6 +121,7 @@ const ModalAssessment = () => {
           });
         });
       });
+
       data.children?.forEach((child) => {
         child.functions?.forEach((fce) => {
           fce.failures?.forEach((f) => {
@@ -139,10 +134,10 @@ const ModalAssessment = () => {
           });
         });
       });
-      console.log(data);
       dispatch(updateNodeData(data, { ...data }));
       setData({ ...data });
     }
+
     if (!S2.innerHTML || !O2.innerHTML || !D2.innerHTML) {
     } else {
       const APproduct2 = +S2.innerHTML * +O2.innerHTML * +D2.innerHTML;
@@ -206,14 +201,28 @@ const ModalAssessment = () => {
     socket && socket.emit("send-changes", data);
 
     handleClose();
+  };
 
-    //console.log(document.querySelector("#initialSeverity"));
+  const handler2 = (e) => {
+    const element = e.target;
+    const index = element.dataset.index;
+
+    if (type.includes("Severity")) data.severityExamples[index] = element.value;
+    else if (type.includes("Occurance"))
+      data.occuranceExamples[index] = element.value;
+    else if (type.includes("Detection"))
+      data.detectionExamples[index] = element.value;
+
+    dispatch(updateNodeData(data, { ...data }));
+    setData({ ...data });
+    socket && socket.emit("send-changes", data);
   };
 
   let counter = -1;
 
   return (
-    SODtype && (
+    SODtype &&
+    type && (
       <Modal
         open={open}
         onClose={handleClose}
@@ -222,125 +231,127 @@ const ModalAssessment = () => {
       >
         <Box sx={{ width: 1000, maxHeight: 650, overflowY: "auto" }}>
           {nodes.header.type.name === "DFMEA" ? (
-            type === "initialDetection" ? (
-              getDFMEADetection(handler, element, data)
+            type.includes("Detection") ? (
+              getDFMEADetection(handler, handler2, element, data)
             ) : (
-              <table className="side-table">
-                <thead style={{ backgroundColor: "#cacaca" }}>
-                  <tr>
-                    <th width="50">
-                      {(type === "initialSeverity" && "S") ||
-                        (type === "initialOccurance" && "O")}
-                    </th>
+              <form onChange={handler2}>
+                <table className="side-table">
+                  <thead style={{ backgroundColor: "#cacaca" }}>
+                    <tr>
+                      <th width="50">
+                        {(type.includes("Severity") && "S") ||
+                          (type.includes("Occurance") && "O")}
+                      </th>
 
-                    <th width="120">
-                      {(type === "initialSeverity" && "Effect") ||
-                        (type === "initialOccurance" &&
-                          "Prediction of Failure Cause Occurring")}
-                    </th>
-                    <th width="450">
-                      {(type === "initialSeverity" && "Severity Criteria") ||
-                        (type === "initialOccurance" && "Occurrence criteria")}
-                    </th>
+                      <th width="120">
+                        {(type.includes("Severity") && "Effect") ||
+                          (type.includes("Occurance") &&
+                            "Prediction of Failure Cause Occurring")}
+                      </th>
+                      <th width="450">
+                        {(type.includes("Severity") && "Severity Criteria") ||
+                          (type.includes("Occurance") && "Occurrence criteria")}
+                      </th>
 
-                    <th width="300">Corporate or Product Line Examples</th>
-                  </tr>
-                </thead>
+                      <th width="300">Corporate or Product Line Examples</th>
+                    </tr>
+                  </thead>
 
-                <tbody>
-                  {SODtype.effects.map((effect, i) => {
-                    const criteria = effect.criteria.filter(
-                      (_, idx) => idx !== 0
-                    );
-                    const opportunities = effect.opportunity?.filter(
-                      (_, idx) => idx !== 0
-                    );
-                    const numValues = effect.numValues.filter(
-                      (_, idx) => idx !== 0
-                    );
-                    const examples = effect.examples.filter(
-                      (_, idx) => idx !== 0
-                    );
-                    counter++;
+                  <tbody>
+                    {SODtype.effects.map((effect, i) => {
+                      const criteria = effect.criteria.filter(
+                        (_, idx) => idx !== 0
+                      );
+                      const opportunities = effect.opportunity?.filter(
+                        (_, idx) => idx !== 0
+                      );
+                      const numValues = effect.numValues.filter(
+                        (_, idx) => idx !== 0
+                      );
 
-                    return (
-                      <>
-                        <tr key={i}>
-                          <td
-                            style={{ cursor: "pointer", fontWeight: "bold" }}
-                            className={
-                              +element.innerHTML === effect.numValues[0]
-                                ? "selected"
-                                : ""
-                            }
-                            onClick={handler}
-                          >
-                            {effect.numValues[0]}
-                          </td>
-                          <td rowSpan={effect.criteria.length}>
-                            {effect.name}
-                          </td>
-                          <td>{effect.criteria[0]}</td>
+                      counter++;
 
-                          <td>
-                            <textarea
-                              id="w3review"
-                              name="w3review"
-                              style={{ width: "100%", height: 30 }}
-                              defaultValue={
-                                type.includes("Severity")
-                                  ? data.severityExamples[counter]
-                                  : data.occuranceExamples[counter]
+                      return (
+                        <React.Fragment key={i}>
+                          <tr key={i}>
+                            <td
+                              style={{ cursor: "pointer", fontWeight: "bold" }}
+                              className={
+                                +element.innerHTML === effect.numValues[0]
+                                  ? "selected"
+                                  : ""
                               }
-                            ></textarea>
-                          </td>
-                        </tr>
+                              onClick={handler}
+                            >
+                              {effect.numValues[0]}
+                            </td>
+                            <td rowSpan={effect.criteria.length}>
+                              {effect.name}
+                            </td>
+                            <td>{effect.criteria[0]}</td>
 
-                        {criteria.map((c, idx) => {
-                          counter++;
-                          return (
-                            <tr key={idx}>
-                              <td
-                                style={{
-                                  cursor: "pointer",
-                                  fontWeight: "bold",
-                                }}
-                                className={
-                                  +element.innerHTML === numValues[idx]
-                                    ? "selected"
-                                    : ""
+                            <td>
+                              <textarea
+                                data-index={counter}
+                                style={{ width: "100%", height: 30 }}
+                                defaultValue={
+                                  type.includes("Severity")
+                                    ? data.severityExamples[counter]
+                                    : data.occuranceExamples[counter]
                                 }
-                                onClick={handler}
-                              >
-                                {numValues[idx]}
-                              </td>
+                              ></textarea>
+                            </td>
+                          </tr>
 
-                              <td>{criteria[idx]}</td>
-                              {type === "initialDetection" && (
-                                <td>{opportunities && opportunities[idx]}</td>
-                              )}
-                              <td>
-                                <textarea
-                                  id="w3review"
-                                  name="w3review"
-                                  style={{ width: "100%", height: 30 }}
-                                  defaultValue={data.severityExamples[counter]}
-                                ></textarea>
-                              </td>
-                            </tr>
-                          );
-                        })}
-                      </>
-                    );
-                  })}
-                </tbody>
-              </table>
+                          {criteria.map((c, idx) => {
+                            counter++;
+                            return (
+                              <tr key={idx}>
+                                <td
+                                  style={{
+                                    cursor: "pointer",
+                                    fontWeight: "bold",
+                                  }}
+                                  className={
+                                    +element.innerHTML === numValues[idx]
+                                      ? "selected"
+                                      : ""
+                                  }
+                                  onClick={handler}
+                                >
+                                  {numValues[idx]}
+                                </td>
+
+                                <td>{criteria[idx]}</td>
+                                {type === "initialDetection" && (
+                                  <td>{opportunities && opportunities[idx]}</td>
+                                )}
+                                <td>
+                                  <textarea
+                                    data-index={counter}
+                                    style={{ width: "100%", height: 30 }}
+                                    defaultValue={
+                                      data.severityExamples[counter]
+                                    }
+                                  ></textarea>
+                                </td>
+                              </tr>
+                            );
+                          })}
+                        </React.Fragment>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </form>
             )
           ) : (
-            (type.includes("Severity") && getPFMEASeverity(handler, element)) ||
+            (type.includes("Severity") &&
+              getPFMEASeverity(handler, handler2, element, data)) ||
             (type.includes("Occurance") &&
-              getPFMEAOccurance(handler, element)) ||
-            (type.includes("Detection") && getPFMEADetection(handler, element))
+              getPFMEAOccurance(handler, handler2, element, data)) ||
+            (type.includes("Detection") &&
+              getPFMEADetection(handler, handler2, element, data))
           )}
         </Box>
       </Modal>

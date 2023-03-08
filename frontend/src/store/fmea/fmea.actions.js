@@ -67,7 +67,7 @@ const deleteNode = (nodes, nodeID, depth) => {
       }
     }
   }
-  console.log(nodes);
+
   let nodeObj = nodes;
 
   if (depth === 1) {
@@ -75,7 +75,6 @@ const deleteNode = (nodes, nodeID, depth) => {
     if (nodeObj.children.length === 0) {
       nodeObj.children = null;
     }
-    console.log(nodeObj.children);
   } else {
     nodeObj.children.forEach((k) => {
       if (!k.children) return;
@@ -83,7 +82,6 @@ const deleteNode = (nodes, nodeID, depth) => {
       if (k.children.length === 0) {
         k.children = null;
       }
-      console.log(k.children);
     });
   }
 
