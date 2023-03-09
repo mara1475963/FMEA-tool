@@ -34,6 +34,9 @@ const Table = () => {
   const [data, setData] = useState(null);
   const [socket, setSocket] = useState();
 
+  console.log(selectedIDs);
+  console.log(failures);
+
   useEffect(() => {
     setSocket(mainSocket);
 
@@ -202,6 +205,7 @@ const Table = () => {
   };
 
   const isSelected = (id) => {
+    if (!id) return false;
     return selectedIDs.includes(id);
   };
 

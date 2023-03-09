@@ -1,39 +1,41 @@
-import React, { useState } from "react";
-import { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { findObject, getNewId } from "../../helpers";
 
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import TreeView from "@mui/lab/TreeView";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import { Autocomplete } from "@mui/material";
 
-import { updateNodeData } from "../../store/fmea/fmea.actions";
-import "./modal.scss";
-import { mainSocket } from "../../socket";
-import CustomizedTreeView, {
+import {
   CloseSquare,
   MinusSquare,
   PlusSquare,
   StyledTreeItem,
 } from "../treeView/treeView";
-import { selectFMEAData } from "../../store/fmea/fmea.selectors";
+import {
+  addFailureToFunction,
+  updateNodeAttributes,
+  updateNodeData,
+} from "../../store/fmea/fmea.actions";
+import {
+  selectFMEAData,
+  selectMainFailures,
+  selectMainFunctions,
+} from "../../store/fmea/fmea.selectors";
+import { findObject, getNewId } from "../../helpers";
+import { mainSocket } from "../../socket";
+import "./modal.scss";
 
 const ModalWindow = () => {
   const dispatch = useDispatch();
 
-  // const handleOpen = () => setOpen();
-  const handleClose = () => {
-    dispatch(updateNodeData(nodes, node));
-    return setOpen(false);
-  };
   const nodes = useSelector(selectFMEAData);
+  const functions = useSelector(selectMainFunctions);
+  const failures = useSelector(selectMainFailures);
   const opened = useSelector((state) => state.modal.isOpen);
-  let nodeModal = useSelector((state) => state.modal.node);
+  const nodeModal = useSelector((state) => state.modal.node);
 
   const [open, setOpen] = useState(opened);
   const [node, setNode] = useState(nodeModal);
@@ -54,114 +56,16 @@ const ModalWindow = () => {
     };
   }, []);
 
-  let failures = [];
-
-  nodes?.children?.forEach((child) => {
-    if (child.functions) {
-      failures.push(
-        ...child.functions.reduce((acc, cur) => {
-          if (cur.failures) {
-            cur.failures.forEach((f) => {
-              f["nodeID"] = child.id;
-            });
-
-            acc.push(...cur.failures);
-          }
-          return acc;
-        }, [])
-      );
-    }
-  });
-
-  let functions = [];
-
-  functions = nodes?.children?.reduce((acc, cur) => {
-    if (cur.functions) {
-      cur.functions = cur.functions.map((f) => {
-        f["nodeID"] = cur.id;
-        return f;
-      });
-      acc.push(...cur.functions);
-    }
-    return acc;
-  }, []);
+  const handleClose = () => {
+    dispatch(updateNodeData(nodes, node));
+    return setOpen(false);
+  };
 
   const onChangeHandler = (e) => {
     e.preventDefault();
     const element = e.target;
-
-    switch (element.dataset.type) {
-      case "function":
-        //node
-        const fce = node.functions[e.target.dataset.index];
-        fce.name = element.value;
-        //in relation to lvl2 Function
-        if (node.depth !== 1) {
-          nodes.children.forEach((child) => {
-            if (child.functions) {
-              child.functions.forEach((fc) => {
-                if (fc.functions) {
-                  fc.functions.forEach((f) => {
-                    if (f.id === fce.id) {
-                      f.name = element.value;
-                    }
-                  });
-                }
-              });
-            }
-          });
-          if (node.depth === 0) {
-            setNode({ ...nodes });
-            dispatch(updateNodeData(nodes, { ...nodes }));
-            socket && socket.emit("send-changes", nodes);
-            return;
-          }
-        }
-        dispatch(updateNodeData(nodes, { ...node }));
-        socket && socket.emit("send-changes", nodes);
-        return;
-      case "failure":
-        //node
-        const failure =
-          node.functions[e.target.dataset.findex].failures[
-            e.target.dataset.index
-          ];
-        failure.name = element.value;
-
-        //in relation to lvl2 Failure
-        if (node.depth !== 1) {
-          nodes.children.forEach((child) => {
-            if (child.functions) {
-              child.functions.forEach((fce) => {
-                fce.failures.forEach((fm) => {
-                  fm.failures.forEach((f) => {
-                    if (f.id === failure.id) {
-                      f.name = element.value;
-                    }
-                  });
-                });
-              });
-            }
-          });
-          if (node.depth === 0) {
-            setNode({ ...nodes });
-            dispatch(updateNodeData(nodes, { ...nodes }));
-            socket && socket.emit("send-changes", nodes);
-            return;
-          }
-        }
-        dispatch(updateNodeData(nodes, { ...node }));
-        socket && socket.emit("send-changes", nodes);
-        return;
-      case "title":
-        node.name = element.value;
-        dispatch(updateNodeData(nodes, { ...node }));
-        socket && socket.emit("send-changes", nodes);
-
-        return;
-      default:
-        return;
-    }
+    dispatch(updateNodeAttributes(nodes, node, element));
+    socket && socket.emit("send-changes", nodes);
   };
 
   const addFunctionHandler = (e) => {
@@ -190,7 +94,7 @@ const ModalWindow = () => {
     if (node.depth !== 1) {
       const [result] = findObject(nodes, "id", selectedFunction.nodeId);
 
-      result.functions.forEach((f) => {
+      result.functions?.forEach((f) => {
         if (f.id === selectedFunction.id) {
           !f["functions"]
             ? (f.functions = [newFunction])
@@ -216,53 +120,12 @@ const ModalWindow = () => {
     e.target.newFunction.value = "";
   };
 
-  const addFailureHandler = (fce_idx, value) => {
-    const newid = getNewId();
-    const newFailure = {
-      id: newid,
-      depth: node.depth,
-      name: value,
-    };
-
-    //node
+  const addFailureHandler = (element) => {
+    dispatch(addFailureToFunction(nodes, node, element, selectedFailure));
     if (node.depth === 0) {
-      !nodes["functions"][fce_idx].failures
-        ? (nodes["functions"][fce_idx].failures = [newFailure])
-        : nodes["functions"][fce_idx].failures.push(newFailure);
-    } else {
-      const nodeFuntion = node["functions"][fce_idx];
-      !nodeFuntion.failures
-        ? (nodeFuntion.failures = [newFailure])
-        : nodeFuntion.failures.push(newFailure);
+      setNode({ ...nodes });
     }
-
-    //in relation to lvl2Failure
-    if (node.depth !== 1) {
-      const [result] = findObject(nodes, "id", selectedFailure.nodeId);
-
-      result.functions.forEach((fc) => {
-        fc.failures.forEach((f) => {
-          if (f.id === selectedFailure.id) {
-            !f["failures"]
-              ? (f.failures = [newFailure])
-              : f["failures"].push(newFailure);
-          }
-        });
-      });
-
-      if (node.depth === 0) {
-        dispatch(updateNodeData(nodes, { ...result }));
-        setNode({ ...nodes });
-        socket && socket.emit("send-changes", nodes);
-      } else {
-        dispatch(updateNodeData(nodes, { ...result }));
-        socket && socket.emit("send-changes", nodes);
-      }
-    } else {
-      dispatch(updateNodeData(nodes, { ...node }));
-      setNode({ ...node });
-      socket && socket.emit("send-changes", nodes);
-    }
+    socket && socket.emit("send-changes", nodes);
   };
 
   const deleteFailureHandler = (id, fce_idx) => {
@@ -523,10 +386,7 @@ const ModalWindow = () => {
                                   console.error("Value not seleceted");
                                   return;
                                 }
-                                addFailureHandler(
-                                  input.dataset.findex,
-                                  input.value
-                                );
+                                addFailureHandler(input);
                                 input.value = "";
                               }}
                             >

@@ -117,6 +117,110 @@ const updateNode = (nodes, node) => {
   return { ...nodes };
 };
 
+const updateAttributes = (nodes, node, element) => {
+  switch (element.dataset.type) {
+    case "function":
+      //node
+      const fce = node.functions[element.dataset.index];
+      fce.name = element.value;
+      //in relation to lvl2 Function
+      if (node.depth !== 1) {
+        nodes.children.forEach((child) => {
+          if (child.functions) {
+            child.functions.forEach((fc) => {
+              if (fc.functions) {
+                fc.functions.forEach((f) => {
+                  if (f.id === fce.id) {
+                    f.name = element.value;
+                  }
+                });
+              }
+            });
+          }
+        });
+        if (node.depth === 0) {
+          return { ...updateNode(nodes, { ...nodes }) };
+        }
+      }
+      return { ...updateNode(nodes, { ...node }) };
+
+    case "failure":
+      //node
+      const failure =
+        node.functions[element.dataset.findex].failures[element.dataset.index];
+      failure.name = element.value;
+
+      //in relation to lvl2 Failure
+      if (node.depth !== 1) {
+        nodes.children.forEach((child) => {
+          if (child.functions) {
+            child.functions.forEach((fce) => {
+              fce.failures.forEach((fm) => {
+                fm.failures.forEach((f) => {
+                  if (f.id === failure.id) {
+                    f.name = element.value;
+                  }
+                });
+              });
+            });
+          }
+        });
+        if (node.depth === 0) {
+          return { ...updateNode(nodes, { ...nodes }) };
+        }
+      }
+      return { ...updateNode(nodes, { ...node }) };
+
+    case "title":
+      node.name = element.value;
+      return { ...updateNode(nodes, { ...node }) };
+    default:
+      return;
+  }
+};
+
+const addFailure = (nodes, node, element, selectedFailure) => {
+  const fce_idx = element.dataset.findex;
+  const value = element.value;
+
+  const newid = getNewId();
+  const newFailure = {
+    id: newid,
+    depth: node.depth,
+    name: value,
+  };
+
+  //node
+  if (node.depth === 0) {
+    !nodes["functions"][fce_idx].failures
+      ? (nodes["functions"][fce_idx].failures = [newFailure])
+      : nodes["functions"][fce_idx].failures.push(newFailure);
+  } else {
+    const nodeFuntion = node["functions"][fce_idx];
+    !nodeFuntion.failures
+      ? (nodeFuntion.failures = [newFailure])
+      : nodeFuntion.failures.push(newFailure);
+  }
+
+  //in relation to lvl2Failure
+  if (node.depth !== 1) {
+    const [result] = findObject(nodes, "id", selectedFailure.nodeId);
+
+    result.functions.forEach((fc) => {
+      fc.failures.forEach((f) => {
+        if (f.id === selectedFailure.id) {
+          !f["failures"]
+            ? (f.failures = [newFailure])
+            : f["failures"].push(newFailure);
+        }
+      });
+    });
+    return { ...updateNode(nodes, { ...result }) };
+  } else {
+    return { ...updateNode(nodes, { ...node }) };
+  }
+};
+
 const deleteFailures = (nodes, id, fidx) => {
   nodes.children.forEach((child) => {
     if (child.functions) {
@@ -186,6 +290,16 @@ export const deleteNodeFromData = (nodes, nodeID, depth) => {
 
 export const updateNodeData = (nodes, updatedNode) => {
   const newData = updateNode(nodes, updatedNode);
+  return createAction(FMEA_ACTION_TYPES.SET_FMEA_DATA, newData);
+};
+
+export const updateNodeAttributes = (nodes, node, element) => {
+  const newData = updateAttributes(nodes, node, element);
+  return createAction(FMEA_ACTION_TYPES.SET_FMEA_DATA, newData);
+};
+
+export const addFailureToFunction = (nodes, node, element, selectedFailure) => {
+  const newData = addFailure(nodes, node, element, selectedFailure);
   return createAction(FMEA_ACTION_TYPES.SET_FMEA_DATA, newData);
 };
 
