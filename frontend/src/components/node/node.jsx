@@ -5,6 +5,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { setModalData, setModalIsOpen } from "../../store/modal/modal.actions";
 import { setSelectedNode } from "../../store/fmea/fmea.actions";
 import { selectNodeIDs } from "../../store/fmea/fmea.selectors";
+import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
+import StarBorderIcon from "@mui/icons-material/StarBorder";
 
 const Node = ({
   nodeDatum,
@@ -56,6 +60,7 @@ const Node = ({
             width: "500px",
             height: "500px",
             border: "solid 3px black",
+            strokeWidth: 0,
           }}
         >
           <span style={{ textAlign: "center" }}>
@@ -95,7 +100,7 @@ const Node = ({
                 onClick={addHandler}
                 data-id={nodeDatum.id}
               >
-                Add
+                <AddCircleOutlineIcon />
               </button>
             )}
 
@@ -106,7 +111,7 @@ const Node = ({
                 data-id={nodeDatum.id}
                 data-depth={nodeDatum.__rd3t.depth}
               >
-                Delete
+                <DeleteOutlineIcon fontSize="large" />
               </button>
             )}
             {
@@ -119,7 +124,7 @@ const Node = ({
                 data-id={nodeDatum.id}
                 data-depth={nodeDatum.__rd3t.depth}
               >
-                Edit
+                <EditOutlinedIcon />
               </button>
             }
             {
@@ -129,7 +134,7 @@ const Node = ({
                 onClick={selectNode}
                 data-id={nodeDatum.id}
               >
-                Select
+                <StarBorderIcon />
               </button>
             }
           </div>

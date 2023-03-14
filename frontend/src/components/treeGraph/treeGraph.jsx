@@ -64,14 +64,16 @@ const TreeGraph = () => {
 
   //Event handlers
   const AddNode = (e) => {
-    dispatch(addNodeToData(data, e.target.dataset.id));
+    const element = e.target.closest("button");
+    dispatch(addNodeToData(data, element.dataset.id));
     setTreeData({ ...data });
     socket && socket.emit("send-changes", data);
   };
 
   const DeleteNode = (e) => {
+    const element = e.target.closest("button");
     dispatch(
-      deleteNodeFromData(data, e.target.dataset.id, +e.target.dataset.depth)
+      deleteNodeFromData(data, element.dataset.id, +element.dataset.depth)
     );
     setTreeData({ ...data });
     socket && socket.emit("send-changes", data);

@@ -55,3 +55,10 @@ export const selectMainFailures = createSelector([selectFMEAData], (data) => {
   });
   return failures;
 });
+
+// export const selectInitialAPs = createSelector([], (data) =>
+//   data?.children?.reduce((acc, cur) => {
+//     cur.functions && acc.push(...cur.functions);
+//     return acc;
+//   }, [])
+// );

@@ -7,6 +7,7 @@ import { fetchFMEAData, updateNodeData } from "../../store/fmea/fmea.actions";
 import {
   setModalAnalyses,
   setModalAnalysesIsOpen,
+  setModalResultsIsOpen,
 } from "../../store/modal/modal.actions";
 import { googleSignIn } from "../../store/user/user.action";
 import {
@@ -27,6 +28,7 @@ const Navigation = ({ tableReference }) => {
   // const navigate = useNavigate();
   const mainData = useSelector((state) => state.fmea.data);
   const opened = useSelector((state) => state.modal.analysesIsOpen);
+  const opened2 = useSelector((state) => state.modal.resultsIsOpen);
   const currentUser = useSelector((state) => state.user.currentUser);
 
   //console.log(currentUser);
@@ -58,6 +60,11 @@ const Navigation = ({ tableReference }) => {
 
     socket.emit("save-analysis", data);
   };
+
+  const showResult = () => {
+    dispatch(setModalResultsIsOpen(!opened2));
+  };
+
   const updateAnalysis = () => {
     data["ownerId"] = currentUser.uid;
     console.log(data);
@@ -207,6 +214,18 @@ const Navigation = ({ tableReference }) => {
                   </>
                 )}
 
+                <li>
+                  <a
+                    className="dropdown-item"
+                    href="#"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      return showResult();
+                    }}
+                  >
+                    Results
+                  </a>
+                </li>
                 <li>
                   <a className="dropdown-item" href="#">
                     Export &raquo;

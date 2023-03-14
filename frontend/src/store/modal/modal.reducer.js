@@ -8,6 +8,7 @@ const INITIAL_STATE = {
   SODtype: null,
   sodIsOpen: false,
   SODobject: null,
+  resultsIsOpen: false,
 };
 
 export const modalReducer = (state = INITIAL_STATE, action) => {
@@ -24,10 +25,13 @@ export const modalReducer = (state = INITIAL_STATE, action) => {
       return { ...state, analyses: payload };
     case MODAL_ACTION_TYPES.SET_MODAL_SOD_IS_OPEN:
       return { ...state, sodIsOpen: payload };
+
     case MODAL_ACTION_TYPES.SET_SOD_TYPE:
       return { ...state, SODtype: payload };
     case MODAL_ACTION_TYPES.SET_SOD_OBJECT:
       return { ...state, SODobject: payload };
+    case MODAL_ACTION_TYPES.SET_RESULTS_IS_OPEN:
+      return { ...state, resultsIsOpen: payload };
     default:
       return state;
   }

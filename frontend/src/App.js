@@ -13,6 +13,7 @@ import ModalLoad from "./components/modal-load-analysis/modal-load";
 import ModalAssessment from "./components/modal-assessment/modal-assessment";
 import { onAuthStateChangedListener } from "./utils/firebase/firebase.utils";
 import { setCurrentUser } from "./store/user/user.action";
+import ModalResults from "./components/modal-results/modal-results";
 
 function App() {
   const dispatch = useDispatch();
@@ -45,6 +46,7 @@ function App() {
       <ModalWindow />
       <ModalLoad />
       <ModalAssessment />
+      <ModalResults />
     </div>
   );
 }

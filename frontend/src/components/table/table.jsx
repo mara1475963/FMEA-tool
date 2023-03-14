@@ -19,6 +19,7 @@ import {
   selectMainFailures,
   selectNodeIDs,
 } from "../../store/fmea/fmea.selectors";
+import { Tooltip } from "@mui/material";
 
 const Table = () => {
   const dispatch = useDispatch();
@@ -205,7 +206,7 @@ const Table = () => {
   };
 
   const isSelected = (id) => {
-    if (!id) return false;
+    if (!id && id !== 0) return false;
     return selectedIDs.includes(id);
   };
 
@@ -230,16 +231,20 @@ const Table = () => {
       initialAP = "L";
     } else if (fc.initialAP > 250 && fc.initialAP <= 500) {
       initialAP = "M";
-    } else {
+    } else if (fc.initialAP > 500 && fc.initialAP <= 1000) {
       initialAP = "H";
+    } else {
+      initialAP = "--";
     }
 
     if (fc.finalAP && fc.finalAP <= 250) {
       finalAP = "L";
     } else if (fc.finalAP > 250 && fc.finalAP <= 500) {
       finalAP = "M";
-    } else {
+    } else if (fc.finalAP > 500 && fc.finalAP <= 1000) {
       finalAP = "H";
+    } else {
+      finalAP = "--";
     }
     const FCform = `
     <td ><input id='failure-cause-id'  type='hidden' value='${
@@ -259,9 +264,13 @@ const Table = () => {
     border: none;'/>${
       fc.initialDetection ? fc.initialDetection : "--"
     } </button></td>
-    <td id='initialAP' style='color:black;' >${
-      fc.initialAP ? fc.initialAP + "(" + initialAP + ")" : ""
-    }</td>
+    <td id='initialAP' style='color:black;' >
+      <div data-toggle="tooltip" data-placement="top" title="${
+        fc.initialAP ? "RPN(" + fc.initialAP + ")" : ""
+      }">
+      ${initialAP}
+    </div>
+    </td>
     <td><input id='preventionAction' type='text' value='${
       fc.preventionAction ? fc.preventionAction : ""
     }' /></td>
@@ -328,8 +337,10 @@ const Table = () => {
         maxConnections = lvl3F.length;
       }
 
+      console.log(lvl1F);
+
       result += `<tr>
-      <td class="${isSelected(lvl1F[0]?.id) ? "selected" : ""}">${
+      <td class="${isSelected(lvl1F[0].id) ? "selected" : ""}">${
         lvl1F[0] ? lvl1F[0].name : ""
       }</td>
       <td rowSpan=${maxConnections}>

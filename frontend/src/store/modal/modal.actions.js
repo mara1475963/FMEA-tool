@@ -25,3 +25,6 @@ export const setModalSODtype = (data) => {
 export const setModalSODobject = (object) => {
   return createAction(MODAL_ACTION_TYPES.SET_SOD_OBJECT, object);
 };
+
+export const setModalResultsIsOpen = (open) =>
+  createAction(MODAL_ACTION_TYPES.SET_RESULTS_IS_OPEN, open);
