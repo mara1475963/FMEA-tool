@@ -5,11 +5,12 @@ import { useNavigate } from "react-router-dom";
 import { mainSocket } from "../../socket";
 import { fetchFMEAData, updateNodeData } from "../../store/fmea/fmea.actions";
 import {
+  setModalAccountIsOpen,
   setModalAnalyses,
   setModalAnalysesIsOpen,
   setModalResultsIsOpen,
 } from "../../store/modal/modal.actions";
-import { googleSignIn } from "../../store/user/user.action";
+import { googleSignIn, setToastVisible } from "../../store/user/user.action";
 import {
   signInWithGooglePopup,
   signOutUser,
@@ -22,14 +23,14 @@ import { Button } from "@mui/material";
 import { saveSvgAsPng } from "save-svg-as-png";
 
 const Navigation = ({ tableReference }) => {
-  const tableRef = tableReference;
-
   const dispatch = useDispatch();
   // const navigate = useNavigate();
   const mainData = useSelector((state) => state.fmea.data);
   const opened = useSelector((state) => state.modal.analysesIsOpen);
   const opened2 = useSelector((state) => state.modal.resultsIsOpen);
+  const opened3 = useSelector((state) => state.modal.accountIsOpen);
   const currentUser = useSelector((state) => state.user.currentUser);
+  const toast = useSelector((state) => state.user.showToast);
 
   //console.log(currentUser);
 
@@ -49,6 +50,16 @@ const Navigation = ({ tableReference }) => {
     };
   };
 
+  function copy() {
+    const el = document.createElement("input");
+    el.value = window.location.href;
+    document.body.appendChild(el);
+    el.select();
+    document.execCommand("copy");
+    document.body.removeChild(el);
+    dispatch(setToastVisible(!toast));
+  }
+
   const createNewFMEA = (type) => {
     dispatch(fetchFMEAData(type));
     // navigate("/");
@@ -65,6 +76,10 @@ const Navigation = ({ tableReference }) => {
     dispatch(setModalResultsIsOpen(!opened2));
   };
 
+  const showAccount = () => {
+    dispatch(setModalAccountIsOpen(!opened3));
+  };
+
   const updateAnalysis = () => {
     data["ownerId"] = currentUser.uid;
     console.log(data);
@@ -79,10 +94,6 @@ const Navigation = ({ tableReference }) => {
   const signOut = () => {
     dispatch(fetchFMEAData(data.header.type.name));
     signOutUser();
-  };
-
-  const signInWithGoogle = async () => {
-    await signInWithGooglePopup();
   };
 
   const { onDownload } = useDownloadExcel({
@@ -227,6 +238,11 @@ const Navigation = ({ tableReference }) => {
                   </a>
                 </li>
                 <li>
+                  <a className="dropdown-item" href="#" onClick={copy}>
+                    Share
+                  </a>
+                </li>
+                <li>
                   <a className="dropdown-item" href="#">
                     Export &raquo;
                   </a>
@@ -312,7 +328,7 @@ const Navigation = ({ tableReference }) => {
                   href="#"
                   id="navbarDropdownMenuLink"
                   role="button"
-                  onClick={signInWithGoogle}
+                  onClick={showAccount}
                 >
                   Sign In
                 </a>

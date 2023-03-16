@@ -28,3 +28,5 @@ export const setModalSODobject = (object) => {
 
 export const setModalResultsIsOpen = (open) =>
   createAction(MODAL_ACTION_TYPES.SET_RESULTS_IS_OPEN, open);
+export const setModalAccountIsOpen = (open) =>
+  createAction(MODAL_ACTION_TYPES.SET_ACCOUNT_IS_OPEN, open);

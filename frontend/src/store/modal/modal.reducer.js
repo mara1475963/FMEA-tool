@@ -9,6 +9,7 @@ const INITIAL_STATE = {
   sodIsOpen: false,
   SODobject: null,
   resultsIsOpen: false,
+  accountIsOpen: false,
 };
 
 export const modalReducer = (state = INITIAL_STATE, action) => {
@@ -25,13 +26,14 @@ export const modalReducer = (state = INITIAL_STATE, action) => {
       return { ...state, analyses: payload };
     case MODAL_ACTION_TYPES.SET_MODAL_SOD_IS_OPEN:
       return { ...state, sodIsOpen: payload };
-
     case MODAL_ACTION_TYPES.SET_SOD_TYPE:
       return { ...state, SODtype: payload };
     case MODAL_ACTION_TYPES.SET_SOD_OBJECT:
       return { ...state, SODobject: payload };
     case MODAL_ACTION_TYPES.SET_RESULTS_IS_OPEN:
       return { ...state, resultsIsOpen: payload };
+    case MODAL_ACTION_TYPES.SET_ACCOUNT_IS_OPEN:
+      return { ...state, accountIsOpen: payload };
     default:
       return state;
   }

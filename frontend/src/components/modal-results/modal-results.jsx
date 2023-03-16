@@ -8,7 +8,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { setModalResultsIsOpen } from "../../store/modal/modal.actions";
 
 import { updateNodeData } from "../../store/fmea/fmea.actions";
-import { selectMainFailures } from "../../store/fmea/fmea.selectors";
+import {
+  selectFinalAPs,
+  selectInitialAPs,
+  selectMainFailures,
+} from "../../store/fmea/fmea.selectors";
 import parse from "html-react-parser";
 import { Bar } from "react-chartjs-2";
 import {
@@ -39,37 +43,8 @@ const ModalResults = () => {
   const failures = useSelector(selectMainFailures);
   const opened = useSelector((state) => state.modal.resultsIsOpen);
 
-  const initialAPs = [0, 0, 0];
-  failures.forEach((fm) => {
-    fm.failures
-      ?.filter((f) => f.depth === 2)
-      .forEach((fc) => {
-        if (fc.initialAP && fc.initialAP <= 250) {
-          initialAPs[0]++;
-        } else if (fc.initialAP > 250 && fc.initialAP <= 500) {
-          initialAPs[1]++;
-        } else if (fc.initialAP > 500 && fc.initialAP <= 1000) {
-          initialAPs[2]++;
-        }
-      });
-  });
-  console.log(initialAPs);
-
-  const finalAPs = [0, 0, 0];
-  failures.forEach((fm) => {
-    fm.failures
-      ?.filter((f) => f.depth === 2)
-      .forEach((fc) => {
-        if (fc.finalAP && fc.finalAP <= 250) {
-          finalAPs[0]++;
-        } else if (fc.finalAP > 250 && fc.finalAP <= 500) {
-          finalAPs[1]++;
-        } else if (fc.finalAP > 500 && fc.finalAP <= 1000) {
-          finalAPs[2]++;
-        }
-      });
-  });
-  console.log(finalAPs);
+  const initialAPs = useSelector(selectInitialAPs);
+  const finalAPs = useSelector(selectFinalAPs);
 
   const [open, setOpen] = useState(opened);
 

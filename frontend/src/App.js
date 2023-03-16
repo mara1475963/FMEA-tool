@@ -14,6 +14,8 @@ import ModalAssessment from "./components/modal-assessment/modal-assessment";
 import { onAuthStateChangedListener } from "./utils/firebase/firebase.utils";
 import { setCurrentUser } from "./store/user/user.action";
 import ModalResults from "./components/modal-results/modal-results";
+import ModalAccount from "./components/modal-account/modal-account";
+import ToastComponent from "./components/toast";
 
 function App() {
   const dispatch = useDispatch();
@@ -36,8 +38,10 @@ function App() {
 
   return (
     <div className="App">
+      <ToastComponent />
       <div className="grid-container">
         <Navigation />
+
         <Sidebar />
         <Header />
         <TreeGraph />
@@ -47,6 +51,7 @@ function App() {
       <ModalLoad />
       <ModalAssessment />
       <ModalResults />
+      <ModalAccount />
     </div>
   );
 }
