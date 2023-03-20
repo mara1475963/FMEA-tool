@@ -302,9 +302,14 @@ const Table = () => {
     border: none;'>${
       fc.finalDetection ? fc.finalDetection : "--"
     } </button></td>
-    <td id='finalAP' style='color:black;'>${
-      fc.finalAP ? fc.finalAP + "(" + finalAP + ")" : "--"
-    }</td>
+
+    <td id='finalAP' style='color:black;' >
+    <div data-toggle="tooltip" data-placement="top" title="${
+      fc.finalAP ? "RPN(" + fc.finalAP + ")" : ""
+    }">
+    ${finalAP}
+  </div>
+  </td>
     `;
 
     return FCform;

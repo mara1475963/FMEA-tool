@@ -53,12 +53,12 @@ const Node = ({
 
   return (
     <g className="test" style={{ fill: nodeColor }}>
-      <rect width="500" height="500" />
+      <rect width="700" height="400" />
       <foreignObject {...foreignObjectProps}>
         <div
           style={{
-            width: "500px",
-            height: "500px",
+            width: "700px",
+            height: "400px",
             border: "solid 3px black",
             strokeWidth: 0,
           }}
@@ -95,48 +95,76 @@ const Node = ({
             )}
 
             {nodeDatum.__rd3t.depth < 2 && (
-              <button
-                className="node-buttton"
-                onClick={addHandler}
-                data-id={nodeDatum.id}
+              <div
+                className="node"
+                data-toggle="tooltip"
+                data-placement="top"
+                title="Add Node"
               >
-                <AddCircleOutlineIcon />
-              </button>
+                <button
+                  className="node-buttton"
+                  onClick={addHandler}
+                  data-id={nodeDatum.id}
+                >
+                  <AddCircleOutlineIcon />
+                </button>
+              </div>
             )}
+            {
+              //<Button onClick={toggleWindow}>Open modal</Button>
+              <div
+                className="node"
+                data-toggle="tooltip"
+                data-placement="top"
+                title="Edit Node"
+              >
+                <button
+                  className="node-buttton"
+                  onClick={(e) => {
+                    toggleWindow();
+                  }}
+                  data-id={nodeDatum.id}
+                  data-depth={nodeDatum.__rd3t.depth}
+                >
+                  <EditOutlinedIcon />
+                </button>
+              </div>
+            }
 
+            {
+              //<Button onClick={toggleWindow}>Open modal</Button>
+              <div
+                className="node"
+                data-toggle="tooltip"
+                data-placement="top"
+                title="Mark Node"
+              >
+                <button
+                  className="node-buttton"
+                  onClick={selectNode}
+                  data-id={nodeDatum.id}
+                >
+                  <StarBorderIcon />
+                </button>
+              </div>
+            }
             {nodeDatum.__rd3t.depth > 0 && (
-              <button
-                className="node-buttton"
-                onClick={deleteHandler}
-                data-id={nodeDatum.id}
-                data-depth={nodeDatum.__rd3t.depth}
+              <div
+                className="node"
+                data-toggle="tooltip"
+                data-placement="top"
+                title="Delete Node"
               >
-                <DeleteOutlineIcon fontSize="large" />
-              </button>
+                <button
+                  className="node-buttton"
+                  onClick={deleteHandler}
+                  data-id={nodeDatum.id}
+                  data-depth={nodeDatum.__rd3t.depth}
+                >
+                  <DeleteOutlineIcon fontSize="large" />
+                </button>
+              </div>
             )}
-            {
-              //<Button onClick={toggleWindow}>Open modal</Button>
-              <button
-                className="node-buttton"
-                onClick={(e) => {
-                  toggleWindow();
-                }}
-                data-id={nodeDatum.id}
-                data-depth={nodeDatum.__rd3t.depth}
-              >
-                <EditOutlinedIcon />
-              </button>
-            }
-            {
-              //<Button onClick={toggleWindow}>Open modal</Button>
-              <button
-                className="node-buttton"
-                onClick={selectNode}
-                data-id={nodeDatum.id}
-              >
-                <StarBorderIcon />
-              </button>
-            }
           </div>
         </div>
       </foreignObject>

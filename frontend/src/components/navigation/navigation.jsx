@@ -21,6 +21,7 @@ import { TableToExcelReact } from "table-to-excel-react";
 import { useDownloadExcel } from "table-to-excel-react";
 import { Button } from "@mui/material";
 import { saveSvgAsPng } from "save-svg-as-png";
+import { checkImportFormat } from "../../helpers";
 
 const Navigation = ({ tableReference }) => {
   const dispatch = useDispatch();
@@ -44,7 +45,11 @@ const Navigation = ({ tableReference }) => {
     fileReader.readAsText(e.target.files[0], "UTF-8");
     fileReader.onload = (e) => {
       const importedData = JSON.parse(e.target.result);
-      console.log(importedData);
+      if (!checkImportFormat(importedData)) {
+        console.log("wrong format");
+        return;
+      }
+
       dispatch(updateNodeData(data, { ...importedData }));
       setData({ ...importedData });
     };

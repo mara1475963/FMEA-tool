@@ -4,13 +4,20 @@
 
 .node-controls {
   position: relative;
-  top: 70px;
+  // top: 70px;
+  display: flex;
+  justify-content: space-evenly;
+  padding: 30px 10px;
+  .node * {
+    cursor: pointer;
+  }
   .expand {
     position: absolute;
-    top: 297px;
-    left: 210px;
+    top: 265px;
+    left: 303px;
     width: 80px;
     font-weight: bold;
+    background-color: orange !important;
   }
   .node-buttton {
     border: 3px solid black;

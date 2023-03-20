@@ -106,6 +106,10 @@ const ModalAssessment = () => {
       let APproduct = 0;
       if (type.includes("Severity")) {
         APproduct = +e.target.innerHTML * +O.innerHTML * +D.innerHTML;
+      } else if (type.includes("Occurance")) {
+        APproduct = S.innerHTML * +e.target.innerHTML * +D.innerHTML;
+      } else if (type.includes("Detection")) {
+        APproduct = S.innerHTML * +O.innerHTML * +e.target.innerHTML;
       } else {
         APproduct = +S.innerHTML * +O.innerHTML * +D.innerHTML;
       }
@@ -140,7 +144,16 @@ const ModalAssessment = () => {
 
     if (!S2.innerHTML || !O2.innerHTML || !D2.innerHTML) {
     } else {
-      const APproduct2 = +S2.innerHTML * +O2.innerHTML * +D2.innerHTML;
+      let APproduct2 = 0;
+      if (type.includes("Severity")) {
+        APproduct2 = +e.target.innerHTML * +O2.innerHTML * +D2.innerHTML;
+      } else if (type.includes("Occurance")) {
+        APproduct2 = S2.innerHTML * +e.target.innerHTML * +D2.innerHTML;
+      } else if (type.includes("Detection")) {
+        APproduct2 = S2.innerHTML * +O2.innerHTML * +e.target.innerHTML;
+      } else {
+        APproduct2 = +S2.innerHTML * +O2.innerHTML * +D2.innerHTML;
+      }
       //AP2.innerHTML = APproduct2;
       data.children?.forEach((child) => {
         child.children?.forEach((ch) => {

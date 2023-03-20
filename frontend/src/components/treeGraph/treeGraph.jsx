@@ -97,14 +97,14 @@ const TreeGraph = () => {
     );
   };
 
-  const straightPathFunc = (linkDatum, orientation) => {
+  const straightPathFunc = (linkDatum) => {
     const { source, target } = linkDatum;
 
-    return `M${source.x + 250},${source.y + 500}L${target.x + 250},${target.y}`;
+    return `M${source.x + 350},${source.y + 400}L${target.x + 350},${target.y}`;
   };
 
   //RETURN
-  const nodeSize = { x: 600, y: 700 };
+  const nodeSize = { x: 750, y: 600 };
   const foreignObjectProps = {
     width: nodeSize.x,
     height: nodeSize.y,
