@@ -245,6 +245,14 @@ export const structure1 = {
   name: "Structure 1",
   functions: [functions[0]],
   children: [structure2[0]],
+  logs: [
+    {
+      date: "1/1/2001",
+      description: "nvm",
+      relatedDocuments: "asdsad",
+      updated: true,
+    },
+  ],
   header: header,
   severityExamples: ["", "", "", "", "", "", "", "", "", ""],
   occuranceExamples: ["", "", "", "", "", "", "", "", "", ""],

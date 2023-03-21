@@ -10,6 +10,7 @@ const INITIAL_STATE = {
   SODobject: null,
   resultsIsOpen: false,
   accountIsOpen: false,
+  loggingIsOpen: false,
 };
 
 export const modalReducer = (state = INITIAL_STATE, action) => {
@@ -34,6 +35,8 @@ export const modalReducer = (state = INITIAL_STATE, action) => {
       return { ...state, resultsIsOpen: payload };
     case MODAL_ACTION_TYPES.SET_ACCOUNT_IS_OPEN:
       return { ...state, accountIsOpen: payload };
+    case MODAL_ACTION_TYPES.SET_LOGGING_IS_OPEN:
+      return { ...state, loggingIsOpen: payload };
     default:
       return state;
   }

@@ -16,6 +16,7 @@ import { setCurrentUser } from "./store/user/user.action";
 import ModalResults from "./components/modal-results/modal-results";
 import ModalAccount from "./components/modal-account/modal-account";
 import ToastComponent from "./components/toast";
+import ModalLogger from "./components/modal-logging/modal-logging";
 
 function App() {
   const dispatch = useDispatch();
@@ -52,6 +53,7 @@ function App() {
       <ModalAssessment />
       <ModalResults />
       <ModalAccount />
+      <ModalLogger />
     </div>
   );
 }

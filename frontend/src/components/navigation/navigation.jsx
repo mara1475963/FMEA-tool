@@ -8,6 +8,7 @@ import {
   setModalAccountIsOpen,
   setModalAnalyses,
   setModalAnalysesIsOpen,
+  setModalLoggingIsOpen,
   setModalResultsIsOpen,
 } from "../../store/modal/modal.actions";
 import { googleSignIn, setToastVisible } from "../../store/user/user.action";
@@ -30,6 +31,7 @@ const Navigation = ({ tableReference }) => {
   const opened = useSelector((state) => state.modal.analysesIsOpen);
   const opened2 = useSelector((state) => state.modal.resultsIsOpen);
   const opened3 = useSelector((state) => state.modal.accountIsOpen);
+  const opened4 = useSelector((state) => state.modal.loggingIsOpen);
   const currentUser = useSelector((state) => state.user.currentUser);
   const toast = useSelector((state) => state.user.showToast);
 
@@ -83,6 +85,10 @@ const Navigation = ({ tableReference }) => {
 
   const showAccount = () => {
     dispatch(setModalAccountIsOpen(!opened3));
+  };
+
+  const showLogger = () => {
+    dispatch(setModalLoggingIsOpen(!opened4));
   };
 
   const updateAnalysis = () => {
@@ -240,6 +246,18 @@ const Navigation = ({ tableReference }) => {
                     }}
                   >
                     Results
+                  </a>
+                </li>
+                <li>
+                  <a
+                    className="dropdown-item"
+                    href="#"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      return showLogger();
+                    }}
+                  >
+                    Logger
                   </a>
                 </li>
                 <li>
