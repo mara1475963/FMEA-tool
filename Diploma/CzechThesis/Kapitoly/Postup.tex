@@ -1,29 +1,29 @@
 \chapter{Vypracování FMEA }
 \label{sec:FMEA_postup}
-V této kapitole bude podrobněji popsán postup při použití metody FMEA pro návrh a proces. Obě tyto varianty mají totožnou strukturu a tak budou její jednotlivé části popsány zároveň pro vytvoření obrazu v jakých atributech se konkrétní prvky obou typů analýz liší. Uvedené příklady budou ze světa automobilového průmyslu. 
+V této kapitole bude podrobněji popsán postup při použití metody FMEA pro návrh a proces. Obě tyto varianty mají totožnou strukturu a tak budou její jednotlivé části popsány zároveň pro vytvoření obrazu v jakých atributech se konkrétní části obou typů analýz liší. 
 
-Výňatky z formulářů odpovídají standardu příručky FMEA... Jednotlivé reprezentace analýzy se mohou lišit, zejména při použití v odlišných odvětvích. Také je možné se setkat s některými volitelnými atributy, které nemají veliký význam a nebude na ně brán v následujícím popisu zřetel.  
+Výňatky z formulářů odpovídají standardu příručky FMEA...[1] Jednotlivé reprezentace FMEA se mohou lišit, zejména při použití v odlišných odvětvích. Jak již bylo naznačeno v kapitole \ref{sec:historie}, tak lze analýzu aplikovat v odvětvích jako je armádní průmysl, zdravotnictví, kosmický průmysl a mnoho dalších. Nicméně nejrozšířenějším odvětvím, který využívá metody FMEA, je automobilový průmysl a i proto budou uvedené příklady z tohoto odvětví. Také je možné se setkat s některými volitelnými atributy, které nemají veliký význam a nebude na ně brán v následujícím popisu zřetel.  
 
 \section{Plánování a příprava(1. krok)}
-V kapitolách \ref{subsec:DFMEA} a \ref{subsec:PFMEA}  byly zmíněny předpoklady a vstupní podklady před začátkem samotné analýzy. V tomto kroku je také sestaven tým odborníků, kteří budou za pomocí společných setkání provádět samotnou analýzu. V tomto týmu je potřeba před začátkem práce definovat základní pravidla a pojmy. Je potřeba definovat škálu pro atributy, které pomocí kterých bude probíhat hodnocení nalezených rizik. Od této škály se například bude odvíjet, od jaké hodnoty bude akceptována určitá míra rizika. Tyto atributy jsou: 
+V kapitolách \ref{subsec:DFMEA} a \ref{subsec:PFMEA}  byly zmíněny předpoklady a vstupní podmínky před začátkem samotné analýzy. V prvník kroku je také sestaven tým odborníků, kteří budou za pomocí společných setkání provádět samotnou analýzu. V týmu je potřeba před začátkem práce definovat základní pravidla a pojmy. Je potřeba definovat škálu pro atributy, pomocí kterých bude probíhat hodnocení nalezených rizik. Od této škály se například bude odvíjet, od jaké hodnoty bude akceptována určitá míra rizika. Tyto atributy jsou: 
 
 \begin{enumerate}
-	\item Severity (Vážnost)
+	\item Severity (Význam)
 	\item Occurance (Výskyt)
 	\item Detection (Odhalitelnost)
 \end{enumerate}
 
-Pro každou z těchto tří atributů je potřeba stanovit škálu, která nabývá hodnot od jedné do desíti a každé hodnocení obsahuje slovní popis této hodnoty pro jednodušší určení hodnoty. Ukázka možné specifikace bude uvedena při výskytu těchto atributů v následujících částech analýzy.  
+Pro každou z těchto tří atributů je potřeba stanovit škálu, která nabývá hodnot od jedné do desíti a každé hodnocení obsahuje slovní popis této hodnoty pro jednodušší určení hodnoty. 
 
 Po stanovení těchto atributů je možné přistoupit k vyplnění úvodních informací tvořící hlavičku analýzy. 
 
 \begin{center}
-\begin{table}
+\begin{table}[h]
 	\centering
 	\caption{Hlavička analýzy}
  \label{tab:header_FMEA}
 	\label{tab:Head1}
-        \begin{tabular}{|c | r | c |} 
+        \begin{tabular}{|c | r | l |} 
          \hline
  \multicolumn{3}{|c|}{Planning and preparation (Step 1)} \\
 
@@ -54,7 +54,7 @@ Po stanovení těchto atributů je možné přistoupit k vyplnění úvodních i
     \end{table}
 \end{center}
 
-Tato tabulka \ref{tab:header_FMEA} obsahuje seznam atributů, které se vyplňují v rámci úvodní fáze analýzy. Zde je popis jednotlivých atributů:
+Tabulka \ref{tab:header_FMEA} obsahuje seznam atributů, které se vyplňují v rámci úvodní fáze analýzy. Zde je popis jednotlivých atributů:
 
 \begin{enumerate}
 	\item \textbf{Název společnosti} - jedná se o společnosti v rámci, které je analýza prováděna
@@ -64,15 +64,15 @@ Tato tabulka \ref{tab:header_FMEA} obsahuje seznam atributů, které se vyplňuj
  \item \textbf{Předmět} - vysokoúroňový popis zkoumaného prvku
  \item \textbf{Zodpovědnost} - vlastník dokumentu analýzy, často v roli manažera setkání týmu
  \item \textbf{Začátek analýzy} - počáteční datum
- \item \textbf{Datum revize} 
- \item \textbf{Interní identifikační číslo analýzy}
+ \item \textbf{Datum revize} - datum kontroly provedených změn 
+ \item \textbf{Identifikační číslo analýzy} - jedná se o interní hodnotu, má smysl v rámci kontextu firmy, kdy může sloužit jako odkaz na dokument s analýzou
  \item \textbf{Stupeň důvěrnosti} - může nabývat hodnot (obchodní, proprietární, důvěrný)
  \item \textbf{Multioborový tým} - seznam lidi podílejících se na tvorbě analýzy
 \end{enumerate}
 
 \section{Analýza struktury(2. krok)}
 \label{sec:FMEA_postup_2}
-Cílem strukturální analýzy je dekompozice zkoumaného produktu na menší části, které pak slouží jako vstupní parametry v dalších krocích analýzy. Dekompozice slouží pro jednodušší pochopení zkoumaného produktu. Výsledkem je nejčastěji stromová struktura o výšce stromu tři, kdy kořenem stromu je přímo zkoumaný prvek.
+Cílem strukturální analýzy je dekompozice zkoumaného produktu nebo procesu na menší části, které pak slouží jako vstupní parametry v dalších krocích. Dekompozice slouží pro jednodušší pochopení zkoumaného produktu. Výsledkem je nejčastěji stromová struktura o výšce stromu tři, kdy kořenem stromu je přímo zkoumaný prvek.
 
 
 
@@ -128,7 +128,7 @@ Dále následuje popis jednotlivých atributů, které se vyplňují v rámci st
 
 \begin{enumerate}
 	\item \textbf{Vyšší úroveň / Položka procesu systému, subsystému, dílu nebo název procesu} - Prvek na nejvýšší úrovni v rámci předmětu analýzy, pro tento prvek se v se v rámci analýzy selhání definují důsledky selhání
-	\item \textbf{Vybraný prvek, číslo a označení/Krok procesu, číslo a označení} - Prvek na druhé úrovni, pro tento prvek se v rámci analýzy selhání určuje jeden ze základních pílířů analýzy a to způsob selhání
+	\item \textbf{Vybraný prvek, číslo a označení/Krok procesu, číslo a označení} - Prvek na druhé úrovni, pro tento prvek se v rámci analýzy selhání určuje jeden ze základních pílířů analýzy, a to způsob selhání
 	\item \textbf{Nižší úroveň nebo druh charakteristiky/Prvek provádění činnosti, 4M} - Prvek na nejnižší úrovni, pro který se určují příčiny selhání. V analýze zaměřené na proces je zde uveden návodně typ 4M, který vyjadřuje(Machine, Man, Material, Milieu), tedy určité kategorie, do kterých by mohl hodnotící tým zařadit prvek na této úrovni. Další kategorie mohou také být Method, Measurement.  
 \end{enumerate}
 
@@ -136,7 +136,7 @@ Dále následuje popis jednotlivých atributů, které se vyplňují v rámci st
 \label{sec:FMEA_postup_3}
 V rámci analýzy struktury byly vytvořeny objekty, pro které ve fázi analýza funkcí bude tým definovat jejich funkce. Nalezené funkce budou dále sloužit jako vstupní parametry pro analýzu selhání. 
 
-Stejně jako v předchozím kroku, kdy výsledná analýza tvořila stromovou strukturu, neboli jednotlivé objekty měli mezi sebou definované vazby, tak je tomu obdobně i v této části analýzy. Zde je kladen důraz hlavně na funkcionalitu prvků na druhé úrovni. Pro tyto funkce se pak hledají funkce ze třetí úrovně, které zajišťují jejich funkcionalitu. Stejně je potřeba nalézt funkce na první úrovni, které jsou chápany jako výsledky funkce ze druhé úrovně. 
+Stejně jako v předchozím kroku, kdy výsledná analýza tvořila stromovou strukturu, neboli jednotlivé objekty měli mezi sebou definované relační vazby, tak je tomu obdobně i v této části analýzy. Zde je kladen důraz hlavně na funkcionalitu prvků na druhé úrovni. Pro tyto funkce se pak hledají funkce ze třetí úrovně, které zajišťují jejich funkcionalitu. Stejně je potřeba nalézt funkce na první úrovni, které jsou chápany jako výsledky funkce ze druhé úrovně. 
 
 Analýza funkcí je dalším příkladem, kdy se jednotlivé typy analýzy zaměřené na návrh a proces liší. Tyto odlišnosti znázorňují tabulky \ref{tab:function_DFMEA} a \ref{tab:function_PFMEA} 
 
@@ -188,8 +188,8 @@ Assembly body with mechanism   & Screw body with mechanism with 2 screws   &Take
 
 Popis atributů v rámci analýzy funkcí:
 \begin{enumerate}
-	\item \textbf{Funkce a požadavek vyšší úrovně / Funkce položky procesu Funkce systému, subsystému, dílu/komponentu nebo procesu} - Funkce odpovídající prvku na nejvyšší úrovni nebo procesu 
-	\item \textbf{Funkce a požadavek vybraného prvku/Funkce kroku procesu a charakteristika produktu(kvantitaivní hodnota je volitelná)} - Funkce odpovídající prvku na druhé úrovni(subsystém, komponent) nebo kroku procesu(čeho musí daná stanice dosáhnout)
+	\item \textbf{Funkce a požadavek vyšší úrovně / Funkce položky procesu Funkce systému, subsystému, dílu/komponentu nebo procesu} - Funkce odpovídající prvku nebo procesu na nejvyšší úrovni. Tomuto prvku může být přiřazeno více funkcí, ne pouze jedna jako v případě analýzy struktury.
+	\item \textbf{Funkce a požadavek vybraného prvku/Funkce procesního kroku a charakteristika produktu(kvantitativní hodnota je volitelná)} - Funkce odpovídající prvku na druhé úrovni(subsystém, komponent) nebo kroku procesu(čeho musí daná stanice dosáhnout)
 	\item \textbf{Funkce a požadavek nebo charakteristika nižší úrovně/Funkce prvku provádějící činnost a charakteristika procesu} - Funkce odpovídající prvku na nejnižší úrovni(komponent, díl) nebo prvku provádějící nějakou činnost v procesu
 \end{enumerate}
 
@@ -198,7 +198,7 @@ Popis atributů v rámci analýzy funkcí:
 \section{Analýza selhání(4. krok)}
 Analýza selhání je klíčovým krokem v rámci celé anýlýzy. Z předchozí činnosti, kdy byly objektům přiřazeny funkce, je cílem tohoto kroku zjistit, jak by objekt o dané funkci mohl selhat. Pro nalezené selhání se dále hledají důsledky a příčiny, které jsou přiřazeny funkcím na první a druhé úrovni v rámci celkové struktury. 
 
-Stejně jako u předchozích dvou kroků popsaných v kapitolách \ref{sec:FMEA_postup_2} a \ref{sec:FMEA_postup_3} existují mezi atributy relační vazby. Zde je celkem logicky každému selhání přiřazeno několik možných důsledků a příčin. Důsledky selhání jsou definovány jako dopad na celkový systém, a proto náleží kořenovému objektu. Příčiny selhání jsou definovány jako selhání prvků na nejnižší úrovni dekompozice a slouží spolu s ostatními atributy jako vstupní parametry pro analýzu rizik v následujícím kroku.
+Stejně jako u předchozích dvou kroků popsaných v kapitolách \ref{sec:FMEA_postup_2} a \ref{sec:FMEA_postup_3} existují mezi atributy relační vazby. Zde je celkem logicky každému selhání přiřazeno několik možných důsledků a příčin. Důsledky selhání jsou definovány jako dopad na celkový systém, a proto náleží kořenovému objektu a jedné jeho funkci. Příčiny selhání jsou definovány jako selhání prvků na nejnižší úrovni dekompozice a slouží spolu s ostatními atributy jako vstupní parametry pro analýzu rizik v následujícím kroku.
 
 Analýza selhání je krok, při kterém se již dva zmiňované typy od sebe tolik neliší. Význam atributů je prakticky stejný, akorát se odkazují na různé objekty z analýzy struktury. Porovnání obou typů zobrazují tabulky \ref{tab:failure_DFMEA} a \ref{tab:failure_PFMEA}
 
@@ -243,11 +243,13 @@ Analýza selhání je krok, při kterém se již dva zmiňované typy od sebe to
 
 \\
  \hline
-Plant:
-Gap between housing and mechanism more than tolerance - rework necessary (less than 100% of batch)
-Ship to Plant:
+\textbf{Plant:}
+Gap between housing and mechanism more than tolerance - rework necessary (less than 100% of batch) 
+
+\textbf{Ship to Plant:}
 Additional insertion force to assembly it into door panel
-End user:
+
+\textbf{End user:}
 Possibility in time to hear noises (disturbed)
 
   & 5
@@ -268,16 +270,14 @@ Popis atributů v rámci analýzy selhání:
 	\item \textbf{Následek (FE) na prvku vyšší úrovně/koncového uživatele } - Důsledek selhání odpovídající prvku na nejvyšší úrovni. Jak je vidět na uvedeném příkladu pro PFMEA, tak je možné držet se určitých mantinelů pro definování dopadů selhání. Konkrétně je možné určit dopady na vlastní továrnu, továrnu zákazníka nebo koncového uživatele. 
  
  Ve formulářích pro analýzu selhání je uveden i atribut Závažnost, který se ale hodnotí až v rámci analýzy rizik. Proto mu bude věnováno více pozornosti až v kapitole \ref{sec:FMEA_postup_5}
-	\item \textbf{Vada(FM) vybraného prvku/ Vada(FM) kroku procesu} - Selhání(vada) prvku nebo procesního kroku na druhé úrovni. Stanovení hodnocení tohoto atributu je důležité i z hlediska názvosloví a je potřeba používat odbornou a ucelenou terminologii.  
+	\item \textbf{Vada(FM) vybraného prvku/ Vada(FM) kroku procesu} - Selhání(vada) prvku nebo procesního kroku na druhé úrovni. Jedná se o hlavní atribut v rámci celé analýzy. Tým stanovující  selhání může vycházet například z různých předpokladů nebo obdobných systému a jejich FMEA(pokud byla provedena). Stanovení hodnocení tohoto atributu je důležité i z hlediska názvosloví a je potřeba používat odbornou a ucelenou terminologii.  
 	\item \textbf{Přičina(FC) na prvku nižší úrovně nebo charakteristiky/Přičina(FC) v prvku provádějící činnost} - Přičina selhání odpovídající prvku na nejnižší úrovni. V případě procesní analýzy odpovídá prvku z kategorie 4M. 
 \end{enumerate}
 
 
-
-
 \section{Analýza rizik(5. krok)}
 \label{sec:FMEA_postup_5}
-Analýza rizik vychází z předchozího kroku, kdy hodnotící tým stanovil možné způsoby selhání a jejich příčiny. V rámci analýzy tohoto kroku bude tým odborníků hodnotit toto riziko na základě aktuálně stanovených opatření. Výstupem hodnocení pro každé riziko musí být jedna z následujích variant:
+Analýza rizik vychází z předchozího kroku, kdy hodnotící tým stanovil možné způsoby selhání,jejich příčiny a důsledky. V rámci analýzy tohoto kroku bude tým odborníků hodnotit toto riziko na základě aktuálně stanovených opatření. Výstupem hodnocení pro každé riziko musí být jedna z následujích variant:
 \begin{itemize}
 	\item Aktuální opatření jsou dostačující/hodnocení rizika není na tolik závažné, aby bylo nutné přistupovat k nějakým změnám. 
     \item Riziko může mít negativní dopady do té míry, že je potřeba závést nové opatření nebo upravit ty stávající tak, aby došlo ke zmírnění hodnocení některých atributů.
@@ -327,9 +327,9 @@ Popis atributů v rámci analýzy rizik:
 	\item \textbf{Stávající opatření pro detekci příčiny nebo selhání} - Metoda, kterou tým v rámci tohoto atributu definuje již není preventivní, ale slouží k odhalení už vzniklého selhání. 
 	\item \textbf{Detekce příčiny} - Poslední hodnotící atribut. Stejně jako u atributu výskytu, tak dosahuje hodnot 1-10, které odpovídá i slovní popis. Taktéž navazuje na předchozí atribut, který také hraje roli v tom jak moc vysoká bude číselná hodnota detekce. 
 	\item \textbf{Priorita (Action Priority) v rámci DFMEA nebo PFMEA} - 
- Ještě před popisem posledního atributu je potřeba zmínit atribut Závažnost, který byl součástí předchozí ukázky formuláře v tabulce \ref{tab:failure_DFMEA} nebo \ref{tab:failure_PFMEA}. Závažnost je první z hodnotících atributů, který má obvykle v rámci celkového hodnocení rizika největší váhu. Závažnost se váže na množinu dopadů odpovídající nějakému selhání tzn. že pro více hodnot Výskyt a Detekce může být použita společná hodnota atributu Závažnost. Hodnocení tohoto atributu probíhá stejným způsobem jako u Výskytu a Detekce, nicméně tento atribut vyjadřuje i určité dopady selhání nebo příčinny na koncového zákazníka. Tyto dopady mohou být triviální, kdy dochází například pouze k ovlivnění vzhledu, zvuku nebo vibracím, ale také velice závažným, kdy může být uživatel ohrožen na životě. Příkladem takové situace je, když je analyzovaným produktem nějaký důležitý komponent automobilu. Tabulka sloužící pro stanovení hodnoty je taktéž součástí příloh....
+ Ještě před popisem posledního atributu je potřeba zmínit atribut Význam, který byl součástí předchozí ukázky formuláře v tabulce \ref{tab:failure_DFMEA} nebo \ref{tab:failure_PFMEA}. Význam je první z hodnotících atributů, který má obvykle v rámci celkového hodnocení rizika největší váhu. Význam se váže na množinu dopadů odpovídající nějakému selhání tzn. že pro více hodnot Výskyt a Detekce může být použita společná hodnota atributu Význam. Hodnocení tohoto atributu probíhá stejným způsobem jako u Výskytu a Detekce, nicméně tento atribut vyjadřuje i určité dopady selhání nebo příčinny na koncového zákazníka. Tyto dopady mohou být triviální, kdy dochází například pouze k ovlivnění vzhledu, zvuku nebo vibracím, ale také velice závažným, kdy může být uživatel ohrožen na životě. Příkladem takové situace je, když je analyzovaným produktem nějaký důležitý komponent automobilu. Tabulka sloužící pro stanovení hodnoty je taktéž součástí příloh....
  
- Poslední atribut analýzy rizik slouží jako součást rozhodnutí, jak s odhaleným rizikem naložit. Tento atribut vychází ještě z jedné hodnoty, která se nicméně již v nových verzích analýzy neuvádí. Touto hodnotou je RPN(Risk Priority Number) a vyjadřuje jednoduše součin číselného hodnocení atributů Závažnost, Výskyt a Detekce. Logicky se bude tato hodnota pohybovat v rozmezí 1-1000. O výpočet této hodnoty se z pravidla stará použitý software. Na základě vypočtené hodnty RPN je stanovena i hodnota atributu AP, která může nabývat hodnot(High, Medium, Low) .
+ Poslední atribut analýzy rizik slouží jako součást rozhodnutí, jak s odhaleným rizikem naložit. Tento atribut vychází ještě z jedné hodnoty, která se nicméně již v nových verzích analýzy neuvádí. Touto hodnotou je RPN(Risk Priority Number) a vyjadřuje jednoduše součin číselného hodnocení atributů Význam, Výskyt a Detekce. Logicky se bude tato hodnota pohybovat v rozmezí 1-1000. O výpočet této hodnoty se z pravidla stará použitý software. Na základě vypočtené hodnty RPN je stanovena i hodnota atributu AP, která může nabývat hodnot(High, Medium, Low) .
 
 Jak již bylo řečeno AP je pouze součástí pro rozhodnutí do jakého stavu dané riziko přejde. Tím, že AP vychází ze součinu, jehož tři činitelé mají stejnou váhu, tak nemusí hodnota plně reflektovat stav daného rizika. Pro ucelené a konečné hodnocení je potřeba v rámci týmu vzít v úvahu o jakou konkrétni situaci se jedná a jak moc mají stanovené hodnoty v tomto případě váhu. 
  
@@ -398,5 +398,5 @@ Popis atributů v rámci optimalizace:
 \end{enumerate}
 
 \section{Dokumentace výsledků(7. krok)}
-Dokumentace výsledků je posledním krokem v rámci vypracování FMEA. Jeho účelem je sumarizace dosažených výsledků a provedených zlepšení v rámci návrhu produktu nebo výrobního procesu. Jak již bylo řečeno předpokladem pro provedení dokumentace je to, že byly uzavřeny všechny nalezené rizika. Dokumentace výsledků již není součástí vyplňovaného formuláře. Dokument může mít libovolný formát vyhovující potřebám firmy. FMEA může sloužit i jako záruka kvality při komunikaci se zákazníkem v roli obchodního řetězce prodávájící daný produkt. Pro tyto účely je možné také použít shrnutí vytvořené v rámci tohto kroku. Shrnutí také může sloužit pro informování vysoko postavených osob ve vedení firmy. 
+Dokumentace výsledků je posledním krokem v rámci vypracování FMEA. Jeho účelem je sumarizace dosažených výsledků a provedených zlepšení v rámci návrhu produktu nebo výrobního procesu. Jak již bylo řečeno předpokladem pro provedení dokumentace je to, že byly uzavřeny všechny nalezené rizika. Dokumentace výsledků již není součástí vyplňovaného formuláře. Dokument může mít libovolný formát vyhovující potřebám firmy. FMEA může sloužit i jako záruka kvality při komunikaci se zákazníkem v roli obchodního řetězce prodávájící daný produkt. Pro tyto účely je možné také použít toto zhodnocení vytvořené v rámci tohto kroku. Zhodnocení také může sloužit pro informování vysoko postavených osob ve vedení firmy o stavu produktu v rámci kontroly kvality. 
   

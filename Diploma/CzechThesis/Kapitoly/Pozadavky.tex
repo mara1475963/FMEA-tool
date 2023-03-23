@@ -1,2 +1,112 @@
 \chapter{Analýza a specifikace požadavků}
 \label{sec:pozadavky}
+Tato kapitola bude zaměřena na popis požadavků na vyvýjený nástroj. Tento popis bude inspirován disciplínou inženýrství požadavků, která je využívána v oboru softwarového inženýrství pro analýzu, specifikaci a dokumentaci požadavků. Tato disciplína je využívána zejména ve smyslu komunikace se zákazníkem, kdy na základě společných jednání, je postupně tvořena představa o výsledném produktu. Tato představa není nikdy ve fázi návrhu kompletní a proto se mohou jednotlivé požadavky v průběhu vývoje měnit. Vzniklé artefakty mohou být například:
+    \begin{itemize}
+    \item Vize
+	\item Specifikace zákaznických požadavků
+    \item Specifikace systémových/softwarových požadavků
+    \item AND/OR graf
+    \item I* graf
+    \item KAOS graf 
+\end{itemize}
+
+V rámci této diplomové práce neprobíhala komunikace se zákazníkem, nicméně se specifikace požadavků na základě praktit používaných v inženýrství požadavků ukázala být přínosem. Požadavky vycházely zejména ze zadání diplomové práce, konzultace s vedoucím práce a rešerše existujích řešení popsané v kapitole \ref{sec:nastroje}. Výsledkem je kombinace specifikací zákaznických a systémových požadavků. Seznam požadavků na výsledný nástroj pro tvorbu FMEA je dostupný v tabulce \ref{tab:pozadavky}
+\break
+\break
+\break
+\break
+\break
+
+
+
+
+        \begin{longtable}{|p{0.5cm} | p{12cm} | p{0.5cm} | p{0.75cm} | p{0.5cm} |} 
+        \caption{Specifikace požadavků}
+\label{tab:pozadavky}
+         \hline
+         ID & 
+         Popis & 
+         \begin{turn}{-90}Typ záznamu\end{turn} & 
+         \begin{turn}{-90}Druh požadavku \end{turn}& 
+         \begin{turn}{-90}MoSCoW \end{turn} \\ \hline
+ 1 &	\textbf{Tvorba FMEA}  &	H & & \\
+ 2 &	\textit{Základní požadavek na vyvýjený software je efektivní způsob tvorby FMEA.} &	I	&& \\			
+3 &	Systém bude podporovat tvorbu analýzy zaměřené na návrh a proces(Design, Process) & R & CR & M \\
+4 &	Systém bude podporovat náhled a tvorbu analýzy pomocí textové tabulky. & 	R &	CR & M\\
+5 &	Systém bude podporovat náhled a tvorbu analýzy v grafickému režimu. &	R &	CR & M\\
+6&	Systém bude automaticky počítat hodnoty RPN a určení AP.	&R&	CR&M\\
+7&	Systém bude umožňovat řazení rizik podle AP. &	R &	CR & W\\
+8 &	Systém bude zobrazovat relace mezi atributy v rámci kroků analýzy 1,2,3. &	R &	CR & S\\
+9&	Data bude možné editovat pomocí modálních oken. &	R	&SYS & S\\
+10 &	Tvorba analýzy v grafickém režimu bude realizována drag\&drop stylem. &	R &	SYS&W\\
+11 &	\textbf{Vstupy a výstupy projektu}  &	H & & \\
+12 &	\textit{Podpůrné funkce nástroje pro vizualizaci výsledků, nastavení projektu apod.} &	I	&& \\
+13	&Systém bude nabízet vychozí slovní definici pro hodnotící parametry(Význam, Výskyt, Detekce) dle standardu AIAG/VDA pro automotiv. & 	R &	CR & M \\
+14&	Systém bude podporovat definici vlastních měřítek pro určení hodnotících parametrů.&	R&	CR&S\\
+15&	Systém bude umožňovat vytvářet logy z jednotlivých setkání týmu. &	R&	CR&S\\
+16 & Systém bude umožňovat zobrazení shrnutí rizik spolus s grafovou reprezentací pro kontrolu úplnosti provedené analýzy.&	R&	CR&M\\
+17 & Graf rizik bude sloupcového typu a bude obsahovat počáteční a konečné hodnoty AP. &	R&	SYS. &S\\
+ 18 &	\textbf{Uživatelé}  &	H & & \\
+19 &	\textit{Analýza je prováděna v rámci týmu odborníku, kterým nástroj usnadňuje podmínky při tvorbě anlýzy.
+} &	I	&& \\
+20 &	Systém bude podporovat použití jedním či více uživateli zároveň.&	R&	CR&M\\
+21&	Systém bude podporovat registraci (vytváření uživatelských učtů)	&R	&CR&S\\
+22&	Systém bude umožňovat přihlášení k uživatelskému účtu.&	R&	CR&M\\
+23&		Systém bude sdílet prováděné změny ve skupině připojených uživatelů v reálném čase. &	R&	CR&S\\
+24&		Systém bude umožňovat sdílení pomocí url odkazu.&	R&	SYS&M\\
+24&		Pro přihlašování bude možné použít email a heslo nebo Google účet. &	R&	SYS&M\\
+
+
+25 &	\textbf{Data}  &	H & & \\
+26 &	\textit{Tato kapitola definuje požadavky na nástroj z pohledu persistence dat, jejich formátu apod.} &	I	&& \\
+27 &	Systém bude umožňovat uživateli ukládání dat analýzy. &	R&	CR&M\\
+28 &	Systém bude umožňovat uživateli načítání dat vlastních analýz. &	R&	CR&M\\
+29 &	Systém bude umožňovat export analýzy do formatů .xls, .json, .png &	R &	CR & S\\
+29 &	Systém bude umožňovat import analýzy z .json formátu &	R &	CR & M\\
+30 &	Systém bude provádět kontrolu správnosti formátu importovaných dat. & 	R &	SYS & S\\
+31 &	Analyza bude ukladána jako záznamy do relační databáze.& 	R&	SYS&W\\
+32&	\textbf{Ostatní}  &	H & & \\
+33 &	\textit{Další obecné požadavky na vyvýjený systém, včetně tzv. nefunkčních požadavků.} &	I	&& \\
+34	& Nástroj bude dostupný na zařizeních nezávisle na OS. &	R&	CR& M\\
+35	& Systém bude zvládat současný přistup několika desítek uživatelů. &	R&	CR& S\\
+36	& Systém bude podporovat zobrazení na mobilních zařízeních	&R	&CR&W\\ \hline
+\end{longtable}
+
+\section{Popis tabulky}
+Tabulka je členěna do kapitol, kterým odpovídá určitá sada záznamů. Pro toto členění je použit sloupec Typ záznamu, který může nabývat hodnot:
+    \begin{itemize}
+    \item H(header) - název kapitoly
+	\item I(Information) - úvodní informace o kapitole
+    \item R(requirement) - požadavek
+\end{itemize}
+Každý záznam také obsahuje svoje identifikační číslo, které může sloužit jako odkaz v jiných dokumentech. Požadavky jsou rozlišeny také na základě jejich druhu, a to na zákaznické a systémové. Zákaznické požadavky vyjadřují zejména nějakou funkci systému z pohledu uživatele. Zdrojem těchto požadavků je zákazník. Systémové požadavky vyjadřují spíše, jak bude určitá funkce implementována. Může se jednat o více či méně technický popis použitého postupu pro realizaci požadavku. Zdrojem požadavků je vývojář, programátor,... Poslední sloupec tabulky vyjadřuje prioritu požadavku. Může nabývat hodnot:
+    \begin{itemize}
+    \item M(Must)
+	\item S(Should)
+    \item  C(Could)
+    \item  W(Wont)
+    
+\end{itemize}
+Slouží například k určení jaké požadavky budou implementovány v prvé řadě, a které budou doplńovány postupně podle zbylého času a dalších prostředků. Požadavky vyplývající přímo ze zadání diplomové jsou označení jako primární. Požadavky vzniklé  inspirací z existujích řešení jsou označeny písmenem S - nástroj by měl obsahovat tuto funkci. Požadavky ozačené písmenem C jsou takové, které mohou a nemusí být implementovány. O tom bude rozhodnuto v průběhu implementace. Poslední skupina jsou zamítnuté požadavky. Ty se v průběhu vývoje ukázaly jako neužitečné. Dále také mohou přímo určovat, co systém nebude umožňovat. Slovní formát samotných požadavků má cíleně jednou strukturu.  
+
+\section{Popis vybraných požadavků}
+V této kapitole budou detailněji popsány některé požadavky. Popis bude obsahovat důvody, proč byly jednotlivé požadavky přijmuty nebo zamítnuty. Odkazem na požadavek bude identifikační číslo z tabulky. 
+\subsection{Požadavek 3}
+Jedná se o základní požadavek, který vycházel jak z odborné literatury, tak z rešerše dostupných řešení na trhu. V praxi se nejvíce používá FMEA v automobilovém průmyslu a existující nástroje z velké části podporují tvorbu analýzy zaměřené na Návrh a Proces. Samozřejmě existují i analýzy zaměřené například na Systém nebo nově tzv. FMEA-MSR(Monitoring and System response), která byla publikována v posledním vydaní příručky v rámci AIAG/VDA[1]. .. Nicméně se jedná spíše o doplňkové FMEA a proto na ně nebyl kladen důraz. Požadavek byl konzultován a schável vedoucím práce a přijat v aktuálním znění.  
+
+\subsection{Požadavek 7}
+Tento požadavek byl vytvořen v rané fázi vývoje jako snaha o zjednodušení určení největších rizik tím, že bude nástroj podporovat jejich řazení podle hodnoty atributu AP(od nejzávažnějších po mírné). Nicméně v průběhu implementace se ukázalo, že samotná hodnota AP nemá tak velikou vypovídající hodnotu z toho důvodu, že se jedná víceméně o jinou reprezentaci RPN, což je součin tří hodnotích atributů. Při rozhodnutí o tom jaká akce bude s rizikem provedena je potřeba vzít v úvahu konkrétní situaci a váhu jednotlivých atributů, ne pouze hodnotu AP. Pro tým by tedy toto řazení mohlo být zavádějící a z toho důvodu byl požadavek zamítnut.   
+
+\subsection{Požadavek 10}
+\label{subsec:pozadavek_10}
+Dalším zamítnutým požadavkem je návrh toho, jak by mohl být vyřešen požadavek na náhled a tvorbu analýzy v grafickém režimu. Jedná se o systémový požadavek. V jednom ze zkoumaných nástrojů byl použit právě styl drag\&drop, který vypadal jako relativě atraktivní způsob v rámci strukturální analýzy. Nicméně při hledání možnosti, jak zobrazit v aplikaci stromovou strukturu dat, tak byla nalezena knihovna, která tuto možnost nepodporovala. V jiných ohledech tak přesně odpovídala požadovným vlastnostem a proto byl nakonec zvolen styl přidávání dalších uzlů pomocí tlačítka pro přidání. 
+
+\subsection{Požadavek 23}
+Při hledání vize projektu se nabízely dvě možnosti, jak realizovat společnou práci uživatelů při použití nástroje. První možností byla řekněme podniková aplikace, která by nabízela uživatelům možnost tvorby FMEA analýzy spolu se správou uživatelů a sdílení dokumentu analýzy skupině uživatelů na úrovní databáze. Druhá, mnohem zajímavější možnost, byla vytvořit aplikaci, kdy se skupina uživatelů připojí přes jeden odkaz a bude mít možnost společně tvořit analýzu pomocí sdílení prováděných změn v reálném čase. Tato možnost mnohem více reflektovala vizi toho, jak by se analýza měla ideálně provádět a proto byl přijat i tento požadavek.  
+
+\subsection{Požadavek 31}
+Tento systémový požadavek vyjadřuje prvotní myšlenku toho, jak by měly být data ukládány ve smyslu databáze a persistentního uložení dat. Vzhledem k tomu, že z hlediska teoria by měly existovat relační vazby mezi jednotlivými entitami v rámci strukturální, funkční a analýzy selhání, tak se jevila jako správna možnost uložení dat relační databáze. Ve fázi návrhu a rané implementace se ukazovala i jako druhá alternativa použití tzv. No-SQL databáze. Což je odlišný přístup k uložení dat, kdy jsou data ukládany v rámci dokumentů, které mohou mít mnohem flexibilnější možnosti např. z hlediska podporovaných datových typů. Jak označení napovídá, tak pro dotazy nad daty není použit jazyk SQL, ale používá se speciálních metod s definovánými parametry pro selekci, vkládání, aktualizování a mazání záznamů. Autor této práce měl zájem na tom vyzkoušet tuto alternativu, která se čím dál tím více začíná používat v moderních řešení webových aplikací. Dalším důvodem proč byla nakonec zvolena No-SQL databáze byla také knihovna sloužící pro zobrazování stromové struktury v rámci popisu požadavku v kapitole \ref{subsec:pozadavek_10}. Komponenta této knihovny tvořící stromovou strukturu dat, přijímá jako vstupní parametr pouze objekt o definovaných a volitelných atributech. V případě této apliakce se jedná vlastně o několikanásobně zanořený objekt, který obsahuje všechny data analýzy. Z tohoto důvodu se ukázala jako výborná volba právě možnost použití No-SQL databáze, která přijímá a podporuje ukladání tohoto typu dat bez nutnosti transformace tohoto objektu na jednotlivé tabulky relační databáze. 
+
+\subsection{Požadavek 36}
+Zde se jedná zejména o upřesnění, že požadavek tuto funkcionalitu podporovat nebude. Formuláře aplikace z pohledu textové tabulky i grafického náhledu není úplně možné zobrazit na mobilním zařízení v čitelné formě. Navíc to nedává ani smysl z pohledu samotné tvorby analýzy. 
+
