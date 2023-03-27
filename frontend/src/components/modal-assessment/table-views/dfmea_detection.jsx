@@ -26,13 +26,7 @@ export const getDFMEADetection = (handler, handler2, element, data) => {
             <td rowSpan="2">Very Low</td>
             <td>Test procedure yet to be developed.</td>
             <td>Test method not defined</td>
-            <td>
-              <textarea
-                data-index={9}
-                style={{ width: "100%", height: 30 }}
-                defaultValue={data.detectionExamples[9]}
-              ></textarea>
-            </td>
+            <td>{data.dfmeaExamples.detectionExamples[9]}</td>
           </tr>
           <tr>
             <td
@@ -50,13 +44,7 @@ export const getDFMEADetection = (handler, handler2, element, data) => {
               cause.
             </td>
             <td>Pass-Fail, Test-to-Fail, Degradation Testing</td>
-            <td>
-              <textarea
-                data-index={8}
-                style={{ width: "100%", height: 30 }}
-                defaultValue={data.detectionExamples[8]}
-              ></textarea>
-            </td>
+            <td>{data.dfmeaExamples.detectionExamples[8]}</td>
           </tr>
           <tr>
             <td
@@ -72,13 +60,7 @@ export const getDFMEADetection = (handler, handler2, element, data) => {
             <td rowSpan="2">Low</td>
             <td>New test method; not proven.</td>
             <td>Pass-Fail, Test-to-Fail, Degradation Testing</td>
-            <td>
-              <textarea
-                data-index={7}
-                style={{ width: "100%", height: 30 }}
-                defaultValue={data.detectionExamples[7]}
-              ></textarea>
-            </td>
+            <td>{data.dfmeaExamples.detectionExamples[7]}</td>
           </tr>
           <tr>
             <td
@@ -99,13 +81,7 @@ export const getDFMEADetection = (handler, handler2, element, data) => {
               re-tooling.
             </td>
             <td>Pass-Fail Testing</td>
-            <td>
-              <textarea
-                data-index={6}
-                style={{ width: "100%", height: 30 }}
-                defaultValue={data.detectionExamples[6]}
-              ></textarea>
-            </td>
+            <td>{data.dfmeaExamples.detectionExamples[6]}</td>
           </tr>
           <tr>
             <td
@@ -120,13 +96,7 @@ export const getDFMEADetection = (handler, handler2, element, data) => {
             </td>
             <td rowSpan="2">Moderate</td>
             <td>Test-to-Failure</td>
-            <td>
-              <textarea
-                data-index={5}
-                style={{ width: "100%", height: 30 }}
-                defaultValue={data.detectionExamples[5]}
-              ></textarea>
-            </td>
+            <td>{data.dfmeaExamples.detectionExamples[5]}</td>
           </tr>
           <tr>
             <td
@@ -140,13 +110,7 @@ export const getDFMEADetection = (handler, handler2, element, data) => {
               5
             </td>
             <td>Degradation Testing</td>
-            <td>
-              <textarea
-                data-index={4}
-                style={{ width: "100%", height: 30 }}
-                defaultValue={data.detectionExamples[4]}
-              ></textarea>
-            </td>
+            <td>{data.dfmeaExamples.detectionExamples[4]}</td>
           </tr>
           <tr>
             <td
@@ -167,13 +131,7 @@ export const getDFMEADetection = (handler, handler2, element, data) => {
               production.
             </td>
             <td>Pass-Fail Testing</td>
-            <td>
-              <textarea
-                data-index={3}
-                style={{ width: "100%", height: 30 }}
-                defaultValue={data.detectionExamples[3]}
-              ></textarea>
-            </td>
+            <td>{data.dfmeaExamples.detectionExamples[3]}</td>
           </tr>
           <tr>
             <td
@@ -187,13 +145,7 @@ export const getDFMEADetection = (handler, handler2, element, data) => {
               3
             </td>
             <td>Test-to-Failure</td>
-            <td>
-              <textarea
-                data-index={2}
-                style={{ width: "100%", height: 30 }}
-                defaultValue={data.detectionExamples[2]}
-              ></textarea>
-            </td>
+            <td>{data.dfmeaExamples.detectionExamples[2]}</td>
           </tr>
           <tr>
             <td
@@ -207,13 +159,7 @@ export const getDFMEADetection = (handler, handler2, element, data) => {
               2
             </td>
             <td>Degradation Testing</td>
-            <td>
-              <textarea
-                data-index={1}
-                style={{ width: "100%", height: 30 }}
-                defaultValue={data.detectionExamples[1]}
-              ></textarea>
-            </td>
+            <td>{data.dfmeaExamples.detectionExamples[1]}</td>
           </tr>
           <tr>
             <td
@@ -232,13 +178,7 @@ export const getDFMEADetection = (handler, handler2, element, data) => {
               or detection methods proven to always detect the failure mode or
               failure cause.
             </td>
-            <td>
-              <textarea
-                data-index={0}
-                style={{ width: "100%", height: 30 }}
-                defaultValue={data.detectionExamples[0]}
-              ></textarea>
-            </td>
+            <td>{data.dfmeaExamples.detectionExamples[0]}</td>
           </tr>
         </tbody>
       </table>

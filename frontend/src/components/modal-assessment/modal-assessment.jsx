@@ -304,15 +304,9 @@ const ModalAssessment = () => {
                             <td>{effect.criteria[0]}</td>
 
                             <td>
-                              <textarea
-                                data-index={counter}
-                                style={{ width: "100%", height: 30 }}
-                                defaultValue={
-                                  type.includes("Severity")
-                                    ? data.severityExamples[counter]
-                                    : data.occuranceExamples[counter]
-                                }
-                              ></textarea>
+                              {type.includes("Severity")
+                                ? data.dfmeaExamples.severityExamples[counter]
+                                : data.dfmeaExamples.occuranceExamples[counter]}
                             </td>
                           </tr>
 
@@ -340,13 +334,7 @@ const ModalAssessment = () => {
                                   <td>{opportunities && opportunities[idx]}</td>
                                 )}
                                 <td>
-                                  <textarea
-                                    data-index={counter}
-                                    style={{ width: "100%", height: 30 }}
-                                    defaultValue={
-                                      data.severityExamples[counter]
-                                    }
-                                  ></textarea>
+                                  {data.dfmeaExamples.severityExamples[counter]}
                                 </td>
                               </tr>
                             );

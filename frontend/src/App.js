@@ -17,6 +17,7 @@ import ModalResults from "./components/modal-results/modal-results";
 import ModalAccount from "./components/modal-account/modal-account";
 import ToastComponent from "./components/toast";
 import ModalLogger from "./components/modal-logging/modal-logging";
+import ModalSOD from "./components/modal-SOD/modal-sod";
 
 function App() {
   const dispatch = useDispatch();
@@ -54,6 +55,7 @@ function App() {
       <ModalResults />
       <ModalAccount />
       <ModalLogger />
+      <ModalSOD />
     </div>
   );
 }

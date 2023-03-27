@@ -41,13 +41,7 @@ export const getPFMEASeverity = (handler, handler2, element, data) => {
               Affects safe operation of the vehicle and/or other vehicles, the
               health of driver or passenger(s) or road users or pedestrians.
             </td>
-            <td>
-              <textarea
-                data-index={9}
-                style={{ width: "100%", height: 30 }}
-                defaultValue={data.severityExamples[9]}
-              ></textarea>
-            </td>
+            <td>{data.pfmeaExamples.severityExamples[9]}</td>
           </tr>
           <tr>
             <td
@@ -63,13 +57,7 @@ export const getPFMEASeverity = (handler, handler2, element, data) => {
             <td>Failure may result in in-plant regualatory noncompliance.</td>
             <td>Failure may result in in-plant regualatory noncompliance.</td>
             <td>Noncompliance with regulations.</td>
-            <td>
-              <textarea
-                data-index={8}
-                style={{ width: "100%", height: 30 }}
-                defaultValue={data.severityExamples[8]}
-              ></textarea>
-            </td>
+            <td>{data.pfmeaExamples.severityExamples[8]}</td>
           </tr>
           <tr>
             <td
@@ -99,13 +87,7 @@ export const getPFMEASeverity = (handler, handler2, element, data) => {
               Loss of primary vehicle function necessary for normal driving
               during expected service life.{" "}
             </td>
-            <td>
-              <textarea
-                data-index={7}
-                style={{ width: "100%", height: 30 }}
-                defaultValue={data.severityExamples[7]}
-              ></textarea>
-            </td>
+            <td>{data.pfmeaExamples.severityExamples[7]}</td>
           </tr>
           <tr>
             <td
@@ -133,13 +115,7 @@ export const getPFMEASeverity = (handler, handler2, element, data) => {
               Degradation of primary vehicle function necessary for normal
               driving during expected service life.{" "}
             </td>
-            <td>
-              <textarea
-                data-index={6}
-                style={{ width: "100%", height: 30 }}
-                defaultValue={data.severityExamples[6]}
-              ></textarea>
-            </td>
+            <td>{data.pfmeaExamples.severityExamples[6]}</td>
           </tr>
           <tr>
             <td
@@ -158,13 +134,7 @@ export const getPFMEASeverity = (handler, handler2, element, data) => {
             </td>
             <td>Line shutdown up to one hour</td>
             <td>Loss of secondary vehicle function</td>
-            <td>
-              <textarea
-                data-index={5}
-                style={{ width: "100%", height: 30 }}
-                defaultValue={data.severityExamples[5]}
-              ></textarea>
-            </td>
+            <td>{data.pfmeaExamples.severityExamples[5]}</td>
           </tr>
           <tr>
             <td
@@ -187,13 +157,7 @@ export const getPFMEASeverity = (handler, handler2, element, data) => {
             </td>
             <td>Degradation of secondary vehicle function.</td>
 
-            <td>
-              <textarea
-                data-index={4}
-                style={{ width: "100%", height: 30 }}
-                defaultValue={data.severityExamples[4]}
-              ></textarea>
-            </td>
+            <td>{data.pfmeaExamples.severityExamples[4]}</td>
           </tr>
           <tr>
             <td
@@ -219,13 +183,7 @@ export const getPFMEASeverity = (handler, handler2, element, data) => {
               haptics
             </td>
 
-            <td>
-              <textarea
-                data-index={3}
-                style={{ width: "100%", height: 30 }}
-                defaultValue={data.severityExamples[3]}
-              ></textarea>
-            </td>
+            <td>{data.pfmeaExamples.severityExamples[3]}</td>
           </tr>
           <tr>
             <td
@@ -251,13 +209,7 @@ export const getPFMEASeverity = (handler, handler2, element, data) => {
               Moderately objectionable appearance, sound, vibration, harshness,
               or haptics
             </td>
-            <td>
-              <textarea
-                data-index={2}
-                style={{ width: "100%", height: 30 }}
-                defaultValue={data.severityExamples[2]}
-              ></textarea>
-            </td>
+            <td>{data.pfmeaExamples.severityExamples[2]}</td>
           </tr>
           <tr>
             <td
@@ -283,13 +235,7 @@ export const getPFMEASeverity = (handler, handler2, element, data) => {
               or haptics
             </td>
 
-            <td>
-              <textarea
-                data-index={1}
-                style={{ width: "100%", height: 30 }}
-                defaultValue={data.severityExamples[1]}
-              ></textarea>
-            </td>
+            <td>{data.pfmeaExamples.severityExamples[1]}</td>
           </tr>
           <tr>
             <td
@@ -306,13 +252,7 @@ export const getPFMEASeverity = (handler, handler2, element, data) => {
             <td>No discernable effect</td>
             <td>No discernable effect or no effect</td>
             <td>No discernable effect</td>
-            <td>
-              <textarea
-                data-index={0}
-                style={{ width: "100%", height: 30 }}
-                defaultValue={data.severityExamples[0]}
-              ></textarea>
-            </td>
+            <td>{data.pfmeaExamples.severityExamples[0]}</td>
           </tr>
         </tbody>
       </table>

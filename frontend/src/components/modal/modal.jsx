@@ -14,11 +14,13 @@ import {
   PlusSquare,
   StyledTreeItem,
 } from "../treeView/treeView";
+
 import {
   addFailureToFunction,
   updateNodeAttributes,
   updateNodeData,
 } from "../../store/fmea/fmea.actions";
+
 import {
   selectFMEAData,
   selectMainFailures,

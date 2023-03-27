@@ -33,13 +33,7 @@ export const getPFMEADetection = (handler, handler2, element, data) => {
             </td>
             <td>The failure mode will not or cannot be detected.</td>
 
-            <td>
-              <textarea
-                data-index={9}
-                style={{ width: "100%", height: 30 }}
-                defaultValue={data.detectionExamples[9]}
-              ></textarea>
-            </td>
+            <td>{data.pfmeaExamples.detectionExamples[9]}</td>
           </tr>
           <tr>
             <td
@@ -62,13 +56,7 @@ export const getPFMEADetection = (handler, handler2, element, data) => {
               audits.
             </td>
 
-            <td>
-              <textarea
-                data-index={8}
-                style={{ width: "100%", height: 30 }}
-                defaultValue={data.detectionExamples[8]}
-              ></textarea>
-            </td>
+            <td>{data.pfmeaExamples.detectionExamples[8]}</td>
           </tr>
           <tr>
             <td
@@ -94,13 +82,7 @@ export const getPFMEADetection = (handler, handler2, element, data) => {
               mode or failure cause.
             </td>
 
-            <td>
-              <textarea
-                data-index={7}
-                style={{ width: "100%", height: 30 }}
-                defaultValue={data.detectionExamples[7]}
-              ></textarea>
-            </td>
+            <td>{data.pfmeaExamples.detectionExamples[7]}</td>
           </tr>
           <tr>
             <td
@@ -120,13 +102,7 @@ export const getPFMEADetection = (handler, handler2, element, data) => {
               equipment such as coordinate measuring machine that should detect
               failure mode or failure cause.
             </td>
-            <td>
-              <textarea
-                data-index={6}
-                style={{ width: "100%", height: 30 }}
-                defaultValue={data.detectionExamples[6]}
-              ></textarea>
-            </td>
+            <td>{data.pfmeaExamples.detectionExamples[6]}</td>
           </tr>
           <tr>
             <td
@@ -151,13 +127,7 @@ export const getPFMEADetection = (handler, handler2, element, data) => {
               or failure cause.
             </td>
 
-            <td>
-              <textarea
-                data-index={5}
-                style={{ width: "100%", height: 30 }}
-                defaultValue={data.detectionExamples[5]}
-              ></textarea>
-            </td>
+            <td>{data.pfmeaExamples.detectionExamples[5]}</td>
           </tr>
           <tr>
             <td
@@ -177,13 +147,7 @@ export const getPFMEADetection = (handler, handler2, element, data) => {
               equipment such as coordinate measuring machine that will detect
               failure mode or failure cause.
             </td>
-            <td>
-              <textarea
-                data-index={4}
-                style={{ width: "100%", height: 30 }}
-                defaultValue={data.detectionExamples[4]}
-              ></textarea>
-            </td>
+            <td>{data.pfmeaExamples.detectionExamples[4]}</td>
           </tr>
           <tr>
             <td
@@ -211,13 +175,7 @@ export const getPFMEADetection = (handler, handler2, element, data) => {
               the product from the facility.
             </td>
 
-            <td>
-              <textarea
-                data-index={3}
-                style={{ width: "100%", height: 30 }}
-                defaultValue={data.detectionExamples[3]}
-              ></textarea>
-            </td>
+            <td>{data.pfmeaExamples.detectionExamples[3]}</td>
           </tr>
           <tr>
             <td
@@ -239,13 +197,7 @@ export const getPFMEADetection = (handler, handler2, element, data) => {
               products will be controlled by a robust system that will prevent
               the outflow of the product from the facility.
             </td>
-            <td>
-              <textarea
-                data-index={2}
-                style={{ width: "100%", height: 30 }}
-                defaultValue={data.detectionExamples[2]}
-              ></textarea>
-            </td>
+            <td>{data.pfmeaExamples.detectionExamples[2]}</td>
           </tr>
           <tr>
             <td
@@ -267,13 +219,7 @@ export const getPFMEADetection = (handler, handler2, element, data) => {
               Machine detection that will detect the cause and prevent the
               failure mode (discrepant part) from being produced.
             </td>
-            <td>
-              <textarea
-                data-index={1}
-                style={{ width: "100%", height: 30 }}
-                defaultValue={data.detectionExamples[1]}
-              ></textarea>
-            </td>
+            <td>{data.pfmeaExamples.detectionExamples[1]}</td>
           </tr>
           <tr>
             <td
@@ -293,13 +239,7 @@ export const getPFMEADetection = (handler, handler2, element, data) => {
               failure mode or failure cause.
             </td>
 
-            <td>
-              <textarea
-                data-index={0}
-                style={{ width: "100%", height: 30 }}
-                defaultValue={data.detectionExamples[0]}
-              ></textarea>
-            </td>
+            <td>{data.pfmeaExamples.detectionExamples[0]}</td>
           </tr>
         </tbody>
       </table>

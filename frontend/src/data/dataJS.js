@@ -254,9 +254,16 @@ export const structure1 = {
     },
   ],
   header: header,
-  severityExamples: ["", "", "", "", "", "", "", "", "", ""],
-  occuranceExamples: ["", "", "", "", "", "", "", "", "", ""],
-  detectionExamples: ["", "", "", "", "", "", "", "", "", ""],
+  dfmeaExamples: {
+    severityExamples: ["", "", "", "", "", "", "", "", "", ""],
+    occuranceExamples: ["", "", "", "", "", "", "", "", "", ""],
+    detectionExamples: ["", "", "", "", "", "", "", "", "", ""],
+  },
+  pfmeaExamples: {
+    severityExamples: ["", "", "", "", "", "", "", "", "", ""],
+    occuranceExamples: ["", "", "", "", "", "", "", "", "", ""],
+    detectionExamples: ["", "", "", "", "", "", "", "", "", ""],
+  },
   // functions: [],
   // children: [],
 };

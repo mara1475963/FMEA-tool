@@ -33,3 +33,6 @@ export const setModalAccountIsOpen = (open) =>
 
 export const setModalLoggingIsOpen = (open) =>
   createAction(MODAL_ACTION_TYPES.SET_LOGGING_IS_OPEN, open);
+
+export const setModalSODSetupUpIsOpen = (open) =>
+  createAction(MODAL_ACTION_TYPES.SET_SOD_SET_UP_IS_OPEN, open);

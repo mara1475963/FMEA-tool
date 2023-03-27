@@ -89,7 +89,7 @@ const ModalResults = () => {
                                 <td>${lvl3.finalOccurance}</td>
                                 <td>${lvl3.finalDetection}</td>
                                 <td>${lvl3.finalAP}</td>`
-                                : `<td><input type="checkbox" /></td>
+                                : `<td><input data-id=${lvl3.id} type="checkbox" /></td>
                                     <td></td><td></td><td></td><td></td>
                                 `
                             }
@@ -135,6 +135,10 @@ const ModalResults = () => {
     ],
   };
 
+  const handler = (e) => {
+    console.log(e.target.checked, e.target.dataset.id);
+  };
+
   return (
     <Modal
       open={open}
@@ -146,24 +150,26 @@ const ModalResults = () => {
         <div className="grapth-container">
           <Bar options={options} data={data} />
         </div>
-        <table className="result-table">
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>{"Failure Mode:FailureCause"}</th>
-              <th>S1</th>
-              <th>O1</th>
-              <th>D1</th>
-              <th>AP1</th>
-              <th>No Optimization needed</th>
-              <th>S2</th>
-              <th>O2</th>
-              <th>D2</th>
-              <th>AP2</th>
-            </tr>
-          </thead>
-          <tbody>{parse(generateFailuresResults())}</tbody>
-        </table>
+        <form onChange={handler}>
+          <table className="result-table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>{"Failure Mode:FailureCause"}</th>
+                <th>S1</th>
+                <th>O1</th>
+                <th>D1</th>
+                <th>AP1</th>
+                <th>No Optimization needed</th>
+                <th>S2</th>
+                <th>O2</th>
+                <th>D2</th>
+                <th>AP2</th>
+              </tr>
+            </thead>
+            <tbody>{parse(generateFailuresResults())}</tbody>
+          </table>
+        </form>
       </Box>
     </Modal>
   );

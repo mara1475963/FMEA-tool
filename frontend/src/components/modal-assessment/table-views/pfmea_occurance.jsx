@@ -29,13 +29,7 @@ export const getPFMEAOccurance = (handler, handler2, element, data) => {
             <td>Extremly High</td>
             <td>None</td>
             <td>No prevention controls.</td>
-            <td>
-              <textarea
-                data-index={9}
-                style={{ width: "100%", height: 30 }}
-                defaultValue={data.occuranceExamples[9]}
-              ></textarea>
-            </td>
+            <td>{data.pfmeaExamples.occuranceExamples[9]}</td>
           </tr>
           <tr>
             <td
@@ -55,13 +49,7 @@ export const getPFMEAOccurance = (handler, handler2, element, data) => {
               cause.
             </td>
 
-            <td>
-              <textarea
-                data-index={8}
-                style={{ width: "100%", height: 30 }}
-                defaultValue={data.occuranceExamples[8]}
-              ></textarea>
-            </td>
+            <td>{data.pfmeaExamples.occuranceExamples[8]}</td>
           </tr>
           <tr>
             <td
@@ -81,13 +69,7 @@ export const getPFMEAOccurance = (handler, handler2, element, data) => {
               cause.
             </td>
 
-            <td>
-              <textarea
-                data-index={7}
-                style={{ width: "100%", height: 30 }}
-                defaultValue={data.occuranceExamples[7]}
-              ></textarea>
-            </td>
+            <td>{data.pfmeaExamples.occuranceExamples[7]}</td>
           </tr>
           <tr>
             <td
@@ -107,13 +89,7 @@ export const getPFMEAOccurance = (handler, handler2, element, data) => {
               cause.
             </td>
 
-            <td>
-              <textarea
-                data-index={6}
-                style={{ width: "100%", height: 30 }}
-                defaultValue={data.occuranceExamples[6]}
-              ></textarea>
-            </td>
+            <td>{data.pfmeaExamples.occuranceExamples[6]}</td>
           </tr>
           <tr>
             <td
@@ -127,13 +103,7 @@ export const getPFMEAOccurance = (handler, handler2, element, data) => {
               6
             </td>
 
-            <td>
-              <textarea
-                data-index={5}
-                style={{ width: "100%", height: 30 }}
-                defaultValue={data.occuranceExamples[5]}
-              ></textarea>
-            </td>
+            <td>{data.pfmeaExamples.occuranceExamples[5]}</td>
           </tr>
           <tr>
             <td
@@ -151,13 +121,7 @@ export const getPFMEAOccurance = (handler, handler2, element, data) => {
               Prevention controls are effective in preventing the failure cause.
             </td>
 
-            <td>
-              <textarea
-                data-index={4}
-                style={{ width: "100%", height: 30 }}
-                defaultValue={data.occuranceExamples[4]}
-              ></textarea>
-            </td>
+            <td>{data.pfmeaExamples.occuranceExamples[4]}</td>
           </tr>
           <tr>
             <td
@@ -171,13 +135,7 @@ export const getPFMEAOccurance = (handler, handler2, element, data) => {
               4
             </td>
 
-            <td>
-              <textarea
-                data-index={3}
-                style={{ width: "100%", height: 30 }}
-                defaultValue={data.occuranceExamples[3]}
-              ></textarea>
-            </td>
+            <td>{data.pfmeaExamples.occuranceExamples[3]}</td>
           </tr>
           <tr>
             <td
@@ -197,13 +155,7 @@ export const getPFMEAOccurance = (handler, handler2, element, data) => {
               cause.
             </td>
 
-            <td>
-              <textarea
-                data-index={2}
-                style={{ width: "100%", height: 30 }}
-                defaultValue={data.occuranceExamples[2]}
-              ></textarea>
-            </td>
+            <td>{data.pfmeaExamples.occuranceExamples[2]}</td>
           </tr>
           <tr>
             <td
@@ -218,13 +170,7 @@ export const getPFMEAOccurance = (handler, handler2, element, data) => {
             </td>
             <td>Very Low</td>
 
-            <td>
-              <textarea
-                data-index={1}
-                style={{ width: "100%", height: 30 }}
-                defaultValue={data.occuranceExamples[1]}
-              ></textarea>
-            </td>
+            <td>{data.pfmeaExamples.occuranceExamples[1]}</td>
           </tr>
           <tr>
             <td
@@ -246,13 +192,7 @@ export const getPFMEAOccurance = (handler, handler2, element, data) => {
               Mode cannot be physically produced due to the Failure Cause.
             </td>
 
-            <td>
-              <textarea
-                data-index={0}
-                style={{ width: "100%", height: 30 }}
-                defaultValue={data.occuranceExamples[0]}
-              ></textarea>
-            </td>
+            <td>{data.pfmeaExamples.occuranceExamples[0]}</td>
           </tr>
         </tbody>
       </table>

@@ -10,7 +10,7 @@ import {
   setModalResultsIsOpen,
 } from "../../store/modal/modal.actions";
 import { selectFMEAData } from "../../store/fmea/fmea.selectors";
-import { Button } from "@mui/material";
+import { Button, TextField } from "@mui/material";
 import { updateNodeData } from "../../store/fmea/fmea.actions";
 
 const ModalLogger = () => {
@@ -65,7 +65,7 @@ const ModalLogger = () => {
             </tr>
           </thead>
           <tbody>
-            {data.logs.map((log, idx) => {
+            {data?.logs?.map((log, idx) => {
               return (
                 <tr>
                   <td>{idx + 1}</td>
@@ -80,12 +80,30 @@ const ModalLogger = () => {
         </table>
         <form className="uploadLog" onSubmit={addLog}>
           <div className="logg-container">
-            <input name="date" type="date" />
-            <textarea name="description"></textarea>
-            <input name="documents" type="text" />
-
-            <input type="checkbox" name="updated" value="Updated?"></input>
-
+            <div>
+              <label for="date"> Date</label>
+              <br />
+              <input name="date" type="date" required />
+            </div>
+            <div>
+              <label for="description"> Description</label>
+              <br />
+              <textarea name="description" required></textarea>
+            </div>
+            {/* <TextField
+              id="standard-multiline-flexible"
+              label="Description"
+              multiline
+              maxRows={4}
+              variant="standard"
+              required 
+            />*/}
+            {/* <input name="documents" type="text" /> */}
+            <TextField label="Documents" type="text" name="documents" />
+            <div>
+              <input type="checkbox" name="updated" value="Updated?" />
+              <label for="updated"> Updated?</label>
+            </div>
             <Button type="submit" variant="text">
               Add
             </Button>
