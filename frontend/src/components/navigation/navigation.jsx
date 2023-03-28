@@ -54,6 +54,7 @@ const Navigation = ({ tableReference }) => {
         return;
       }
 
+      console.log("good format");
       dispatch(updateNodeData(data, { ...importedData }));
       setData({ ...importedData });
     };

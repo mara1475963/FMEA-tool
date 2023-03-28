@@ -10,6 +10,7 @@ import { setModalResultsIsOpen } from "../../store/modal/modal.actions";
 import { updateNodeData } from "../../store/fmea/fmea.actions";
 import {
   selectFinalAPs,
+  selectFMEAData,
   selectInitialAPs,
   selectMainFailures,
 } from "../../store/fmea/fmea.selectors";
@@ -24,6 +25,8 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
+import { findObject } from "../../helpers";
+import { mainSocket } from "../../socket";
 
 ChartJS.register(
   CategoryScale,
@@ -45,23 +48,42 @@ const ModalResults = () => {
 
   const initialAPs = useSelector(selectInitialAPs);
   const finalAPs = useSelector(selectFinalAPs);
+  const mainData = useSelector(selectFMEAData);
 
   const [open, setOpen] = useState(opened);
+  let finished = true;
+  const [data2, setData] = useState(null);
+  const [socket, setSocket] = useState();
 
   useEffect(() => {
     setOpen(opened);
   }, [opened]);
 
+  useEffect(() => {
+    setData({ ...mainData });
+  }, [mainData]);
+
+  useEffect(() => {
+    setSocket(mainSocket);
+
+    return () => {
+      mainSocket.disconnect();
+    };
+  }, []);
+
   const generateFailuresResults = () => {
     let result = "";
     let id = 0;
+    let analysisOK = true;
 
     for (const [idx, lvl2F] of Object.entries(failures)) {
       const lvl3F = lvl2F.failures?.filter((f) => f.depth === 2);
 
       if (lvl3F) {
         for (const lvl3 of lvl3F) {
-          console.log(lvl3);
+          if (!lvl3.closed && !lvl3.finalAP) {
+            finished = false;
+          }
           result += `<tr>
                             <td>${++id}</td>
                             <td>${lvl2F.name + "=>" + lvl3.name}</td>
@@ -89,7 +111,11 @@ const ModalResults = () => {
                                 <td>${lvl3.finalOccurance}</td>
                                 <td>${lvl3.finalDetection}</td>
                                 <td>${lvl3.finalAP}</td>`
-                                : `<td><input data-id=${lvl3.id} type="checkbox" /></td>
+                                : `<td><input data-id=${
+                                    lvl3.id
+                                  } type="checkbox" ${
+                                    lvl3.closed ? "checked" : ""
+                                  } /></td>
                                     <td></td><td></td><td></td><td></td>
                                 `
                             }
@@ -136,7 +162,39 @@ const ModalResults = () => {
   };
 
   const handler = (e) => {
-    console.log(e.target.checked, e.target.dataset.id);
+    const [result] = findObject(data2, "id", e.target.dataset.id);
+    result.closed = e.target.checked;
+
+    data2.children.forEach((child) => {
+      child.children &&
+        child.children.forEach((ch) => {
+          ch.functions &&
+            ch.functions.forEach((fce) => {
+              fce.failures.forEach((f) => {
+                if (f.id === result.id) {
+                  f["closed"] = e.target.checked;
+                }
+              });
+            });
+        });
+    });
+    data2.children.forEach((child) => {
+      child.functions &&
+        child.functions.forEach((fce) => {
+          fce.failures.forEach((f) => {
+            f.failures &&
+              f.failures.forEach((fc) => {
+                if (fc.id === result.id) {
+                  fc["closed"] = e.target.checked;
+                }
+              });
+          });
+        });
+    });
+
+    dispatch(updateNodeData(data2, { ...data2 }));
+    setData({ ...data2 });
+    socket && socket.emit("send-changes", { ...data2 });
   };
 
   return (
@@ -151,11 +209,11 @@ const ModalResults = () => {
           <Bar options={options} data={data} />
         </div>
         <form onChange={handler}>
-          <table className="result-table">
+          <table className="result-table" style={{ width: "100%" }}>
             <thead>
               <tr>
-                <th>ID</th>
-                <th>{"Failure Mode:FailureCause"}</th>
+                <th>#</th>
+                <th>{"Failure Mode=>FailureCause"}</th>
                 <th>S1</th>
                 <th>O1</th>
                 <th>D1</th>
@@ -170,6 +228,12 @@ const ModalResults = () => {
             <tbody>{parse(generateFailuresResults())}</tbody>
           </table>
         </form>
+
+        {finished ? (
+          <h4 style={{ color: "green" }}>All risks solved</h4>
+        ) : (
+          <h4 style={{ color: "red" }}>Some risks unsolved</h4>
+        )}
       </Box>
     </Modal>
   );

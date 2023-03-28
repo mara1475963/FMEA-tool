@@ -18,33 +18,80 @@ export const findObject = (obj = {}, key, value) => {
   return result;
 };
 
-export const findKey = (key, type) => {
-  let result = false;
+export const getAllKeys = () => {
+  const DATA_KEYS = new Map();
+
   const recursiveSearch = (obj = structure1) => {
     if (!obj || typeof obj !== "object") {
       return;
     }
-    if (obj[key] && typeof obj[key] == type) {
-      result = true;
-      return true;
-    }
     Object.keys(obj).forEach((k) => {
+      if (isNaN(k)) {
+        DATA_KEYS.set(k, typeof obj[k]);
+      }
       recursiveSearch(obj[k]);
     });
   };
   recursiveSearch(structure1);
-  return result;
+  DATA_KEYS.set("nodeID", "string");
+  return DATA_KEYS;
 };
 
 export const checkImportFormat = (obj = {}) => {
-  for (const key in Object.keys(obj)) {
-    console.log(findKey(key, typeof obj[key]));
-    if (!findKey(key, typeof obj[key])) {
-      return false;
-    }
-  }
+  // const DATA_KEYS = new Map();
+  // DATA_KEYS.set("id", "number");
+  // DATA_KEYS.set("depth", "number");
+  // DATA_KEYS.set("name", "string");
+  // DATA_KEYS.set("children", "object");
+  // DATA_KEYS.set("functions", "object");
+  // DATA_KEYS.set("logs", "object");
+  // DATA_KEYS.set("date", "string");
+  // DATA_KEYS.set("description", "string");
+  // DATA_KEYS.set("relatedDocuments", "string");
+  // DATA_KEYS.set("updated", "boolean");
+  // DATA_KEYS.set("header", "object");
+  // DATA_KEYS.set("dfmeaExamples", "object");
+  // DATA_KEYS.set("pfmeaExamples", "object");
+  // DATA_KEYS.set("severityExamples", "object");
+  // DATA_KEYS.set("occuranceExamples", "object");
+  // DATA_KEYS.set("detectionExamples", "object");
+  // DATA_KEYS.set("", "");
+  // DATA_KEYS.set("", "");
+  // DATA_KEYS.set("", "");
+  // DATA_KEYS.set("", "");
+  // DATA_KEYS.set("", "");
+  // DATA_KEYS.set("", "");
+  // DATA_KEYS.set("", "");
+  // DATA_KEYS.set("", "");
+  // DATA_KEYS.set("", "");
+  // DATA_KEYS.set("", "");
+  // DATA_KEYS.set("", "");
+  // DATA_KEYS.set("", "");
 
-  return true;
+  const DATA_MAP = getAllKeys();
+  console.log(DATA_MAP);
+
+  let result = true;
+
+  const recursiveSearch = (obj = structure1) => {
+    // console.log(obj, result);
+    if (!obj || typeof obj !== "object" || !result) {
+      return;
+    }
+    Object.keys(obj).forEach((k) => {
+      if (isNaN(k)) {
+        if (!DATA_MAP.has(k) || typeof obj[k] !== DATA_MAP.get(k)) {
+          console.log(k, typeof obj[k], DATA_MAP.get(k));
+          result = false;
+          return;
+        }
+      }
+      recursiveSearch(obj[k]);
+    });
+  };
+  recursiveSearch(obj);
+
+  return result;
 };
 
 export const getNewId = () => {

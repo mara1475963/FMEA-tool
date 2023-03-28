@@ -35,9 +35,6 @@ const Table = () => {
   const [data, setData] = useState(null);
   const [socket, setSocket] = useState();
 
-  console.log(selectedIDs);
-  console.log(failures);
-
   useEffect(() => {
     setSocket(mainSocket);
 
@@ -115,7 +112,7 @@ const Table = () => {
       if (!S.value || !O.value || !D.value) {
       } else {
         const APproduct = S.value * O.value * D.value;
-        // AP.innerHTML = APproduct;
+        // AP.innerHTML = APproduct;`
         data.children.forEach((child) => {
           child.children.forEach((ch) => {
             ch.functions.forEach((fce) => {
@@ -273,33 +270,35 @@ const Table = () => {
     </td>
     <td><input id='preventionAction' type='text' value='${
       fc.preventionAction ? fc.preventionAction : ""
-    }' /></td>
+    }' ${fc.closed ? "disabled" : ""}/></td>
     <td><input id='detectionAction' type='text' value='${
       fc.detectionAction ? fc.detectionAction : ""
-    }' /></td>
+    }' ${fc.closed ? "disabled" : ""} /></td>
     <td><input id='resposiblePersons' type='text' value='${
       fc.resposiblePersons ? fc.resposiblePersons : ""
-    }' /></td>
+    }' ${fc.closed ? "disabled" : ""} /></td>
     <td><input id='targetDate' type='date' value='${
       fc.targetDate ? fc.targetDate : ""
-    }' /></td>
+    }' ${fc.closed ? "disabled" : ""} /></td>
     <td><input id='status' type='text' style='width:50px;' value='${
       fc.status ? fc.status : ""
-    }' /></td>
+    }' ${fc.closed ? "disabled" : ""} /></td>
     <td><input id='actionTaken' type='text' value='${
       fc.actionTaken ? fc.actionTaken : ""
-    }'  /></td>
+    }'  ${fc.closed ? "disabled" : ""} /></td>
     <td><input id='completionDate' type='date' value='${
       fc.completionDate ? fc.completionDate : ""
-    }' /></td>
+    }' ${fc.closed ? "disabled" : ""} /></td>
     <td><button id='finalSeverity'  style='width:40px;background-color: transparent;
-    border: none;'>${fc.finalSeverity ? fc.finalSeverity : "--"} </button></td>
+    border: none;'${fc.closed ? "disabled" : ""} >${
+      fc.finalSeverity ? fc.finalSeverity : "--"
+    } </button></td>
     <td><button id='finalOccurance' style='width:40px;background-color: transparent;
-    border: none;'>${
+    border: none;'${fc.closed ? "disabled" : ""} >${
       fc.finalOccurance ? fc.finalOccurance : "--"
     } </button></td>
     <td><button id='finalDetection' style='width:40px;background-color: transparent;
-    border: none;'>${
+    border: none;'${fc.closed ? "disabled" : ""} >${
       fc.finalDetection ? fc.finalDetection : "--"
     } </button></td>
 

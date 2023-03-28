@@ -125,13 +125,14 @@
 //collection + depth
 const failures = [
   {
-    id: 0,
+    id: "0",
     depth: 0,
     name: "failureEffect",
   },
   {
-    id: 1,
+    id: "1",
     depth: 2,
+    closed: false,
     name: "Failure Cause",
     currentPreventionControl: "",
     intialOccurance: "",
@@ -152,7 +153,7 @@ const failures = [
   },
 ];
 failures.push({
-  id: 2,
+  id: "2",
   depth: 1,
   name: "FailureMode",
   initialSeverity: 5,
@@ -160,13 +161,13 @@ failures.push({
 });
 const functions = [
   {
-    id: 3,
+    id: "3",
     depth: 0,
     name: "Function lvl1",
     failures: [failures[0]],
   },
   {
-    id: 4,
+    id: "4",
     depth: 2,
     name: "Function lvl3",
     failures: [failures[1]],
@@ -174,7 +175,7 @@ const functions = [
 ];
 
 functions.push({
-  id: 5,
+  id: "5",
   depth: 1,
   name: "Function lvl2",
   functions: [functions[0], functions[1]],
@@ -183,7 +184,7 @@ functions.push({
 
 const structure3 = [
   {
-    id: 6,
+    id: "6",
     depth: 2,
     name: "Structure 3",
     functions: [functions[1]],
@@ -192,7 +193,7 @@ const structure3 = [
 
 const structure2 = [
   {
-    id: 7,
+    id: "7",
     depth: 1,
     name: "Structure 2",
     functions: [functions[2]],
@@ -240,7 +241,7 @@ export const header = {
 };
 
 export const structure1 = {
-  id: 8,
+  id: "8",
   depth: 0,
   name: "Structure 1",
   functions: [functions[0]],
