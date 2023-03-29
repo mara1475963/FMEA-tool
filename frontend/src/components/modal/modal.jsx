@@ -7,7 +7,6 @@ import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import TreeView from "@mui/lab/TreeView";
 import { Autocomplete } from "@mui/material";
-
 import {
   CloseSquare,
   MinusSquare,
@@ -15,8 +14,10 @@ import {
   StyledTreeItem,
 } from "../treeView/treeView";
 
+import "./modal.scss";
 import {
   addFailureToFunction,
+  addFunctionToNode,
   updateNodeAttributes,
   updateNodeData,
 } from "../../store/fmea/fmea.actions";
@@ -26,9 +27,7 @@ import {
   selectMainFailures,
   selectMainFunctions,
 } from "../../store/fmea/fmea.selectors";
-import { findObject, getNewId } from "../../helpers";
 import { mainSocket } from "../../socket";
-import "./modal.scss";
 
 const ModalWindow = () => {
   const dispatch = useDispatch();
@@ -64,7 +63,6 @@ const ModalWindow = () => {
   };
 
   const onChangeHandler = (e) => {
-    e.preventDefault();
     const element = e.target;
     dispatch(updateNodeAttributes(nodes, node, element));
     socket && socket.emit("send-changes", nodes);
@@ -72,52 +70,11 @@ const ModalWindow = () => {
 
   const addFunctionHandler = (e) => {
     e.preventDefault();
-
-    const newid = getNewId();
-    const value = e.target.newFunction.value;
-    const newFunction = {
-      id: newid,
-      depth: node.depth,
-      name: value,
-    };
-
-    //node
+    dispatch(addFunctionToNode(nodes, node, e.target, selectedFunction));
     if (node.depth === 0) {
-      !nodes["functions"]
-        ? (nodes.functions = [newFunction])
-        : nodes["functions"].push(newFunction);
-    } else {
-      !node["functions"]
-        ? (node.functions = [newFunction])
-        : node["functions"].push(newFunction);
+      setNode({ ...nodes });
     }
-
-    //in relation to lvl2Function
-    if (node.depth !== 1) {
-      const [result] = findObject(nodes, "id", selectedFunction.nodeId);
-
-      result.functions?.forEach((f) => {
-        if (f.id === selectedFunction.id) {
-          !f["functions"]
-            ? (f.functions = [newFunction])
-            : f["functions"].push(newFunction);
-        }
-      });
-
-      //main node
-      if (node.depth === 0) {
-        dispatch(updateNodeData(nodes, { ...result }));
-        setNode({ ...nodes });
-        socket && socket.emit("send-changes", nodes);
-      } else {
-        dispatch(updateNodeData(nodes, { ...result }));
-        socket && socket.emit("send-changes", nodes);
-      }
-    } else {
-      dispatch(updateNodeData(nodes, { ...node }));
-      setNode({ ...node });
-      socket && socket.emit("send-changes", nodes);
-    }
+    socket && socket.emit("send-changes", nodes);
 
     e.target.newFunction.value = "";
   };

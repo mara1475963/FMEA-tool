@@ -1,9 +1,14 @@
 .logger-table {
   margin-bottom: 25px;
+  width: 100%;
 }
 .logg-container {
   display: flex;
   flex-direction: column;
   gap: 10px;
-  width: 50%;
+  width: 100%;
+}
+
+.logg-container * {
+  width: 100%;
 }

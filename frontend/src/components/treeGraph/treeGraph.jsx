@@ -16,8 +16,18 @@ import {
   selectFMEAData,
   selectFMEAIsLoading,
 } from "../../store/fmea/fmea.selectors";
-const TreeGraph = () => {
+
+import {
+  exportComponentAsJPEG,
+  exportComponentAsPDF,
+  exportComponentAsPNG,
+} from "react-component-export-image";
+import NodeToExport from "../node-export/node";
+import { display } from "@mui/system";
+
+const TreeGraph = ({ graphRef, toExport }) => {
   //State init
+  const ref = graphRef;
   const dispatch = useDispatch();
   const data = useSelector(selectFMEAData);
   const isLoading = useSelector(selectFMEAIsLoading);
@@ -97,6 +107,21 @@ const TreeGraph = () => {
     );
   };
 
+  const renderForeignObjectNodeExport = ({
+    nodeDatum,
+    toggleNode,
+    foreignObjectProps,
+  }) => {
+    return (
+      <NodeToExport
+        key={nodeDatum.__rd3t.id}
+        nodeDatum={nodeDatum}
+        toggleNode={toggleNode}
+        foreignObjectProps={foreignObjectProps}
+      />
+    );
+  };
+
   const straightPathFunc = (linkDatum) => {
     const { source, target } = linkDatum;
 
@@ -111,11 +136,33 @@ const TreeGraph = () => {
   };
 
   return (
-    <div className="grid-item tree-graph">
+    <div
+      className={toExport ? "hidden" : "grid-item tree-graph"}
+      // style={toExport ? { display: "none" } : { display: "block" }}
+    >
       {isLoading ? (
         <Spinner />
+      ) : toExport ? (
+        <Tree
+          ref={ref}
+          onUpdate={zoom}
+          data={treeData}
+          nodeSize={nodeSize}
+          renderCustomNodeElement={(rd3tProps) => {
+            return renderForeignObjectNodeExport({
+              ...rd3tProps,
+              foreignObjectProps,
+            });
+          }}
+          translate={{ x: 610.29, y: 10.605 }}
+          zoom="0.1"
+          orientation="vertical"
+          pathFunc={straightPathFunc}
+          // rootNodeClassName="node__root"
+          // branchNodeClassName="node__branch"
+          // leafNodeClassName="node__leaf"
+        />
       ) : (
-        // <Skeleton variant="rectangular" width={210} height={60} />
         <Tree
           onUpdate={zoom}
           data={treeData}
@@ -135,6 +182,7 @@ const TreeGraph = () => {
           // leafNodeClassName="node__leaf"
         />
       )}
+
       <div className="zoom-slider"></div>
     </div>
   );

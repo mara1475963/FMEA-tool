@@ -22,10 +22,11 @@ import "./navigation.css";
 import { TableToExcelReact } from "table-to-excel-react";
 import { useDownloadExcel } from "table-to-excel-react";
 import { Button } from "@mui/material";
-import { saveSvgAsPng } from "save-svg-as-png";
 import { checkImportFormat } from "../../helpers";
+import { exportComponentAsPNG } from "react-component-export-image";
 
-const Navigation = ({ tableReference }) => {
+const Navigation = ({ graphRef }) => {
+  const ref = graphRef;
   const dispatch = useDispatch();
   // const navigate = useNavigate();
   const mainData = useSelector((state) => state.fmea.data);
@@ -133,7 +134,11 @@ const Navigation = ({ tableReference }) => {
   };
 
   const exportToSVG = () => {
-    saveSvgAsPng(document.querySelector(".rd3t-svg"), FILENAME + ".png");
+    const graph = document.querySelector(".hidden");
+
+    graph.style.display = "block";
+    exportComponentAsPNG(ref, { fileName: FILENAME });
+    graph.style.display = "none";
   };
 
   useEffect(() => {
@@ -243,19 +248,99 @@ const Navigation = ({ tableReference }) => {
                     </li>
                   </>
                 )}
-
+                <li>
+                  <a className="dropdown-item" href="#" onClick={copy}>
+                    Share
+                  </a>
+                </li>
+                <li>
+                  <a className="dropdown-item" href="#">
+                    Export &raquo;
+                  </a>
+                  <ul className="dropdown-menu dropdown-submenu">
+                    <li>
+                      <a
+                        className="dropdown-item"
+                        href="#"
+                        onClick={exportDataJSON}
+                      >
+                        {"Analysis Data => JSON"}
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        className="dropdown-item"
+                        href="#"
+                        onClick={exportToSVG}
+                      >
+                        {"Structure => PNG"}
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        className="dropdown-item"
+                        href="#"
+                        onClick={onDownload}
+                      >
+                        {"Table => Excel"}
+                      </a>
+                    </li>
+                  </ul>
+                </li>
+                <li>
+                  <a className="dropdown-item" href="#">
+                    Import &raquo;
+                  </a>
+                  <ul className="dropdown-menu dropdown-submenu">
+                    <li>
+                      <a className="dropdown-item" href="#">
+                        <Button
+                          variant="text"
+                          component="label"
+                          style={{
+                            color: "black",
+                            textTransform: "none",
+                            fontWeight: "300",
+                          }}
+                        >
+                          {"Analysis Data <= JSON"}
+                          <input type="file" onChange={handleChange} hidden />
+                        </Button>
+                      </a>
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+            </li>
+            {/* --------------------------- */}
+            <li className="nav-item dropdown">
+              <a
+                className="nav-link dropdown-toggle"
+                href="#"
+                id="navbarDropdownMenuLink"
+                role="button"
+                data-mdb-toggle="dropdown"
+                aria-expanded="false"
+              >
+                Analysis
+              </a>
+              <ul
+                className="dropdown-menu"
+                aria-labelledby="navbarDropdownMenuLink"
+              >
                 <li>
                   <a
                     className="dropdown-item"
                     href="#"
                     onClick={(e) => {
                       e.preventDefault();
-                      return showResult();
+                      return showSOD();
                     }}
                   >
-                    Results
+                    Set SOD
                   </a>
                 </li>
+
                 <li>
                   <a
                     className="dropdown-item"
@@ -274,71 +359,11 @@ const Navigation = ({ tableReference }) => {
                     href="#"
                     onClick={(e) => {
                       e.preventDefault();
-                      return showSOD();
+                      return showResult();
                     }}
                   >
-                    Set SOD
+                    Results
                   </a>
-                </li>
-                <li>
-                  <a className="dropdown-item" href="#" onClick={copy}>
-                    Share
-                  </a>
-                </li>
-                <li>
-                  <a className="dropdown-item" href="#">
-                    Export &raquo;
-                  </a>
-                  <ul className="dropdown-menu dropdown-submenu">
-                    <li>
-                      <a
-                        className="dropdown-item"
-                        href="#"
-                        onClick={onDownload}
-                      >
-                        {"Table => Excel"}
-                      </a>
-                    </li>
-                    <li>
-                      <a
-                        className="dropdown-item"
-                        href="#"
-                        onClick={exportDataJSON}
-                      >
-                        {"Analysis Data => JSON"}
-                      </a>
-                    </li>
-                    <li>
-                      <a
-                        className="dropdown-item"
-                        href="#"
-                        onClick={exportToSVG}
-                      >
-                        {"Structure => SVG"}
-                      </a>
-                    </li>
-                  </ul>
-                </li>
-                <li>
-                  <a className="dropdown-item" href="#">
-                    Import &raquo;
-                  </a>
-                  <ul className="dropdown-menu dropdown-submenu">
-                    <li>
-                      <a className="dropdown-item" href="#">
-                        <Button
-                          variant="text"
-                          component="label"
-                          style={{
-                            color: "#9e9e9e",
-                          }}
-                        >
-                          {"<= JSON"}
-                          <input type="file" onChange={handleChange} hidden />
-                        </Button>
-                      </a>
-                    </li>
-                  </ul>
                 </li>
               </ul>
             </li>

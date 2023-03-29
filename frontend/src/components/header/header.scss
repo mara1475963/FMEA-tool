@@ -4,7 +4,7 @@
   border: solid 1px #8a8a8a;
   border-bottom: none;
 
-  span {
+  .header-title {
     font-size: 0.8rem;
     text-transform: uppercase;
     width: 100%;
@@ -15,9 +15,7 @@
   .header-container {
     display: grid;
     grid-template-columns: repeat(6, 1fr);
-    justify-content: space-between;
-    row-gap: 5px;
-    column-gap: 5px;
+    gap: 5px;
     .crossFunctionalTeam {
       grid-column-start: 5;
       grid-column-end: 7;

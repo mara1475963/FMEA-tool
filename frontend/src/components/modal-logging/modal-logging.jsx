@@ -43,7 +43,10 @@ const ModalLogger = () => {
 
     !data["logs"] ? (data.logs = [newLog]) : data["logs"].push(newLog);
     dispatch(updateNodeData(data, { ...data }));
-    console.log(data);
+    element.date.value = "";
+    element.description.value = "";
+    element.documents.value = "";
+    element.updated.checked = false;
   };
 
   return (
@@ -67,7 +70,7 @@ const ModalLogger = () => {
           <tbody>
             {data?.logs?.map((log, idx) => {
               return (
-                <tr>
+                <tr key={idx}>
                   <td>{idx + 1}</td>
                   <td>{log.date}</td>
                   <td>{log.description}</td>
@@ -99,9 +102,16 @@ const ModalLogger = () => {
               required 
             />*/}
             {/* <input name="documents" type="text" /> */}
-            <TextField label="Documents" type="text" name="documents" />
+            {/* <TextField label="Documents" type="text" name="documents" /> */}
             <div>
+              <label for="description"> Documents</label>
+              <br />
+
+              <input type="text" name="documents" />
+            </div>
+            <div style={{ display: "grid", gridTemplateColumns: "20px 50px" }}>
               <input type="checkbox" name="updated" value="Updated?" />
+
               <label for="updated"> Updated?</label>
             </div>
             <Button type="submit" variant="text">

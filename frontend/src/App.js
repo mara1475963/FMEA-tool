@@ -21,6 +21,7 @@ import ModalSOD from "./components/modal-SOD/modal-sod";
 
 function App() {
   const dispatch = useDispatch();
+  const ref = useRef();
 
   useEffect(() => {
     dispatch(fetchFMEAData("DFMEA"));
@@ -42,11 +43,11 @@ function App() {
     <div className="App">
       <ToastComponent />
       <div className="grid-container">
-        <Navigation />
+        <Navigation graphRef={ref} />
 
         <Sidebar />
         <Header />
-        <TreeGraph />
+        <TreeGraph graphRef={ref} toExport={false} />
         <Table />
       </div>
       <ModalWindow />
@@ -56,6 +57,7 @@ function App() {
       <ModalAccount />
       <ModalLogger />
       <ModalSOD />
+      <TreeGraph graphRef={ref} toExport={true} />
     </div>
   );
 }

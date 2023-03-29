@@ -3,6 +3,12 @@
   float: left;
 }
 
+.hidden {
+  display: none;
+  height: 300px;
+  text-align: center;
+}
+
 /* .node__root g > rect {
   fill: #cacaca;
 }

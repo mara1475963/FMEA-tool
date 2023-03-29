@@ -1,42 +1,47 @@
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { TextField } from "@mui/material";
 
-import { Box } from "@mui/system";
-import React, { useEffect, useState } from "react";
 import "./header.scss";
-import { header } from "../../data/dataJS";
-import { useDispatch, useSelector } from "react-redux";
-import { setHeaderData, updateNodeData } from "../../store/fmea/fmea.actions";
 import { selectFMEAData } from "../../store/fmea/fmea.selectors";
+import { updateNodeData } from "../../store/fmea/fmea.actions";
 
 const Header = () => {
   const dispatch = useDispatch();
+
   const mainData = useSelector(selectFMEAData);
-  const currentUser = useSelector((state) => state.user.currentUser);
-
-  // console.log(mainData);
-  const onChangeHandler = (e) => {
-    const element = e.target;
-
-    //console.log(element.dataset);
-    data.header[element.dataset.prop] = element.value;
-    dispatch(updateNodeData(data, { ...data }));
-    //dispatch(setHeaderData(header));
-  };
-
-  useEffect(() => {
-    setData(mainData);
-    setHeaderData(mainData?.header);
-  }, [mainData]);
 
   const [shrink, setShrink] = useState(false);
-  const [headerData, setHeaderData] = useState(null);
-  const [data, setData] = useState(null);
+  const [headerData, setHeaderData] = useState();
+  const [data, setData] = useState(mainData);
+
+  useEffect(() => {
+    if (mainData) {
+      setData(mainData);
+      setHeaderData(mainData.header);
+    }
+  }, [mainData]);
+
+  const headerValuesNotSet = () => {
+    const inputs = document
+      .querySelector(".header-container")
+      .querySelectorAll("input");
+    const inputsArray = Array.prototype.slice.call(inputs);
+
+    return inputsArray.every((input) => input.placeholder === "");
+  };
+
+  const onChangeHandler = (e) => {
+    const element = e.target;
+    data.header[element.dataset.prop] = element.value;
+    dispatch(updateNodeData(data, { ...data }));
+  };
 
   return (
     data &&
     headerData && (
       <div className="grid-item header">
-        <span>
+        <span className="header-title">
           <b>Planning and preparation (Step 1)</b>
         </span>
         <form onChange={onChangeHandler}>
@@ -54,7 +59,7 @@ const Header = () => {
                 setShrink(true);
               }}
               onBlur={(e) => {
-                !e.target.value && setShrink(false);
+                headerValuesNotSet() && setShrink(false);
               }}
               InputLabelProps={{ shrink: shrink }}
               placeholder={headerData.companyName}
@@ -73,7 +78,7 @@ const Header = () => {
                 setShrink(true);
               }}
               onBlur={(e) => {
-                !e.target.value && setShrink(false);
+                headerValuesNotSet() && setShrink(false);
               }}
               InputLabelProps={{ shrink: shrink }}
               placeholder={headerData.location}
@@ -92,7 +97,7 @@ const Header = () => {
                 setShrink(true);
               }}
               onBlur={(e) => {
-                !e.target.value && setShrink(false);
+                headerValuesNotSet() && setShrink(false);
               }}
               InputLabelProps={{ shrink: shrink }}
               placeholder={headerData.customerName}
@@ -111,7 +116,7 @@ const Header = () => {
                 setShrink(true);
               }}
               onBlur={(e) => {
-                !e.target.value && setShrink(false);
+                headerValuesNotSet() && setShrink(false);
               }}
               InputLabelProps={{ shrink: shrink }}
               placeholder={headerData.modelYear}
@@ -130,7 +135,7 @@ const Header = () => {
                 setShrink(true);
               }}
               onBlur={(e) => {
-                !e.target.value && setShrink(false);
+                headerValuesNotSet() && setShrink(false);
               }}
               InputLabelProps={{ shrink: shrink }}
               placeholder={headerData.subject}
@@ -149,15 +154,10 @@ const Header = () => {
                 setShrink(true);
               }}
               onBlur={(e) => {
-                !e.target.value && setShrink(false);
+                headerValuesNotSet() && setShrink(false);
               }}
               InputLabelProps={{ shrink: shrink }}
-              disabled={currentUser ? true : false}
-              placeholder={
-                currentUser
-                  ? currentUser.displayName
-                  : headerData.responsibility
-              }
+              placeholder={headerData.responsibility}
             />
 
             <TextField
@@ -178,7 +178,7 @@ const Header = () => {
                 setShrink(true);
               }}
               onBlur={(e) => {
-                !e.target.value && setShrink(false);
+                headerValuesNotSet() && setShrink(false);
               }}
               InputLabelProps={{ shrink: shrink }}
               placeholder={headerData.fmeaStartDate}
@@ -201,7 +201,7 @@ const Header = () => {
                 setShrink(true);
               }}
               onBlur={(e) => {
-                !e.target.value && setShrink(false);
+                headerValuesNotSet() && setShrink(false);
               }}
               InputLabelProps={{ shrink: shrink }}
               placeholder={headerData.fmeaRevisionDate}
@@ -224,7 +224,7 @@ const Header = () => {
                 setShrink(true);
               }}
               onBlur={(e) => {
-                !e.target.value && setShrink(false);
+                headerValuesNotSet() && setShrink(false);
               }}
               InputLabelProps={{ shrink: shrink }}
               placeholder={headerData.fmeaIDNumber}
@@ -243,7 +243,7 @@ const Header = () => {
                 setShrink(true);
               }}
               onBlur={(e) => {
-                !e.target.value && setShrink(false);
+                headerValuesNotSet() && setShrink(false);
               }}
               InputLabelProps={{ shrink: shrink }}
               placeholder={headerData.confidentialityLevel}
@@ -262,7 +262,7 @@ const Header = () => {
                 setShrink(true);
               }}
               onBlur={(e) => {
-                !e.target.value && setShrink(false);
+                headerValuesNotSet() && setShrink(false);
               }}
               InputLabelProps={{ shrink: shrink }}
               placeholder={headerData.crossfunctionalTeam}

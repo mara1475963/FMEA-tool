@@ -31,7 +31,12 @@ export const selectNodeIDs = createSelector([selectFMEAReducer], (data) => {
 
 export const selectMainFunctions = createSelector([selectFMEAData], (data) =>
   data?.children?.reduce((acc, cur) => {
-    cur.functions && acc.push(...cur.functions);
+    if (cur.functions) {
+      cur.functions.forEach((f) => {
+        f["nodeID"] = cur.id;
+        acc.push(f);
+      });
+    }
     return acc;
   }, [])
 );

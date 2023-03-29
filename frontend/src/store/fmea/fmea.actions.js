@@ -221,6 +221,47 @@ const addFailure = (nodes, node, element, selectedFailure) => {
   }
 };
 
+const addFunction = (nodes, node, element, selectedFunction) => {
+  console.log(selectedFunction);
+  const newId = getNewId();
+  const value = element.newFunction.value;
+  const newFunction = {
+    id: newId,
+    depth: node.depth,
+    name: value,
+  };
+
+  //node
+  if (node.depth === 0) {
+    !nodes["functions"]
+      ? (nodes.functions = [newFunction])
+      : nodes["functions"].push(newFunction);
+  } else {
+    !node["functions"]
+      ? (node.functions = [newFunction])
+      : node["functions"].push(newFunction);
+  }
+
+  //in relation to lvl2Function
+  if (node.depth !== 1) {
+    const [result] = findObject(nodes, "id", selectedFunction.nodeId);
+
+    result.functions?.forEach((f) => {
+      if (f.id === selectedFunction.id) {
+        !f["functions"]
+          ? (f.functions = [newFunction])
+          : f["functions"].push(newFunction);
+      }
+    });
+
+    console.log(result);
+
+    return { ...updateNode(nodes, { ...result }) };
+  } else {
+    return { ...updateNode(nodes, { ...node }) };
+  }
+};
+
 const deleteFailures = (nodes, id, fidx) => {
   nodes.children.forEach((child) => {
     if (child.functions) {
@@ -300,6 +341,11 @@ export const updateNodeAttributes = (nodes, node, element) => {
 
 export const addFailureToFunction = (nodes, node, element, selectedFailure) => {
   const newData = addFailure(nodes, node, element, selectedFailure);
+  return createAction(FMEA_ACTION_TYPES.SET_FMEA_DATA, newData);
+};
+
+export const addFunctionToNode = (nodes, node, element, selectedFunction) => {
+  const newData = addFunction(nodes, node, element, selectedFunction);
   return createAction(FMEA_ACTION_TYPES.SET_FMEA_DATA, newData);
 };
 
