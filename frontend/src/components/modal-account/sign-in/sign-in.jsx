@@ -54,7 +54,7 @@ const SignIn = () => {
             name="password"
           />
         </div>
-        <div className="sing-in-buttons">
+        <div className="sing-in-buttons" style={{ display: "flex" }}>
           <Button type="submit">Sign In</Button>
           <Button onClick={signInWithGoogle}>Sign In with Google</Button>
         </div>

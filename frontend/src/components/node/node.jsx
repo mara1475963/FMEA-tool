@@ -59,7 +59,7 @@ const Node = ({
           style={{
             width: "700px",
             height: "400px",
-            border: "solid 3px black",
+            border: "solid 5px black",
             strokeWidth: 0,
           }}
         >

@@ -74,7 +74,6 @@ const ModalResults = () => {
   const generateFailuresResults = () => {
     let result = "";
     let id = 0;
-    let analysisOK = true;
 
     for (const [idx, lvl2F] of Object.entries(failures)) {
       const lvl3F = lvl2F.failures?.filter((f) => f.depth === 2);
@@ -118,10 +117,7 @@ const ModalResults = () => {
                                   } /></td>
                                     <td></td><td></td><td></td><td></td>
                                 `
-                            }
-                            
-                            </tr>
-                            `;
+                            }</tr>`;
         }
       }
       //console.log(result);

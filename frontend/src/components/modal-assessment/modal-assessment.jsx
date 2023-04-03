@@ -69,7 +69,7 @@ const ModalAssessment = () => {
       data.children.forEach((child) => {
         child.functions?.forEach((fce) => {
           fce.failures?.forEach((f) => {
-            if (f.id === +element.dataset.fmid) {
+            if (f.id === element.dataset.fmid) {
               f[type] = +e.target.innerHTML;
             }
           });
@@ -78,6 +78,7 @@ const ModalAssessment = () => {
 
       dispatch(updateNodeData(data, { ...data }));
       setData({ ...data });
+      console.log(data);
       socket && socket.emit("send-changes", { ...data });
     }
 
@@ -102,18 +103,25 @@ const ModalAssessment = () => {
     const D2 =
       element.parentElement.parentElement.querySelector("#finalDetection");
 
-    if (S.innerHTML && O.innerHTML && D.innerHTML) {
-      let APproduct = 0;
-      if (type.includes("Severity")) {
-        APproduct = +e.target.innerHTML * +O.innerHTML * +D.innerHTML;
-      } else if (type.includes("Occurance")) {
-        APproduct = S.innerHTML * +e.target.innerHTML * +D.innerHTML;
-      } else if (type.includes("Detection")) {
-        APproduct = S.innerHTML * +O.innerHTML * +e.target.innerHTML;
-      } else {
-        APproduct = +S.innerHTML * +O.innerHTML * +D.innerHTML;
-      }
+    let SeverityValue;
+    if (S.type == "hidden") {
+      SeverityValue = S.dataset.value;
+    } else {
+      SeverityValue = S.innerHTML;
+    }
 
+    let APproduct = 0;
+    if (type.includes("Severity")) {
+      APproduct = +e.target.innerHTML * +O.innerHTML * +D.innerHTML;
+    } else if (type.includes("Occurance")) {
+      APproduct = +SeverityValue * +e.target.innerHTML * +D.innerHTML;
+    } else if (type.includes("Detection")) {
+      APproduct = +SeverityValue * +O.innerHTML * +e.target.innerHTML;
+    } else {
+      APproduct = +S.innerHTML * +O.innerHTML * +D.innerHTML;
+    }
+
+    if (APproduct) {
       data.children.forEach((child) => {
         child.children?.forEach((ch) => {
           ch.functions?.forEach((fce) => {
@@ -141,7 +149,6 @@ const ModalAssessment = () => {
       dispatch(updateNodeData(data, { ...data }));
       setData({ ...data });
     }
-
     if (!S2.innerHTML || !O2.innerHTML || !D2.innerHTML) {
     } else {
       let APproduct2 = 0;
@@ -255,7 +262,6 @@ const ModalAssessment = () => {
                         {(type.includes("Severity") && "S") ||
                           (type.includes("Occurance") && "O")}
                       </th>
-
                       <th width="120">
                         {(type.includes("Severity") && "Effect") ||
                           (type.includes("Occurance") &&
@@ -265,11 +271,9 @@ const ModalAssessment = () => {
                         {(type.includes("Severity") && "Severity Criteria") ||
                           (type.includes("Occurance") && "Occurrence criteria")}
                       </th>
-
                       <th width="300">Corporate or Product Line Examples</th>
                     </tr>
                   </thead>
-
                   <tbody>
                     {SODtype.effects.map((effect, i) => {
                       const criteria = effect.criteria.filter(
@@ -309,7 +313,6 @@ const ModalAssessment = () => {
                                 : data.dfmeaExamples.occuranceExamples[counter]}
                             </td>
                           </tr>
-
                           {criteria.map((c, idx) => {
                             counter++;
                             return (

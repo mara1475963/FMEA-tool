@@ -49,6 +49,15 @@ const ModalLogger = () => {
     element.updated.checked = false;
   };
 
+  const deleteLog = (e) => {
+    e.preventDefault();
+    const element = e.target;
+
+    data.logs.splice(element.dataset.idx, 1);
+
+    dispatch(updateNodeData(data, { ...data }));
+  };
+
   return (
     <Modal
       open={open}
@@ -65,31 +74,37 @@ const ModalLogger = () => {
               <th>Description</th>
               <th>Related Documents</th>
               <th>Updated</th>
+              <th>Delete</th>
             </tr>
           </thead>
           <tbody>
-            {data?.logs?.map((log, idx) => {
-              return (
-                <tr key={idx}>
-                  <td>{idx + 1}</td>
-                  <td>{log.date}</td>
-                  <td>{log.description}</td>
-                  <td>{log.relatedDocuments}</td>
-                  <td>{log.updated ? "X" : "-"}</td>
-                </tr>
-              );
-            })}
+            {data?.logs?.map((log, idx) => (
+              <tr key={idx}>
+                <td>{idx + 1}</td>
+                <td>{log.date}</td>
+                <td>{log.description}</td>
+                <td>{log.relatedDocuments}</td>
+                <td>{log.updated ? "Yes" : "No"}</td>
+                <td
+                  data-idx={idx}
+                  style={{ cursor: "pointer" }}
+                  onClick={deleteLog}
+                >
+                  X
+                </td>
+              </tr>
+            ))}
           </tbody>
         </table>
         <form className="uploadLog" onSubmit={addLog}>
           <div className="logg-container">
             <div>
-              <label for="date"> Date</label>
+              <label htmlFor={"date"}> Date</label>
               <br />
               <input name="date" type="date" required />
             </div>
             <div>
-              <label for="description"> Description</label>
+              <label htmlFor={"description"}> Description</label>
               <br />
               <textarea name="description" required></textarea>
             </div>
@@ -104,7 +119,7 @@ const ModalLogger = () => {
             {/* <input name="documents" type="text" /> */}
             {/* <TextField label="Documents" type="text" name="documents" /> */}
             <div>
-              <label for="description"> Documents</label>
+              <label htmlFor={"description"}> Documents</label>
               <br />
 
               <input type="text" name="documents" />
@@ -112,7 +127,7 @@ const ModalLogger = () => {
             <div style={{ display: "grid", gridTemplateColumns: "20px 50px" }}>
               <input type="checkbox" name="updated" value="Updated?" />
 
-              <label for="updated"> Updated?</label>
+              <label htmlFor={"updated"}> Updated?</label>
             </div>
             <Button type="submit" variant="text">
               Add

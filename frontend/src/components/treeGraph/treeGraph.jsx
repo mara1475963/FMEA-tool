@@ -38,6 +38,7 @@ const TreeGraph = ({ graphRef, toExport }) => {
   const [socket, setSocket] = useState();
 
   const zoom = (event) => {
+    if (typeof event.zoom === "string") return;
     const zoomValue = event.zoom * 100 + "%";
     document.querySelector(".zoom-slider").style.width = zoomValue;
   };
@@ -145,7 +146,6 @@ const TreeGraph = ({ graphRef, toExport }) => {
       ) : toExport ? (
         <Tree
           ref={ref}
-          onUpdate={zoom}
           data={treeData}
           nodeSize={nodeSize}
           renderCustomNodeElement={(rd3tProps) => {
@@ -183,7 +183,7 @@ const TreeGraph = ({ graphRef, toExport }) => {
         />
       )}
 
-      <div className="zoom-slider"></div>
+      <div className="zoom-slider" style={{ width: "10%" }}></div>
     </div>
   );
 };

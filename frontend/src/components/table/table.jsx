@@ -88,6 +88,8 @@ const Table = () => {
 
     result[element.id] = element.value;
 
+    console.log(element);
+
     if (
       element.id === "initialSeverity" ||
       element.id === "initialOccurance" ||
@@ -246,21 +248,21 @@ const Table = () => {
     const FCform = `
     <td ><input id='failure-cause-id'  type='hidden' value='${
       fc.id
-    }' /><input id='initialSeverity'   type='hidden' value='${initialSeverity}' />
+    }' /><input id='initialSeverity'   type='hidden' data-value='${initialSeverity}' />
     <input  id='currentPreventionControl' type='text' value='${
       fc.currentPreventionControl ? fc.currentPreventionControl : ""
     }' /></td>
     <td><button  id='initialOccurance' style='width:40px;background-color: transparent;
-    border: none; '>${
-      fc.initialOccurance ? fc.initialOccurance : "--"
-    }</button></td>
+    border: none; ' data-value=${
+      fc.initialOccurance ? fc.initialOccurance : 0
+    }>${fc.initialOccurance ? fc.initialOccurance : "--"}</button></td>
     <td><input  id='currentDetectionControl' type='text' value='${
       fc.currentDetectionControl ? fc.currentDetectionControl : ""
     }'  /></td>
     <td><button id='initialDetection' style='width:40px;background-color: transparent;
-    border: none;'/>${
-      fc.initialDetection ? fc.initialDetection : "--"
-    } </button></td>
+    border: none;' data-value=${
+      fc.initialDetection ? fc.initialDetection : 0
+    } />${fc.initialDetection ? fc.initialDetection : "--"} </button></td>
     <td id='initialAP' style='color:black;' >
       <div data-toggle="tooltip" data-placement="top" title="${
         fc.initialAP ? "RPN(" + fc.initialAP + ")" : ""
@@ -341,14 +343,16 @@ const Table = () => {
         maxConnections = lvl3F.length;
       }
 
-      console.log(lvl1F);
+      console.log(lvl2F.initialSeverity);
 
       result += `<tr>
-      <td class="${isSelected(lvl1F[0].id) ? "selected" : ""}">${
+      <td class="${isSelected(lvl1F[0]?.id) ? "selected" : ""}">${
         lvl1F[0] ? lvl1F[0].name : ""
       }</td>
       <td rowSpan=${maxConnections}>
-      <button name='initialSeverity' data-fmid=${
+      <button name='initialSeverity' data-value=${
+        lvl2F.initialSeverity ? lvl2F.initialSeverity : 0
+      } data-fmid=${
         lvl2F.id
       }  style='width:40px;  color:red;background-color: transparent;
       border: none;' id='initialSeverity' >${

@@ -12,3 +12,8 @@
 .logg-container * {
   width: 100%;
 }
+
+.logg-container input,
+textarea {
+  border: 0.5px solid grey;
+}

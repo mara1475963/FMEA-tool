@@ -51,6 +51,7 @@ const Sidebar = () => {
   }
 
   const isSelected = (id) => {
+    if (id === undefined) return false;
     return selectedIDs.includes(id);
   };
 
@@ -170,7 +171,7 @@ const Sidebar = () => {
                     <td class="${
                       isSelected(lvl1F[0]?.id) ? "selected" : ""
                     }" colspan=${excelFormat ? "2" : ""} class="${
-          isSelected(lvl1F[0].id) ? "selected" : ""
+          isSelected(lvl1F[0]?.id) ? "selected" : ""
         }"  >${lvl1F[0] ? lvl1F[0].name : ""}</td>
                     <td class="${
                       isSelected(lvl2F.id) ? "selected" : ""

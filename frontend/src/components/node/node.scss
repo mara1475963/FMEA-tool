@@ -25,6 +25,10 @@
     background-color: transparent;
     cursor: pointer !important;
   }
+  .node-buttton:active {
+    transform: scale(0.9);
+    box-shadow: 5px 5px 20px 1px rgba(0, 0, 0, 0.5);
+  }
   .css-tzssek-MuiSvgIcon-root,
   .css-i4bv87-MuiSvgIcon-root {
     width: 100px;
