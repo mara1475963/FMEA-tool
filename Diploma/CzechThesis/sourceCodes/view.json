@@ -1,0 +1,32 @@
+{
+    id: String,
+    depth: Number,
+    name: String,
+    functions: [{
+        id: String,
+        depth: Number,
+        name: String,
+        failures: [{
+            id: String,
+            depth: Number,
+            name: String,
+          },],
+      }],
+    children: [{
+        id: String,
+        depth: Number,
+        name: String,
+        functions: Object[],
+        children: [{
+            id: String,
+            depth: Number,
+            name: String,
+            functions: ,
+            children: ,
+          }],
+      }],
+    logs: Object[],
+    header: Object,
+    dfmeaExamples: Object[],
+    pfmeaExamples: Object[],
+  };

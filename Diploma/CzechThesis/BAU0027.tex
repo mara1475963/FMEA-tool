@@ -3,11 +3,14 @@
 % Dalsi doplnujici baliky maker
 \usepackage[autostyle=true,czech=quotes]{csquotes} % korektni sazba uvozovek, podpora pro balik biblatex
 \usepackage[backend=biber, style=iso-numeric, alldates=iso]{biblatex} % bibliografie
+
+%\usepackage{biblatex}
 \usepackage{dcolumn} % sloupce tabulky s ciselnymi hodnotami
 \usepackage{subfig} % makra pro "podobrazky" a "podtabulky"
 \usepackage[cpp]{diplomalst}
 \usepackage{lscape}
 \usepackage{longtable}
+\usepackage{xcolor}
 
 % Zadame pozadovane vstupy pro generovani titulnich stran.
 \ThesisAuthor{Marek Bauer}
@@ -25,22 +28,25 @@
 % Pokud nechceme nikomu dekovat makro zapoznamkujeme.
 \Acknowledgement{Rád bych na tomto místě poděkoval všem, kteří mi s prací pomohli, protože bez nich by tato práce nevznikla.}
 
-\CzechAbstract{}
+\CzechAbstract{Tato diplomová práce se zabývá problematikou správy rizik v rámci různých fází při vývoji a výrobě nových produktů.  Konkrétně práce cílí na metodu FMEA zaměřenou na odhalení a mitigaci rizik v rámci návrhu produktu a následného výrobního procesu. Tato metoda se narozdíl od ostatních provádí před samotnou výrobou produktu ve snaze předcházet možným rizikům. V rámci této diplomové práce také vznikl nástroj, který umožňuje vypracování metody FMEA. Hlavními rysy nástroje jsou možnost souběžné práce týmu provádějící analýzu a přehledný grafický a textový režim sloužící pro náhled i tvorbu v rámci jednotlivých kroků analýzy. Dále nástroj nabízí další podpůrné funkce jako je nastavení vlastních kritérií hodnotících atributů, kontrola úplnosti analýzy, tvorba zápisů ze setkání, import a export analýzy. }
 
-\CzechKeywords{}
+\CzechKeywords{FMEA, návrh, výrobní proces, způsoby selhání, příčiny selhání, důsledky selhání, webová aplikace}
 
-\EnglishAbstract{}
+\EnglishAbstract{This diploma thesis deals with the issue of risk management within the various phases of the development and production of new products. Specifically, the thesis aims at the FMEA method targeted at detecting and mitigating risks within the product design and subsequent production process. This method, unlike the others, is performed before the actual production of the product in an attempt to prevent possible risks. As part of this thesis, a tool was also created that enables the development of the FMEA method. The main features of the tool are the possibility of simultaneous work of the team performing the analysis and a clear graphic and text mode used for preview and creation within the individual steps of the analysis. Furthermore, the tool offers other supporting functions such as setting your own criteria for evaluating attributes, checking the completeness of the analysis, creating meeting loggs, importing and exporting the analysis.}
 
-\EnglishKeywords{}
+\EnglishKeywords{FMEA, design, manufactoring process, failure modes, failure causes, failure effects, web application}
 
-\AddAcronym{DVD}{Digital Versatile Disc}
-\AddAcronym{TNT}{Trinitrotoluen}
-\AddAcronym{UML}{Unified Modeling Language}
-\AddAcronym{HTML}{Hyper Text Markup Language}
-\AddAcronym{TUG}{\TeX{} Users Group}
+\AddAcronym{FMEA}{Failure Mode and Effect Analysis}
+\AddAcronym{DFMEA}{Design Failure Mode and Effect Analysis}
+\AddAcronym{PFMEA}{Process Failure Mode and Effect Analysis}
+\AddAcronym{AIAG}{Automotive Industry Action Group}
+\AddAcronym{VDA}{Verband der Automobilindustrie}
+\AddAcronym{RPN}{Risk Priority Number}
+\AddAcronym{AP}{Action Priority}
 
-\addbibresource{biblatex-examples.bib}
-\addbibresource{coffee.bib}
+
+\addbibresource{literature.bib}
+%\addbibresource{coffee.bib}
 
 % Novy druh tabulkoveho sloupce, ve kterem jsou cisla zarovnana podle desetinne carky
 \newcolumntype{d}[1]{D{,}{,}{#1}}
@@ -67,9 +73,11 @@
 \input{Kapitoly/FMEA.tex}
 \input{Kapitoly/Postup.tex}
 \input{Kapitoly/Pozadavky}
-\input{Diploma/CzechThesis/Kapitoly/Nastroje}
+\input{Kapitoly/Nastroje}
 \input{Kapitoly/Navrh}
 \input{Kapitoly/Implementace}
+\input{Kapitoly/Testovani}
+\input{Kapitoly/Zaver}
 
 %\input{Chapters/Introduction.tex}
 %\input{Chapters/SampleChapter1.tex}
@@ -77,8 +85,9 @@
 %\input{Chapters/TechnicalDetails.tex}
 %\input{Chapters/Conclusion.tex}
 
+
 % Seznam literatury
-\printbibliography[title={Liter`atura}, heading=bibintoc]
+\printbibliography[title={Literatura}, heading=bibintoc]
 
 % Prilohy
 \appendix
@@ -86,7 +95,7 @@
 %\input{Chapters/Appendix2.tex}
 
 % Priloha vlozena primo do hlavniho LaTeX souboru. Ne vsechny prilohy je nutne mit ve zvlastnich souborech.
-%\chapter{Dlouhý zdrojový kód}
-%\lstinputlisting[label=src:CppExternal,caption={Dlouhý zdrojový kód v jazyce C++ načtený s externího souboru}]{SourceCodes/ArraySortingAlgorithms.cpp}
+\chapter{Objekt pro uložení dat analýzy}
+\lstinputlisting[label=src:data,caption={Struktura objektu}]{sourceCodes/view.js}
 
 \end{document}
