@@ -20,7 +20,7 @@ const SignIn = () => {
         email,
         password
       );
-      console.log(response);
+
       dispatch(setModalAccountIsOpen(false));
     } catch (error) {
       switch (error.code) {

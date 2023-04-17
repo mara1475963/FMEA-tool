@@ -22,7 +22,7 @@ import "./navigation.css";
 import { TableToExcelReact } from "table-to-excel-react";
 import { useDownloadExcel } from "table-to-excel-react";
 import { Button } from "@mui/material";
-import { checkImportFormat } from "../../helpers";
+import { checkImportFormat, getNewId } from "../../helpers";
 import { exportComponentAsPNG } from "react-component-export-image";
 
 const Navigation = ({ graphRef }) => {
@@ -78,6 +78,7 @@ const Navigation = ({ graphRef }) => {
 
   const saveAnalysis = () => {
     data["ownerId"] = currentUser.uid;
+    data["dbId"] = getNewId();
     console.log(data);
 
     socket.emit("save-analysis", data);
@@ -112,7 +113,6 @@ const Navigation = ({ graphRef }) => {
   };
 
   const signOut = () => {
-    dispatch(fetchFMEAData(data.header.type.name));
     signOutUser();
   };
 
@@ -213,41 +213,7 @@ const Navigation = ({ graphRef }) => {
                     </li>
                   </ul>
                 </li>
-                {currentUser && (
-                  <>
-                    <li>
-                      <a
-                        className="dropdown-item"
-                        href="#"
-                        onClick={() => saveAnalysis()}
-                      >
-                        Save New
-                      </a>
-                    </li>
-                    <li>
-                      <a
-                        className="dropdown-item"
-                        href="#"
-                        onClick={() => updateAnalysis()}
-                      >
-                        Save
-                      </a>
-                    </li>
-                    <li>
-                      <a
-                        className="dropdown-item"
-                        href="#"
-                        onClick={(e) => {
-                          e.preventDefault();
 
-                          return uploadAnalysis();
-                        }}
-                      >
-                        Load
-                      </a>
-                    </li>
-                  </>
-                )}
                 <li>
                   <a className="dropdown-item" href="#" onClick={copy}>
                     Share
@@ -367,6 +333,57 @@ const Navigation = ({ graphRef }) => {
                 </li>
               </ul>
             </li>
+            {/* --------------------------- */}
+            {currentUser && (
+              <li className="nav-item dropdown">
+                <a
+                  className="nav-link dropdown-toggle"
+                  href="#"
+                  id="navbarDropdownMenuLink"
+                  role="button"
+                  data-mdb-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                  User
+                </a>
+                <ul
+                  className="dropdown-menu"
+                  aria-labelledby="navbarDropdownMenuLink"
+                >
+                  <li>
+                    <a
+                      className="dropdown-item"
+                      href="#"
+                      onClick={() => saveAnalysis()}
+                    >
+                      Save New
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      className="dropdown-item"
+                      href="#"
+                      onClick={() => updateAnalysis()}
+                    >
+                      Existing
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      className="dropdown-item"
+                      href="#"
+                      onClick={(e) => {
+                        e.preventDefault();
+
+                        return uploadAnalysis();
+                      }}
+                    >
+                      Load
+                    </a>
+                  </li>
+                </ul>
+              </li>
+            )}
           </ul>
 
           <ul className="navbar-nav ms-auto">

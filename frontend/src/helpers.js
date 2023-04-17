@@ -1,5 +1,5 @@
 import { v4 as uuid } from "uuid";
-import { structure1 } from "./data/dataJS";
+import { templateObject } from "./data/dataJS";
 
 export const findObject = (obj = {}, key, value) => {
   const result = [];
@@ -21,7 +21,7 @@ export const findObject = (obj = {}, key, value) => {
 export const getAllKeys = () => {
   const DATA_KEYS = new Map();
 
-  const recursiveSearch = (obj = structure1) => {
+  const recursiveSearch = (obj = templateObject) => {
     if (!obj || typeof obj !== "object") {
       return;
     }
@@ -32,7 +32,7 @@ export const getAllKeys = () => {
       recursiveSearch(obj[k]);
     });
   };
-  recursiveSearch(structure1);
+  recursiveSearch(templateObject);
   DATA_KEYS.set("nodeID", "string");
   return DATA_KEYS;
 };
@@ -73,20 +73,23 @@ export const checkImportFormat = (obj = {}) => {
 
   let result = true;
 
-  const recursiveSearch = (obj = structure1) => {
+  const recursiveSearch = (obj = templateObject) => {
     // console.log(obj, result);
     if (!obj || typeof obj !== "object" || !result) {
       return;
     }
     Object.keys(obj).forEach((k) => {
-      if (isNaN(k)) {
+      if (isNaN(k) && k !== "__rd3t") {
         if (!DATA_MAP.has(k) || typeof obj[k] !== DATA_MAP.get(k)) {
+          console.log(obj);
           console.log(k, typeof obj[k], DATA_MAP.get(k));
           result = false;
           return;
         }
       }
-      recursiveSearch(obj[k]);
+      if (k !== "__rd3t") {
+        recursiveSearch(obj[k]);
+      }
     });
   };
   recursiveSearch(obj);

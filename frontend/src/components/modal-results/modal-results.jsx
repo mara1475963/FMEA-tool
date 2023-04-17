@@ -177,7 +177,7 @@ const ModalResults = () => {
     data2.children.forEach((child) => {
       child.functions &&
         child.functions.forEach((fce) => {
-          fce.failures.forEach((f) => {
+          fce.failures?.forEach((f) => {
             f.failures &&
               f.failures.forEach((fc) => {
                 if (fc.id === result.id) {

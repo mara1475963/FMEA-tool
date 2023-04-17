@@ -7,9 +7,13 @@ const app = express();
 main().catch((err) => console.log(err));
 
 async function main() {
-  await mongoose.connect("mongodb://127.0.0.1:27017/analyses");
-
-  // use `await mongoose.connect('mongodb://user:password@127.0.0.1:27017/test');` if your database has auth enabled
+  //await mongoose.connect("mongodb://127.0.0.1:27017/analyses");
+  // await mongoose.connect(
+  //   "mongodb://marek:d6UlZ4MI6v8CArzj@fmea-tool.k3xgucc.mongodb.net/?retryWrites=true&w=majority"
+  // );
+  await mongoose.connect(
+    "mongodb+srv://marek:d6UlZ4MI6v8CArzj@fmea-tool.k3xgucc.mongodb.net/?retryWrites=true&w=majority"
+  );
 }
 
 const io = require("socket.io")(3001, {
@@ -31,17 +35,25 @@ io.on("connection", (socket) => {
     });
 
     socket.on("save-analysis", async (data) => {
-      await CreateDocument(analysisId, data.ownerId, data);
+      const doc = await Analysis.findOne({ _id: data.dbId });
+      if (doc === null) await CreateDocument(data.dbId, data.ownerId, data);
+      else {
+        await Analysis.deleteOne({ _id: data.dbId });
+        await CreateDocument(data.dbId, data.ownerId, data);
+      }
     });
     socket.on("update-analysis", async (data) => {
       await Analysis.deleteOne({ _id: analysisId });
       await CreateDocument(analysisId, data.ownerId, data);
     });
 
+    socket.on("delete-analysis", async (id) => {
+      await Analysis.deleteOne({ _id: id });
+    });
+
     socket.on("load-analyses", async (userId) => {
-      console.log(userId);
       const data = await Analysis.find({ "data.ownerId": userId });
-      console.log(data);
+
       socket.emit("receive-analyses", data);
     });
   });
@@ -56,8 +68,11 @@ async function CreateDocument(id, userId, data) {
   if (id === null) return;
   // const analysis = await Analysis.findById(id);
   // if (false) {
-
-  return await Analysis.create({ _id: id, ownerId: userId, data: data });
+  try {
+    return await Analysis.create({ _id: id, ownerId: userId, data: data });
+  } catch (err) {
+    console.error(err);
+  }
 }
 
 async function UpdateDocument(id, data) {

@@ -11,15 +11,10 @@ import List from "@mui/material/List";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import Collapse from "@mui/material/Collapse";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
-import DraftsIcon from "@mui/icons-material/Drafts";
-import SendIcon from "@mui/icons-material/Send";
-import ExpandLess from "@mui/icons-material/ExpandLess";
-import ExpandMore from "@mui/icons-material/ExpandMore";
-import StarBorder from "@mui/icons-material/StarBorder";
 import { updateNodeData } from "../../store/fmea/fmea.actions";
 import { selectFMEAData } from "../../store/fmea/fmea.selectors";
+import { IconButton } from "@mui/material";
+import { mainSocket } from "../../socket";
 
 const ModalLoad = () => {
   const dispatch = useDispatch();
@@ -30,10 +25,12 @@ const ModalLoad = () => {
   const nodes = useSelector(selectFMEAData);
   const opened = useSelector((state) => state.modal.analysesIsOpen);
   const data = useSelector((state) => state.modal.analyses);
+  const currentUser = useSelector((state) => state.user.currentUser);
 
   const [open, setOpen] = useState(opened);
   const [open2, setOpen2] = useState(true);
   const [analyses, setAnalyses] = useState(data);
+  const [socket, setSocket] = useState();
 
   const handleClick = () => {
     setOpen2(!open2);
@@ -47,9 +44,21 @@ const ModalLoad = () => {
     setAnalyses(data);
   }, [data]);
 
+  useEffect(() => {
+    setSocket(mainSocket);
+
+    return () => {
+      mainSocket.disconnect();
+    };
+  }, []);
+
   const handleLoad = (id, idx) => {
     console.log(id);
     dispatch(updateNodeData(nodes, { ...analyses[idx].data }));
+    handleClose();
+  };
+  const deleteAnalysis = (id) => {
+    socket.emit("delete-analysis", id);
     handleClose();
   };
 
@@ -66,29 +75,42 @@ const ModalLoad = () => {
           component="nav"
           aria-labelledby="nested-list-subheader"
           subheader={
-            <ListSubheader component="div" id="nested-list-subheader">
-              Avaible analyses
+            <ListSubheader component="h2" id="nested-list-subheader">
+              <i>{`${currentUser?.displayName}`}</i> analyses
             </ListSubheader>
           }
         >
           {analyses &&
             analyses.map((a, idx) => {
               return (
-                <ListItemButton
-                  onClick={(e) => handleLoad(a._id, idx)}
-                  key={a._id}
-                >
-                  <ListItemIcon>
-                    <span>D</span>
-                  </ListItemIcon>
-                  <ListItemText primary={a._id.slice(0, 5)} />
-                </ListItemButton>
+                <div key={a._id} style={{ display: "flex" }}>
+                  <ListItemButton onClick={(e) => handleLoad(a._id, idx)}>
+                    <ListItemIcon>
+                      <span>
+                        {a.data.header.type.name === "DFMEA"
+                          ? "DFMEA"
+                          : "PFMEA"}
+                        :&nbsp;&nbsp;&nbsp;
+                      </span>
+                    </ListItemIcon>
+                    <ListItemText primary={a.data.name} />
+                  </ListItemButton>
+                  <IconButton
+                    aria-label="comment"
+                    data-id={a.data.dbId}
+                    onClick={(e) => {
+                      deleteAnalysis(e.target.dataset.id);
+                    }}
+                  >
+                    x
+                  </IconButton>
+                </div>
               );
             })}
 
           {/* <ListItemButton onClick={handleClick}>
             <ListItemIcon>
-              <InboxIcon />
+            <InboxIcon />
             </ListItemIcon>
             <ListItemText primary="Inbox" />
             {open2 ? <ExpandLess /> : <ExpandMore />}

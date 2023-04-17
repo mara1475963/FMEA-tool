@@ -25,6 +25,9 @@
     background-color: transparent;
     cursor: pointer !important;
   }
+  .node-buttton * {
+    width: 100% !important;
+  }
   .node-buttton:active {
     transform: scale(0.9);
     box-shadow: 5px 5px 20px 1px rgba(0, 0, 0, 0.5);

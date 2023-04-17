@@ -155,7 +155,7 @@ const TreeGraph = ({ graphRef, toExport }) => {
             });
           }}
           translate={{ x: 610.29, y: 10.605 }}
-          zoom="0.1"
+          zoom="0.15"
           orientation="vertical"
           pathFunc={straightPathFunc}
           // rootNodeClassName="node__root"

@@ -286,72 +286,75 @@ const ModalWindow = () => {
                                 </div>
                               ))}
                           </StyledTreeItem>
-                          <div className="add-container add-failure">
-                            <TextField
-                              id="new-failure"
-                              size="small"
-                              inputProps={{
-                                "data-findex": f_idx,
-                              }}
-                              defaultValue={""}
-                              name="newFailure"
-                              type="text"
-                              data-type="failure"
-                              form="failureForm"
-                            />
-
-                            {node.depth !== 1 && (
-                              <Autocomplete
-                                disablePortal
-                                id="combo-box-demo"
-                                name="toFunction2"
+                          {failures?.length === 0 && node.depth !== 1 ? (
+                            <h6>You need to add Failure mode first.</h6>
+                          ) : (
+                            <div className="add-container add-failure">
+                              <TextField
+                                id="new-failure"
                                 size="small"
-                                data-fid={0}
-                                isOptionEqualToValue={(option, value) =>
-                                  option.id === value.id
-                                }
-                                onChange={(event, value) =>
-                                  setSelectedFailure(value)
-                                }
-                                options={failures.map((f) => {
-                                  return {
-                                    label: f.name,
-                                    id: f.id,
-                                    nodeId: f.nodeID,
-                                  };
-                                })}
-                                sx={{ width: 150 }}
-                                renderInput={(params) => (
-                                  <TextField
-                                    {...params}
-                                    name="toFunction"
-                                    label=""
-                                    required
-                                  />
-                                )}
+                                inputProps={{
+                                  "data-findex": f_idx,
+                                }}
+                                defaultValue={""}
+                                name="newFailure"
+                                type="text"
+                                data-type="failure"
+                                form="failureForm"
                               />
-                            )}
-                            <Button
-                              type="submit"
-                              variant="text"
-                              onClick={(e) => {
-                                e.preventDefault();
-                                const input =
-                                  e.target.parentElement.querySelector(
-                                    "#new-failure"
-                                  );
+                              {node.depth !== 1 && (
+                                <Autocomplete
+                                  disablePortal
+                                  id="combo-box-demo"
+                                  name="toFunction2"
+                                  size="small"
+                                  data-fid={0}
+                                  isOptionEqualToValue={(option, value) =>
+                                    option.id === value.id
+                                  }
+                                  onChange={(event, value) =>
+                                    setSelectedFailure(value)
+                                  }
+                                  options={failures.map((f) => {
+                                    return {
+                                      label: f.name,
+                                      id: f.id,
+                                      nodeId: f.nodeID,
+                                    };
+                                  })}
+                                  sx={{ width: 150 }}
+                                  renderInput={(params) => (
+                                    <TextField
+                                      {...params}
+                                      name="toFunction"
+                                      label=""
+                                      required
+                                    />
+                                  )}
+                                />
+                              )}
+                              <Button
+                                type="submit"
+                                variant="text"
+                                onClick={(e) => {
+                                  e.preventDefault();
+                                  const input =
+                                    e.target.parentElement.querySelector(
+                                      "#new-failure"
+                                    );
 
-                                if (!input.value) {
-                                  console.error("Value not seleceted");
-                                  return;
-                                }
-                                addFailureHandler(input);
-                                input.value = "";
-                              }}
-                            >
-                              Add
-                            </Button>
-                          </div>
+                                  if (!input.value) {
+                                    console.error("Value not seleceted");
+                                    return;
+                                  }
+                                  addFailureHandler(input);
+                                  input.value = "";
+                                }}
+                              >
+                                Add
+                              </Button>
+                            </div>
+                          )}
                         </div>
                       );
                     })}
@@ -359,50 +362,57 @@ const ModalWindow = () => {
               </TreeView>
             </div>
           </form>
-
-          <form className="upload" onSubmit={addFunctionHandler}>
-            <div className="add-container">
-              <TextField
-                id="new-function"
-                size="small"
-                defaultValue={""}
-                name="newFunction"
-                type="text"
-                inputProps={{
-                  "data-type": "function",
-                }}
-              />
-
-              {node.depth !== 1 && (
-                <Autocomplete
-                  disablePortal
-                  id="combo-box-demo"
-                  name="toFunction2"
-                  data-fid={0}
+          {functions?.length === 0 && node.depth !== 1 ? (
+            <h6>You need to add function on level 2 first.</h6>
+          ) : (
+            <form className="upload" onSubmit={addFunctionHandler}>
+              <div className="add-container">
+                <TextField
+                  id="new-function"
                   size="small"
-                  isOptionEqualToValue={(option, value) =>
-                    option.id === value.id
-                  }
-                  onChange={(event, value) => setSelectedFunction(value)}
-                  options={functions.map((fce) => {
-                    return { label: fce.name, id: fce.id, nodeId: fce.nodeID };
-                  })}
-                  sx={{ width: 150 }}
-                  renderInput={(params) => (
-                    <TextField
-                      {...params}
-                      name="toFunction"
-                      label=""
-                      required
-                    />
-                  )}
+                  defaultValue={""}
+                  name="newFunction"
+                  type="text"
+                  inputProps={{
+                    "data-type": "function",
+                  }}
                 />
-              )}
-              <Button type="submit" variant="text">
-                Add
-              </Button>
-            </div>
-          </form>
+
+                {node.depth !== 1 && (
+                  <Autocomplete
+                    disablePortal
+                    id="combo-box-demo"
+                    name="toFunction2"
+                    data-fid={0}
+                    size="small"
+                    isOptionEqualToValue={(option, value) =>
+                      option.id === value.id
+                    }
+                    onChange={(event, value) => setSelectedFunction(value)}
+                    options={functions.map((fce) => {
+                      return {
+                        label: fce.name,
+                        id: fce.id,
+                        nodeId: fce.nodeID,
+                      };
+                    })}
+                    sx={{ width: 150 }}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        name="toFunction"
+                        label=""
+                        required
+                      />
+                    )}
+                  />
+                )}
+                <Button type="submit" variant="text">
+                  Add
+                </Button>
+              </div>
+            </form>
+          )}
         </Box>
       </Modal>
     )

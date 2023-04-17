@@ -135,7 +135,7 @@ const failures = [
     closed: false,
     name: "Failure Cause",
     currentPreventionControl: "",
-    intialOccurance: "",
+    initialOccurance: "",
     currentDetectionControl: "",
     initialDetection: "",
     initialAP: "",
@@ -156,7 +156,7 @@ failures.push({
   id: "2",
   depth: 1,
   name: "FailureMode",
-  initialSeverity: 5,
+  initialSeverity: "",
   failures: [failures[0], failures[1]],
 });
 const functions = [
@@ -186,7 +186,7 @@ const structure3 = [
   {
     id: "6",
     depth: 2,
-    name: "Structure 3",
+    name: "Core Assembly",
     functions: [functions[1]],
   },
 ];
@@ -195,7 +195,7 @@ const structure2 = [
   {
     id: "7",
     depth: 1,
-    name: "Structure 2",
+    name: "Chassis Assembly",
     functions: [functions[2]],
     children: [structure3[0]],
   },
@@ -243,6 +243,7 @@ export const header = {
 export const structure1 = {
   id: "8",
   depth: 0,
+  // name: "Relay Assembly",
   name: "Structure 1",
   // functions: [functions[0]],
   // children: [structure2[0]],
@@ -267,6 +268,36 @@ export const structure1 = {
   },
   functions: [],
   children: [],
+};
+
+export const templateObject = {
+  id: "8",
+  depth: 0,
+  // name: "Relay Assembly",
+  name: "Structure 1",
+  functions: [functions[0]],
+  children: [structure2[0]],
+  logs: [
+    {
+      date: "1/1/2001",
+      description: "nvm",
+      relatedDocuments: "asdsad",
+      updated: true,
+    },
+  ],
+  header: header,
+  dfmeaExamples: {
+    severityExamples: ["", "", "", "", "", "", "", "", "", ""],
+    occuranceExamples: ["", "", "", "", "", "", "", "", "", ""],
+    detectionExamples: ["", "", "", "", "", "", "", "", "", ""],
+  },
+  pfmeaExamples: {
+    severityExamples: ["", "", "", "", "", "", "", "", "", ""],
+    occuranceExamples: ["", "", "", "", "", "", "", "", "", ""],
+    detectionExamples: ["", "", "", "", "", "", "", "", "", ""],
+  },
+  // functions: [],
+  // children: [],
 };
 
 export const severity = {

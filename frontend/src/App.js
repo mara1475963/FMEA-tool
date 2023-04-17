@@ -29,11 +29,7 @@ function App() {
 
   useEffect(() => {
     const unsubscribe = onAuthStateChangedListener((user) => {
-      if (user) {
-        // createUserDocumentFromAuth(user);
-      }
       dispatch(setCurrentUser(user));
-      dispatch(fetchFMEAData("DFMEA"));
     });
 
     return unsubscribe;

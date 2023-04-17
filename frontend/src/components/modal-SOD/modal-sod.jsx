@@ -11,7 +11,6 @@ import "./modal-sod.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { setModalSODSetupUpIsOpen } from "../../store/modal/modal.actions";
 import { selectFMEAData } from "../../store/fmea/fmea.selectors";
-import { Switch } from "@mui/material";
 import { mainSocket } from "../../socket";
 import { updateNodeData } from "../../store/fmea/fmea.actions";
 

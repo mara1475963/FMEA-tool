@@ -70,7 +70,7 @@ const ModalAssessment = () => {
         child.functions?.forEach((fce) => {
           fce.failures?.forEach((f) => {
             if (f.id === element.dataset.fmid) {
-              f[type] = +e.target.innerHTML;
+              f[type] = e.target.innerHTML;
             }
           });
         });
@@ -88,7 +88,7 @@ const ModalAssessment = () => {
       ).value;
 
     const [result] = findObject(data, "id", id);
-    result[element.id] = +e.target.innerHTML;
+    result[element.id] = e.target.innerHTML;
 
     const S =
       element.parentElement.parentElement.querySelector("#initialSeverity");
@@ -103,54 +103,54 @@ const ModalAssessment = () => {
     const D2 =
       element.parentElement.parentElement.querySelector("#finalDetection");
 
-    let SeverityValue;
-    if (S.type == "hidden") {
-      SeverityValue = S.dataset.value;
-    } else {
-      SeverityValue = S.innerHTML;
-    }
+    if (type.includes("initial")) {
+      let SeverityValue;
+      if (S.type == "hidden") {
+        SeverityValue = S.dataset.value;
+      } else {
+        SeverityValue = S.innerHTML;
+      }
 
-    let APproduct = 0;
-    if (type.includes("Severity")) {
-      APproduct = +e.target.innerHTML * +O.innerHTML * +D.innerHTML;
-    } else if (type.includes("Occurance")) {
-      APproduct = +SeverityValue * +e.target.innerHTML * +D.innerHTML;
-    } else if (type.includes("Detection")) {
-      APproduct = +SeverityValue * +O.innerHTML * +e.target.innerHTML;
-    } else {
-      APproduct = +S.innerHTML * +O.innerHTML * +D.innerHTML;
-    }
+      let APproduct = 0;
+      if (type.includes("Severity")) {
+        APproduct = +e.target.innerHTML * +O.innerHTML * +D.innerHTML;
+      } else if (type.includes("Occurance")) {
+        APproduct = +SeverityValue * +e.target.innerHTML * +D.innerHTML;
+      } else if (type.includes("Detection")) {
+        APproduct = +SeverityValue * +O.innerHTML * +e.target.innerHTML;
+      } else {
+        APproduct = +S.innerHTML * +O.innerHTML * +D.innerHTML;
+      }
 
-    if (APproduct) {
-      data.children.forEach((child) => {
-        child.children?.forEach((ch) => {
-          ch.functions?.forEach((fce) => {
-            fce.failures?.forEach((f) => {
-              if (f.id === result.id) {
-                f["initialAP"] = APproduct;
-              }
+      if (APproduct) {
+        data.children.forEach((child) => {
+          child.children?.forEach((ch) => {
+            ch.functions?.forEach((fce) => {
+              fce.failures?.forEach((f) => {
+                if (f.id === result.id) {
+                  f["initialAP"] = APproduct.toString();
+                }
+              });
             });
           });
         });
-      });
 
-      data.children?.forEach((child) => {
-        child.functions?.forEach((fce) => {
-          fce.failures?.forEach((f) => {
-            f.failures &&
-              f.failures.forEach((fc) => {
-                if (fc.id === result.id) {
-                  fc["initialAP"] = APproduct;
-                }
-              });
+        data.children?.forEach((child) => {
+          child.functions?.forEach((fce) => {
+            fce.failures?.forEach((f) => {
+              f.failures &&
+                f.failures.forEach((fc) => {
+                  if (fc.id === result.id) {
+                    fc["initialAP"] = APproduct.toString();
+                  }
+                });
+            });
           });
         });
-      });
-      dispatch(updateNodeData(data, { ...data }));
-      setData({ ...data });
-    }
-    if (!S2.innerHTML || !O2.innerHTML || !D2.innerHTML) {
-    } else {
+        dispatch(updateNodeData(data, { ...data }));
+        setData({ ...data });
+      }
+    } else if (type.includes("final")) {
       let APproduct2 = 0;
       if (type.includes("Severity")) {
         APproduct2 = +e.target.innerHTML * +O2.innerHTML * +D2.innerHTML;
@@ -161,32 +161,34 @@ const ModalAssessment = () => {
       } else {
         APproduct2 = +S2.innerHTML * +O2.innerHTML * +D2.innerHTML;
       }
-      //AP2.innerHTML = APproduct2;
-      data.children?.forEach((child) => {
-        child.children?.forEach((ch) => {
-          ch.functions?.forEach((fce) => {
-            fce.failures?.forEach((f) => {
-              if (f.id === result.id) {
-                f["finalAP"] = APproduct2;
-              }
+      if (APproduct2) {
+        //AP2.innerHTML = APproduct2;
+        data.children?.forEach((child) => {
+          child.children?.forEach((ch) => {
+            ch.functions?.forEach((fce) => {
+              fce.failures?.forEach((f) => {
+                if (f.id === result.id) {
+                  f["finalAP"] = APproduct2.toString();
+                }
+              });
             });
           });
         });
-      });
-      data.children.forEach((child) => {
-        child.functions?.forEach((fce) => {
-          fce.failures?.forEach((f) => {
-            f.failures &&
-              f.failures.forEach((fc) => {
-                if (fc.id === result.id) {
-                  fc["finalAP"] = APproduct2;
-                }
-              });
+        data.children.forEach((child) => {
+          child.functions?.forEach((fce) => {
+            fce.failures?.forEach((f) => {
+              f.failures &&
+                f.failures.forEach((fc) => {
+                  if (fc.id === result.id) {
+                    fc["finalAP"] = APproduct2.toString();
+                  }
+                });
+            });
           });
         });
-      });
-      dispatch(updateNodeData(data, { ...data }));
-      setData({ ...data });
+        dispatch(updateNodeData(data, { ...data }));
+        setData({ ...data });
+      }
     }
 
     data.children.forEach((child) => {
@@ -196,7 +198,7 @@ const ModalAssessment = () => {
             ch.functions.forEach((fce) => {
               fce.failures.forEach((f) => {
                 if (f.id === result.id) {
-                  f[element.id] = +e.target.innerHTML;
+                  f[element.id] = e.target.innerHTML;
                 }
               });
             });
@@ -205,11 +207,11 @@ const ModalAssessment = () => {
     data.children.forEach((child) => {
       child.functions &&
         child.functions.forEach((fce) => {
-          fce.failures.forEach((f) => {
+          fce.failures?.forEach((f) => {
             f.failures &&
               f.failures.forEach((fc) => {
                 if (fc.id === result.id) {
-                  fc[element.id] = +e.target.innerHTML;
+                  fc[element.id] = e.target.innerHTML;
                 }
               });
           });

@@ -19,7 +19,6 @@ import {
   selectMainFailures,
   selectNodeIDs,
 } from "../../store/fmea/fmea.selectors";
-import { Tooltip } from "@mui/material";
 
 const Table = () => {
   const dispatch = useDispatch();
