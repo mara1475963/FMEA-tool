@@ -2,9 +2,13 @@ require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
 const Analysis = require("./db_analysis");
-const app = express();
+//const app = express();
 
 main().catch((err) => console.log(err));
+
+// let server = app.listen(8080, () => {
+//   console.log("listening on port: ", server.address().port);
+// });
 
 async function main() {
   //await mongoose.connect("mongodb://127.0.0.1:27017/analyses");
@@ -43,8 +47,8 @@ io.on("connection", (socket) => {
       }
     });
     socket.on("update-analysis", async (data) => {
-      await Analysis.deleteOne({ _id: analysisId });
-      await CreateDocument(analysisId, data.ownerId, data);
+      await Analysis.deleteOne({ _id: data.dbId });
+      await CreateDocument(data.dbId, data.ownerId, data);
     });
 
     socket.on("delete-analysis", async (id) => {
@@ -59,10 +63,6 @@ io.on("connection", (socket) => {
   });
 });
 
-app.listen(process.env.PORT, () => {
-  console.log("listening!!!");
-});
-
 async function CreateDocument(id, userId, data) {
   console.log(id, data);
   if (id === null) return;
@@ -75,12 +75,12 @@ async function CreateDocument(id, userId, data) {
   }
 }
 
-async function UpdateDocument(id, data) {
-  console.log(id, data);
-  if (id === null) return;
-  const doc = await Analysis.findOne({ _id: id });
+// async function UpdateDocument(id, data) {
+//   console.log(id, data);
+//   if (id === null) return;
+//   const doc = await Analysis.findOne({ _id: id });
 
-  // Sets `name` and unsets all other properties
-  doc.overwrite({ ...data });
-  await doc.save();
-}
+//   // Sets `name` and unsets all other properties
+//   doc.overwrite({ ...data });
+//   await doc.save();
+// }

@@ -251,7 +251,7 @@ const Header = () => {
             <TextField
               id="filled-search"
               inputProps={{
-                "data-prop": "crossFunctionalTeam",
+                "data-prop": "crossfunctionalTeam",
               }}
               className="crossFunctionalTeam"
               label="Cross-Functional Team"

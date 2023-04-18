@@ -57,10 +57,12 @@ const ModalLoad = () => {
     dispatch(updateNodeData(nodes, { ...analyses[idx].data }));
     handleClose();
   };
-  const deleteAnalysis = (id) => {
-    socket.emit("delete-analysis", id);
+  const deleteAnalysis = (e) => {
+    socket.emit("delete-analysis", e.target.dataset.id);
     handleClose();
   };
+
+  console.log(analyses);
 
   return (
     <Modal
@@ -98,9 +100,7 @@ const ModalLoad = () => {
                   <IconButton
                     aria-label="comment"
                     data-id={a.data.dbId}
-                    onClick={(e) => {
-                      deleteAnalysis(e.target.dataset.id);
-                    }}
+                    onClick={deleteAnalysis}
                   >
                     x
                   </IconButton>

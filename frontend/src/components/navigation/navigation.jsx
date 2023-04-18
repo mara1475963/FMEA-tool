@@ -80,7 +80,6 @@ const Navigation = ({ graphRef }) => {
     data["ownerId"] = currentUser.uid;
     data["dbId"] = getNewId();
     console.log(data);
-
     socket.emit("save-analysis", data);
   };
 
@@ -103,7 +102,6 @@ const Navigation = ({ graphRef }) => {
 
   const updateAnalysis = () => {
     data["ownerId"] = currentUser.uid;
-    console.log(data);
     socket.emit("update-analysis", data);
   };
 
@@ -365,7 +363,7 @@ const Navigation = ({ graphRef }) => {
                       href="#"
                       onClick={() => updateAnalysis()}
                     >
-                      Existing
+                      Save Existing
                     </a>
                   </li>
                   <li>

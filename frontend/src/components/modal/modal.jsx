@@ -315,7 +315,7 @@ const ModalWindow = () => {
                                   onChange={(event, value) =>
                                     setSelectedFailure(value)
                                   }
-                                  options={failures.map((f) => {
+                                  options={failures?.map((f) => {
                                     return {
                                       label: f.name,
                                       id: f.id,
@@ -389,7 +389,7 @@ const ModalWindow = () => {
                       option.id === value.id
                     }
                     onChange={(event, value) => setSelectedFunction(value)}
-                    options={functions.map((fce) => {
+                    options={functions?.map((fce) => {
                       return {
                         label: fce.name,
                         id: fce.id,
