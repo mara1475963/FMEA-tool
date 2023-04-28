@@ -120,8 +120,8 @@ export const structure1 = {
   depth: 0,
   // name: "Relay Assembly",
   name: "Structure 1",
-  functions: [functions[0]],
-  children: [structure2[0]],
+  // functions: [functions[0]],
+  // children: [structure2[0]],
   logs: [
     {
       date: "1/1/2001",
@@ -141,8 +141,8 @@ export const structure1 = {
     occuranceExamples: ["", "", "", "", "", "", "", "", "", ""],
     detectionExamples: ["", "", "", "", "", "", "", "", "", ""],
   },
-  // functions: [],
-  // children: [],
+  functions: [],
+  children: [],
 };
 
 export const templateObject = {

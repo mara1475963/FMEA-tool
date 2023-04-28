@@ -38,6 +38,8 @@ export const getAllKeys = () => {
   };
   recursiveSearch(templateObject);
   DATA_KEYS.set("nodeID", "string");
+  DATA_KEYS.set("ownerId", "string");
+  DATA_KEYS.set("dbId", "string");
   return DATA_KEYS;
 };
 
@@ -49,6 +51,7 @@ export const checkImportFormat = (obj = {}) => {
     if (!obj || typeof obj !== "object" || !result) {
       return;
     }
+
     Object.keys(obj).forEach((k) => {
       if (isNaN(k) && k !== "__rd3t") {
         if (!DATA_MAP.has(k) || typeof obj[k] !== DATA_MAP.get(k)) {

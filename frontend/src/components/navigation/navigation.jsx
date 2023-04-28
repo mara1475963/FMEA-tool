@@ -151,7 +151,7 @@ const Navigation = ({ graphRef }) => {
     link.click();
   };
 
-  const exportToSVG = (e) => {
+  const exportToPNG = (e) => {
     e.preventDefault();
     const graph = document.querySelector(".hidden");
 
@@ -184,7 +184,13 @@ const Navigation = ({ graphRef }) => {
                 aria-labelledby="navbarDropdownMenuLink"
               >
                 <li>
-                  <a className="dropdown-item" href="/#">
+                  <a
+                    className="dropdown-item"
+                    href="/#"
+                    onClick={(e) => {
+                      e.preventDefault();
+                    }}
+                  >
                     New FMEA &raquo;
                   </a>
                   <ul className="dropdown-menu dropdown-submenu">
@@ -221,7 +227,13 @@ const Navigation = ({ graphRef }) => {
                   </a>
                 </li>
                 <li>
-                  <a className="dropdown-item" href="/#">
+                  <a
+                    className="dropdown-item"
+                    href="/#"
+                    onClick={(e) => {
+                      e.preventDefault();
+                    }}
+                  >
                     Export &raquo;
                   </a>
                   <ul className="dropdown-menu dropdown-submenu">
@@ -238,7 +250,7 @@ const Navigation = ({ graphRef }) => {
                       <a
                         className="dropdown-item"
                         href="/#"
-                        onClick={exportToSVG}
+                        onClick={exportToPNG}
                       >
                         {"Structure => PNG"}
                       </a>
@@ -258,7 +270,13 @@ const Navigation = ({ graphRef }) => {
                   </ul>
                 </li>
                 <li>
-                  <a className="dropdown-item" href="/#">
+                  <a
+                    className="dropdown-item"
+                    href="/#"
+                    onClick={(e) => {
+                      e.preventDefault();
+                    }}
+                  >
                     Import &raquo;
                   </a>
                   <ul className="dropdown-menu dropdown-submenu">

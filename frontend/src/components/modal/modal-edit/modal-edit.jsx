@@ -112,7 +112,7 @@ const ModalWindow = () => {
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <Box sx={{ width: 600 }}>
+        <Box sx={{ width: "60%" }}>
           <form
             onSubmit={(e) => {
               e.preventDefault();
@@ -151,6 +151,7 @@ const ModalWindow = () => {
                           <div className="input-container">
                             <div style={{ color: "green" }}>Func</div>
                             <TextField
+                              style={{ width: "100%" }}
                               key={f.id}
                               defaultValue={f.name}
                               type="text"
@@ -186,6 +187,7 @@ const ModalWindow = () => {
                                     key={e.id}
                                     defaultValue={e.name ? e.name : e}
                                     type="text"
+                                    style={{ width: "100%" }}
                                     size="small"
                                     inputProps={{
                                       "data-type": "failure",
@@ -214,6 +216,7 @@ const ModalWindow = () => {
                             <div className="add-container add-failure">
                               <TextField
                                 id="new-failure"
+                                style={{ width: "60%" }}
                                 size="small"
                                 inputProps={{
                                   "data-findex": f_idx,
@@ -228,6 +231,7 @@ const ModalWindow = () => {
                               {node.depth !== 1 && (
                                 <Autocomplete
                                   disablePortal
+                                  style={{ width: "40%" }}
                                   id="combo-box-demo"
                                   name="toFunction2"
                                   size="small"
@@ -291,6 +295,7 @@ const ModalWindow = () => {
             <form className="upload" onSubmit={addFunctionHandler}>
               <div className="add-container">
                 <TextField
+                  style={{ width: "60%" }}
                   id="new-function"
                   size="small"
                   defaultValue={""}
@@ -305,6 +310,7 @@ const ModalWindow = () => {
                 {node.depth !== 1 && (
                   <Autocomplete
                     disablePortal
+                    style={{ width: "40%" }}
                     id="combo-box-demo"
                     name="toFunction2"
                     data-fid={0}

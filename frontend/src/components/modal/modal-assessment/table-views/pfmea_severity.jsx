@@ -41,7 +41,7 @@ export const getPFMEASeverity = (handler, handler2, element, data) => {
               Affects safe operation of the vehicle and/or other vehicles, the
               health of driver or passenger(s) or road users or pedestrians.
             </td>
-            <td>{data.pfmeaExamples.severityExamples[9]}</td>
+            <td>{data.pfmeaExamples.severityExamples[0]}</td>
           </tr>
           <tr>
             <td
@@ -57,7 +57,7 @@ export const getPFMEASeverity = (handler, handler2, element, data) => {
             <td>Failure may result in in-plant regualatory noncompliance.</td>
             <td>Failure may result in in-plant regualatory noncompliance.</td>
             <td>Noncompliance with regulations.</td>
-            <td>{data.pfmeaExamples.severityExamples[8]}</td>
+            <td>{data.pfmeaExamples.severityExamples[1]}</td>
           </tr>
           <tr>
             <td
@@ -87,7 +87,7 @@ export const getPFMEASeverity = (handler, handler2, element, data) => {
               Loss of primary vehicle function necessary for normal driving
               during expected service life.{" "}
             </td>
-            <td>{data.pfmeaExamples.severityExamples[7]}</td>
+            <td>{data.pfmeaExamples.severityExamples[2]}</td>
           </tr>
           <tr>
             <td
@@ -115,7 +115,7 @@ export const getPFMEASeverity = (handler, handler2, element, data) => {
               Degradation of primary vehicle function necessary for normal
               driving during expected service life.{" "}
             </td>
-            <td>{data.pfmeaExamples.severityExamples[6]}</td>
+            <td>{data.pfmeaExamples.severityExamples[3]}</td>
           </tr>
           <tr>
             <td
@@ -134,7 +134,7 @@ export const getPFMEASeverity = (handler, handler2, element, data) => {
             </td>
             <td>Line shutdown up to one hour</td>
             <td>Loss of secondary vehicle function</td>
-            <td>{data.pfmeaExamples.severityExamples[5]}</td>
+            <td>{data.pfmeaExamples.severityExamples[4]}</td>
           </tr>
           <tr>
             <td
@@ -157,7 +157,7 @@ export const getPFMEASeverity = (handler, handler2, element, data) => {
             </td>
             <td>Degradation of secondary vehicle function.</td>
 
-            <td>{data.pfmeaExamples.severityExamples[4]}</td>
+            <td>{data.pfmeaExamples.severityExamples[5]}</td>
           </tr>
           <tr>
             <td
@@ -183,7 +183,7 @@ export const getPFMEASeverity = (handler, handler2, element, data) => {
               haptics
             </td>
 
-            <td>{data.pfmeaExamples.severityExamples[3]}</td>
+            <td>{data.pfmeaExamples.severityExamples[6]}</td>
           </tr>
           <tr>
             <td
@@ -209,7 +209,7 @@ export const getPFMEASeverity = (handler, handler2, element, data) => {
               Moderately objectionable appearance, sound, vibration, harshness,
               or haptics
             </td>
-            <td>{data.pfmeaExamples.severityExamples[2]}</td>
+            <td>{data.pfmeaExamples.severityExamples[7]}</td>
           </tr>
           <tr>
             <td
@@ -235,7 +235,7 @@ export const getPFMEASeverity = (handler, handler2, element, data) => {
               or haptics
             </td>
 
-            <td>{data.pfmeaExamples.severityExamples[1]}</td>
+            <td>{data.pfmeaExamples.severityExamples[8]}</td>
           </tr>
           <tr>
             <td
@@ -252,7 +252,7 @@ export const getPFMEASeverity = (handler, handler2, element, data) => {
             <td>No discernable effect</td>
             <td>No discernable effect or no effect</td>
             <td>No discernable effect</td>
-            <td>{data.pfmeaExamples.severityExamples[0]}</td>
+            <td>{data.pfmeaExamples.severityExamples[9]}</td>
           </tr>
         </tbody>
       </table>

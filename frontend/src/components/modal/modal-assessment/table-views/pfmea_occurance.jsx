@@ -29,7 +29,7 @@ export const getPFMEAOccurance = (handler, handler2, element, data) => {
             <td>Extremly High</td>
             <td>None</td>
             <td>No prevention controls.</td>
-            <td>{data.pfmeaExamples.occuranceExamples[9]}</td>
+            <td>{data.pfmeaExamples.occuranceExamples[0]}</td>
           </tr>
           <tr>
             <td
@@ -49,7 +49,7 @@ export const getPFMEAOccurance = (handler, handler2, element, data) => {
               cause.
             </td>
 
-            <td>{data.pfmeaExamples.occuranceExamples[8]}</td>
+            <td>{data.pfmeaExamples.occuranceExamples[1]}</td>
           </tr>
           <tr>
             <td
@@ -69,7 +69,7 @@ export const getPFMEAOccurance = (handler, handler2, element, data) => {
               cause.
             </td>
 
-            <td>{data.pfmeaExamples.occuranceExamples[7]}</td>
+            <td>{data.pfmeaExamples.occuranceExamples[2]}</td>
           </tr>
           <tr>
             <td
@@ -89,7 +89,7 @@ export const getPFMEAOccurance = (handler, handler2, element, data) => {
               cause.
             </td>
 
-            <td>{data.pfmeaExamples.occuranceExamples[6]}</td>
+            <td>{data.pfmeaExamples.occuranceExamples[3]}</td>
           </tr>
           <tr>
             <td
@@ -103,7 +103,7 @@ export const getPFMEAOccurance = (handler, handler2, element, data) => {
               6
             </td>
 
-            <td>{data.pfmeaExamples.occuranceExamples[5]}</td>
+            <td>{data.pfmeaExamples.occuranceExamples[4]}</td>
           </tr>
           <tr>
             <td
@@ -121,7 +121,7 @@ export const getPFMEAOccurance = (handler, handler2, element, data) => {
               Prevention controls are effective in preventing the failure cause.
             </td>
 
-            <td>{data.pfmeaExamples.occuranceExamples[4]}</td>
+            <td>{data.pfmeaExamples.occuranceExamples[5]}</td>
           </tr>
           <tr>
             <td
@@ -135,7 +135,7 @@ export const getPFMEAOccurance = (handler, handler2, element, data) => {
               4
             </td>
 
-            <td>{data.pfmeaExamples.occuranceExamples[3]}</td>
+            <td>{data.pfmeaExamples.occuranceExamples[6]}</td>
           </tr>
           <tr>
             <td
@@ -155,7 +155,7 @@ export const getPFMEAOccurance = (handler, handler2, element, data) => {
               cause.
             </td>
 
-            <td>{data.pfmeaExamples.occuranceExamples[2]}</td>
+            <td>{data.pfmeaExamples.occuranceExamples[7]}</td>
           </tr>
           <tr>
             <td
@@ -170,7 +170,7 @@ export const getPFMEAOccurance = (handler, handler2, element, data) => {
             </td>
             <td>Very Low</td>
 
-            <td>{data.pfmeaExamples.occuranceExamples[1]}</td>
+            <td>{data.pfmeaExamples.occuranceExamples[8]}</td>
           </tr>
           <tr>
             <td
@@ -192,7 +192,7 @@ export const getPFMEAOccurance = (handler, handler2, element, data) => {
               Mode cannot be physically produced due to the Failure Cause.
             </td>
 
-            <td>{data.pfmeaExamples.occuranceExamples[0]}</td>
+            <td>{data.pfmeaExamples.occuranceExamples[9]}</td>
           </tr>
         </tbody>
       </table>

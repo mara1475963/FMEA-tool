@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
-import PropTypes from "prop-types";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 
@@ -92,7 +91,8 @@ function TabPanel(props) {
             </thead>
             <tbody>
               <tr>
-                <td>10</td>
+                <td>{children.includes("Detection") ? "1" : "10"}</td>
+
                 <td>
                   <textarea
                     data-index="0"
@@ -101,7 +101,7 @@ function TabPanel(props) {
                 </td>
               </tr>
               <tr>
-                <td>9</td>
+                <td>{children.includes("Detection") ? "2" : "9"}</td>
 
                 <td>
                   <textarea
@@ -111,7 +111,7 @@ function TabPanel(props) {
                 </td>
               </tr>
               <tr>
-                <td>8</td>
+                <td>{children.includes("Detection") ? "3" : "8"}</td>
 
                 <td>
                   <textarea
@@ -121,7 +121,7 @@ function TabPanel(props) {
                 </td>
               </tr>
               <tr>
-                <td>7</td>
+                <td>{children.includes("Detection") ? "4" : "7"}</td>
 
                 <td>
                   <textarea
@@ -131,7 +131,7 @@ function TabPanel(props) {
                 </td>
               </tr>
               <tr>
-                <td>6</td>
+                <td>{children.includes("Detection") ? "5" : "6"}</td>
 
                 <td>
                   <textarea
@@ -141,7 +141,7 @@ function TabPanel(props) {
                 </td>
               </tr>
               <tr>
-                <td>5</td>
+                <td>{children.includes("Detection") ? "6" : "5"}</td>
 
                 <td>
                   <textarea
@@ -151,7 +151,7 @@ function TabPanel(props) {
                 </td>
               </tr>
               <tr>
-                <td>4</td>
+                <td>{children.includes("Detection") ? "7" : "4"}</td>
 
                 <td>
                   <textarea
@@ -161,7 +161,7 @@ function TabPanel(props) {
                 </td>
               </tr>
               <tr>
-                <td>3</td>
+                <td>{children.includes("Detection") ? "8" : "3"}</td>
 
                 <td>
                   <textarea
@@ -171,7 +171,7 @@ function TabPanel(props) {
                 </td>
               </tr>
               <tr>
-                <td>2</td>
+                <td>{children.includes("Detection") ? "9" : "2"}</td>
 
                 <td>
                   <textarea
@@ -181,7 +181,7 @@ function TabPanel(props) {
                 </td>
               </tr>
               <tr>
-                <td>1</td>
+                <td>{children.includes("Detection") ? "10" : "1"}</td>
 
                 <td>
                   <textarea
@@ -197,12 +197,6 @@ function TabPanel(props) {
     </div>
   );
 }
-
-TabPanel.propTypes = {
-  children: PropTypes.node,
-  index: PropTypes.number.isRequired,
-  value: PropTypes.number.isRequired,
-};
 
 function a11yProps(index) {
   return {
@@ -220,12 +214,16 @@ const ModalSOD = () => {
   const opened = useSelector((state) => state.modal.sodSetUpIsOpen);
 
   const [value, setValue] = React.useState(0);
-  const [type] = React.useState("DFMEA");
+  const [type, setType] = React.useState("DFMEA");
   const data = useSelector(selectFMEAData);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+
+  useEffect(() => {
+    setType(data?.header.type.name);
+  }, [data]);
 
   return (
     <Modal

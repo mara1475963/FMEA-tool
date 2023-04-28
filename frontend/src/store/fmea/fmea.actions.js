@@ -68,7 +68,7 @@ const deleteNode = (nodes, nodeID, depth) => {
         });
       }
 
-      nodes.children.forEach((child) => {
+      nodes.children?.forEach((child) => {
         if (child.functions) {
           child.functions.forEach((fc) => {
             if (fc.functions) {
@@ -83,9 +83,9 @@ const deleteNode = (nodes, nodeID, depth) => {
       if (result.functions[i].functions) {
         result.functions[i].functions.forEach((fce) => {
           nodes.functions = nodes.functions.filter((f) => fce.id !== f.id);
-          nodes.children.forEach((child) => {
+          nodes.children?.forEach((child) => {
             if (child.children) {
-              child.children.forEach((ch3) => {
+              child.children?.forEach((ch3) => {
                 if (ch3.functions) {
                   ch3.functions = ch3.functions.filter((f) => fce.id !== f.id);
                 }
@@ -105,7 +105,7 @@ const deleteNode = (nodes, nodeID, depth) => {
       nodeObj.children = null;
     }
   } else {
-    nodeObj.children.forEach((k) => {
+    nodeObj.children?.forEach((k) => {
       if (!k.children) return;
       k.children = k.children.filter((v) => v.id !== nodeID);
       if (k.children.length === 0) {
@@ -122,14 +122,14 @@ const updateNode = (nodes, node) => {
     return node;
   }
   if (node.depth === 1) {
-    for (let i = 0; i < nodes.children.length; i++) {
+    for (let i = 0; i < nodes.children?.length; i++) {
       if (nodes.children[i].id === node.id) {
         nodes.children[i] = node;
       }
     }
   }
   if (node.depth === 2) {
-    nodes.children.forEach((child) => {
+    nodes.children?.forEach((child) => {
       if (child.children) {
         const childrens = child.children.map((ch) => {
           if (ch.id === node.id) return node;
@@ -154,7 +154,7 @@ const updateAttributes = (nodes, node, element) => {
       fce.name = element.value;
       //in relation to lvl2 Function
       if (node.depth !== 1) {
-        nodes.children.forEach((child) => {
+        nodes.children?.forEach((child) => {
           if (child.functions) {
             child.functions.forEach((fc) => {
               if (fc.functions) {
@@ -181,11 +181,11 @@ const updateAttributes = (nodes, node, element) => {
 
       //in relation to lvl2 Failure
       if (node.depth !== 1) {
-        nodes.children.forEach((child) => {
+        nodes.children?.forEach((child) => {
           if (child.functions) {
-            child.functions.forEach((fce) => {
-              fce.failures.forEach((fm) => {
-                fm.failures.forEach((f) => {
+            child.functions?.forEach((fce) => {
+              fce.failures?.forEach((fm) => {
+                fm.failures?.forEach((f) => {
                   if (f.id === failure.id) {
                     f.name = element.value;
                   }
@@ -235,8 +235,8 @@ const addFailure = (nodes, node, element, selectedFailure) => {
   if (node.depth !== 1) {
     const [result] = findObject(nodes, "id", selectedFailure.nodeId);
 
-    result.functions.forEach((fc) => {
-      fc.failures.forEach((f) => {
+    result.functions?.forEach((fc) => {
+      fc.failures?.forEach((f) => {
         if (f.id === selectedFailure.id) {
           !f["failures"]
             ? (f.failures = [newFailure])
@@ -289,7 +289,7 @@ const addFunction = (nodes, node, element, selectedFunction) => {
 };
 
 const deleteFailures = (nodes, id, fidx) => {
-  nodes.children.forEach((child) => {
+  nodes.children?.forEach((child) => {
     if (child.functions) {
       child.functions.forEach((fc) => {
         if (fc.failures) {

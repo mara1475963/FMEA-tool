@@ -34,12 +34,7 @@ io.on("connection", (socket) => {
     });
 
     socket.on("save-analysis", async (data) => {
-      const doc = await Analysis.findOne({ _id: data.dbId });
-      if (doc === null) await CreateDocument(data.dbId, data.ownerId, data);
-      else {
-        await Analysis.deleteOne({ _id: data.dbId });
-        await CreateDocument(data.dbId, data.ownerId, data);
-      }
+      await CreateDocument(data.dbId, data.ownerId, data);
     });
 
     socket.on("update-analysis", async (data) => {
@@ -62,7 +57,5 @@ async function CreateDocument(id, userId, data) {
   if (id === null) return;
   try {
     return await Analysis.create({ _id: id, ownerId: userId, data: data });
-  } catch (err) {
-    console.error(err);
-  }
+  } catch (err) {}
 }
