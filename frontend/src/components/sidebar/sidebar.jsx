@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import parse from "html-react-parser";
 
-import Spinner from "../spinner/spinner.component";
+import Spinner from "../spinner/spinner";
 import "./sidebar.scss";
 import {
   selectFMEAData,

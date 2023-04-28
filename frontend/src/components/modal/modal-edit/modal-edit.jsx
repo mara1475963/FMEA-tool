@@ -12,22 +12,24 @@ import {
   MinusSquare,
   PlusSquare,
   StyledTreeItem,
-} from "../treeView/treeView";
+} from "../../treeView/treeView";
 
-import "./modal.scss";
+import "./modal-edit.scss";
 import {
   addFailureToFunction,
   addFunctionToNode,
+  deleteNodeFailure,
+  deleteNodeFunction,
   updateNodeAttributes,
   updateNodeData,
-} from "../../store/fmea/fmea.actions";
+} from "../../../store/fmea/fmea.actions";
 
 import {
   selectFMEAData,
   selectMainFailures,
   selectMainFunctions,
-} from "../../store/fmea/fmea.selectors";
-import { mainSocket } from "../../socket";
+} from "../../../store/fmea/fmea.selectors";
+import { mainSocket } from "../../../socket";
 
 const ModalWindow = () => {
   const dispatch = useDispatch();
@@ -75,7 +77,6 @@ const ModalWindow = () => {
       setNode({ ...nodes });
     }
     socket && socket.emit("send-changes", nodes);
-
     e.target.newFunction.value = "";
   };
 
@@ -88,96 +89,19 @@ const ModalWindow = () => {
   };
 
   const deleteFailureHandler = (id, fce_idx) => {
-    //node
-    node.functions[fce_idx].failures = node.functions[fce_idx].failures.filter(
-      (f) => f.id !== id
-    );
-
-    ////in relation to lvl2Failure
-    if (node.depth !== 1) {
-      nodes.children.forEach((child) => {
-        if (child.functions) {
-          child.functions.forEach((fc) => {
-            if (fc.failures) {
-              fc.failures.forEach((f) => {
-                if (f.failures) {
-                  f.failures = f.failures.filter((f) => f.id !== id);
-                }
-              });
-            }
-          });
-        }
-      });
-
-      if (node.depth === 0) {
-        dispatch(updateNodeData(nodes, { ...nodes }));
-        setNode({ ...nodes });
-        socket && socket.emit("send-changes", nodes);
-      } else {
-        dispatch(updateNodeData(nodes, { ...node }));
-        socket && socket.emit("send-changes", nodes);
-      }
-    } else {
-      dispatch(updateNodeData(nodes, { ...node }));
-      setNode({ ...node });
-      socket && socket.emit("send-changes", nodes);
+    dispatch(deleteNodeFailure(nodes, node, id, fce_idx));
+    if (node.depth === 0) {
+      setNode({ ...nodes });
     }
+    socket && socket.emit("send-changes", nodes);
   };
 
   const deleteFunctionHandler = (id, fce_idx) => {
-    const nodeFunction = node.functions[fce_idx];
-    //delete function´s failures
-    if (nodeFunction.failures) {
-      nodeFunction.failures.forEach((f) => {
-        deleteFailureHandler(f.id, fce_idx);
-      });
-    }
-
-    //delete functions in relation to lvl2Function
-    if (nodeFunction.functions) {
-      nodeFunction.functions.forEach((fce) => {
-        nodes.functions = nodes.functions.filter((f) => fce.id !== f.id);
-        nodes.children.forEach((child) => {
-          child.children &&
-            child.children.forEach((ch3) => {
-              ch3.functions = ch3.functions.filter((f) => fce.id !== f.id);
-            });
-        });
-      });
-    }
-
-    //node
+    dispatch(deleteNodeFunction(nodes, node, id, fce_idx));
     if (node.depth === 0) {
-      nodes.functions = nodes.functions.filter((f) => f.id !== id);
-    } else {
-      node.functions = node.functions.filter((f) => f.id !== id);
+      setNode({ ...nodes });
     }
-
-    //delete function from lvl2Function relation
-    if (node.depth !== 1) {
-      nodes.children.forEach((child) => {
-        if (child.functions) {
-          child.functions.forEach((fc) => {
-            if (fc.functions) {
-              fc.functions = fc.functions.filter((f) => f.id !== id);
-            }
-          });
-        }
-      });
-
-      if (node.depth === 0) {
-        dispatch(updateNodeData(nodes, { ...nodes }));
-        setNode({ ...nodes });
-        socket && socket.emit("send-changes", nodes);
-      } else {
-        dispatch(updateNodeData(nodes, { ...node }));
-        socket && socket.emit("send-changes", nodes);
-      }
-    } else {
-      dispatch(updateNodeData(nodes, { ...node }));
-      setNode({ ...node });
-      socket && socket.emit("send-changes", nodes);
-    }
+    socket && socket.emit("send-changes", nodes);
   };
 
   return (
@@ -214,9 +138,7 @@ const ModalWindow = () => {
                 defaultEndIcon={<CloseSquare />}
                 sx={{
                   margin: 2,
-                  //height: 264,
                   flexGrow: 1,
-                  // maxWidth: 400,
                   maxHeight: 450,
                   overflowY: "auto",
                 }}
@@ -301,6 +223,7 @@ const ModalWindow = () => {
                                 type="text"
                                 data-type="failure"
                                 form="failureForm"
+                                placeholder="New Failure"
                               />
                               {node.depth !== 1 && (
                                 <Autocomplete
@@ -373,6 +296,7 @@ const ModalWindow = () => {
                   defaultValue={""}
                   name="newFunction"
                   type="text"
+                  placeholder="New Function"
                   inputProps={{
                     "data-type": "function",
                   }}

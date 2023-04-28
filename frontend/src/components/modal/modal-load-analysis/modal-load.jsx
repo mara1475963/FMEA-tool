@@ -5,16 +5,16 @@ import Modal from "@mui/material/Modal";
 
 import "./modal-load.scss";
 import { useDispatch, useSelector } from "react-redux";
-import { setModalAnalysesIsOpen } from "../../store/modal/modal.actions";
+import { setModalAnalysesIsOpen } from "../../../store/modal/modal.actions";
 import ListSubheader from "@mui/material/ListSubheader";
 import List from "@mui/material/List";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import { updateNodeData } from "../../store/fmea/fmea.actions";
-import { selectFMEAData } from "../../store/fmea/fmea.selectors";
+import { updateNodeData } from "../../../store/fmea/fmea.actions";
+import { selectFMEAData } from "../../../store/fmea/fmea.selectors";
 import { IconButton } from "@mui/material";
-import { mainSocket } from "../../socket";
+import { mainSocket } from "../../../socket";
 
 const ModalLoad = () => {
   const dispatch = useDispatch();
@@ -28,13 +28,8 @@ const ModalLoad = () => {
   const currentUser = useSelector((state) => state.user.currentUser);
 
   const [open, setOpen] = useState(opened);
-  const [open2, setOpen2] = useState(true);
   const [analyses, setAnalyses] = useState(data);
   const [socket, setSocket] = useState();
-
-  const handleClick = () => {
-    setOpen2(!open2);
-  };
 
   useEffect(() => {
     setOpen(opened);
@@ -53,7 +48,6 @@ const ModalLoad = () => {
   }, []);
 
   const handleLoad = (id, idx) => {
-    console.log(id);
     dispatch(updateNodeData(nodes, { ...analyses[idx].data }));
     handleClose();
   };
@@ -61,8 +55,6 @@ const ModalLoad = () => {
     socket.emit("delete-analysis", e.target.dataset.id);
     handleClose();
   };
-
-  console.log(analyses);
 
   return (
     <Modal

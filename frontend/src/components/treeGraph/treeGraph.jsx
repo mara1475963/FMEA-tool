@@ -10,20 +10,14 @@ import {
   deleteNodeFromData,
   updateNodeData,
 } from "../../store/fmea/fmea.actions";
-import Spinner from "../spinner/spinner.component";
+import Spinner from "../spinner/spinner";
 import { useParams } from "react-router-dom";
 import {
   selectFMEAData,
   selectFMEAIsLoading,
 } from "../../store/fmea/fmea.selectors";
 
-import {
-  exportComponentAsJPEG,
-  exportComponentAsPDF,
-  exportComponentAsPNG,
-} from "react-component-export-image";
-import NodeToExport from "../node-export/node";
-import { display } from "@mui/system";
+import NodeToExport from "../node-export/node-export";
 
 const TreeGraph = ({ graphRef, toExport }) => {
   //State init
@@ -36,12 +30,6 @@ const TreeGraph = ({ graphRef, toExport }) => {
 
   const [treeData, setTreeData] = useState({});
   const [socket, setSocket] = useState();
-
-  const zoom = (event) => {
-    if (typeof event.zoom === "string") return;
-    const zoomValue = event.zoom * 100 + "%";
-    document.querySelector(".zoom-slider").style.width = zoomValue;
-  };
 
   useEffect(() => {
     setSocket(mainSocket);
@@ -71,7 +59,7 @@ const TreeGraph = ({ graphRef, toExport }) => {
     return () => {
       socket.off("receive-changes", handler);
     };
-  }, [socket]);
+  }, [socket, data, dispatch]);
 
   //Event handlers
   const AddNode = (e) => {
@@ -88,6 +76,12 @@ const TreeGraph = ({ graphRef, toExport }) => {
     );
     setTreeData({ ...data });
     socket && socket.emit("send-changes", data);
+  };
+
+  const zoom = (event) => {
+    if (typeof event.zoom === "string") return;
+    const zoomValue = event.zoom * 100 + "%";
+    document.querySelector(".zoom-slider").style.width = zoomValue;
   };
 
   //Graph modifications
@@ -137,10 +131,7 @@ const TreeGraph = ({ graphRef, toExport }) => {
   };
 
   return (
-    <div
-      className={toExport ? "hidden" : "grid-item tree-graph"}
-      // style={toExport ? { display: "none" } : { display: "block" }}
-    >
+    <div className={toExport ? "hidden" : "grid-item tree-graph"}>
       {isLoading ? (
         <Spinner />
       ) : toExport ? (
@@ -155,12 +146,9 @@ const TreeGraph = ({ graphRef, toExport }) => {
             });
           }}
           translate={{ x: 610.29, y: 10.605 }}
-          zoom="0.15"
+          zoom="0.17"
           orientation="vertical"
           pathFunc={straightPathFunc}
-          // rootNodeClassName="node__root"
-          // branchNodeClassName="node__branch"
-          // leafNodeClassName="node__leaf"
         />
       ) : (
         <Tree
@@ -177,9 +165,6 @@ const TreeGraph = ({ graphRef, toExport }) => {
           zoom="0.1"
           orientation="vertical"
           pathFunc={straightPathFunc}
-          // rootNodeClassName="node__root"
-          // branchNodeClassName="node__branch"
-          // leafNodeClassName="node__leaf"
         />
       )}
 

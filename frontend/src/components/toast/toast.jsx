@@ -1,25 +1,25 @@
 import React, { useEffect, useState } from "react";
-import { Toast, Button } from "react-bootstrap";
+import { Toast } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { setToastVisible } from "../store/user/user.action";
 
 import "./toast.scss";
+import { setToastVisible } from "../../store/user/user.action";
 export default function ToastComponent() {
   const dispatch = useDispatch();
-  const [showToast, setToast] = useState(false);
-  const [nvm, setnvm] = useState(false);
   const show = useSelector((state) => state.user.showToast);
-  console.log(show);
+  const [showToast, setShowToast] = useState(show);
 
   useEffect(() => {
-    nvm && setToast(true);
-    setnvm(true);
+    setShowToast(show);
   }, [show]);
 
   return (
     <div>
       <Toast
-        onClose={() => setToast(false)}
+        onClose={() => {
+          setShowToast(false);
+          dispatch(setToastVisible(false));
+        }}
         autohide
         show={showToast}
         delay={3000}

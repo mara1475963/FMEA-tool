@@ -5,15 +5,15 @@ import Modal from "@mui/material/Modal";
 
 import "./modal-results.scss";
 import { useDispatch, useSelector } from "react-redux";
-import { setModalResultsIsOpen } from "../../store/modal/modal.actions";
+import { setModalResultsIsOpen } from "../../../store/modal/modal.actions";
 
-import { updateNodeData } from "../../store/fmea/fmea.actions";
+import { updateNodeData } from "../../../store/fmea/fmea.actions";
 import {
   selectFinalAPs,
   selectFMEAData,
   selectInitialAPs,
   selectMainFailures,
-} from "../../store/fmea/fmea.selectors";
+} from "../../../store/fmea/fmea.selectors";
 import parse from "html-react-parser";
 import { Bar } from "react-chartjs-2";
 import {
@@ -25,8 +25,8 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
-import { findObject } from "../../helpers";
-import { mainSocket } from "../../socket";
+import { findObject } from "../../../helpers";
+import { mainSocket } from "../../../socket";
 
 ChartJS.register(
   CategoryScale,
@@ -75,7 +75,7 @@ const ModalResults = () => {
     let result = "";
     let id = 0;
 
-    for (const [idx, lvl2F] of Object.entries(failures)) {
+    for (const lvl2F of Object.values(failures)) {
       const lvl3F = lvl2F.failures?.filter((f) => f.depth === 2);
 
       if (lvl3F) {
@@ -120,9 +120,8 @@ const ModalResults = () => {
                             }</tr>`;
         }
       }
-      //console.log(result);
     }
-    // console.log(result);
+
     return result;
   };
 
@@ -226,9 +225,9 @@ const ModalResults = () => {
         </form>
 
         {finished ? (
-          <h4 style={{ color: "green" }}>All risks solved</h4>
+          <h4 style={{ color: "green" }}>All risks are solved.</h4>
         ) : (
-          <h4 style={{ color: "red" }}>Some risks unsolved</h4>
+          <h4 style={{ color: "red" }}>Some risks are not solved.</h4>
         )}
       </Box>
     </Modal>

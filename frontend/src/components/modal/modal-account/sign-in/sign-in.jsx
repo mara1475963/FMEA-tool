@@ -1,14 +1,17 @@
-import { Button, TextField } from "@mui/material";
 import React from "react";
 import { useDispatch } from "react-redux";
-import { setModalAccountIsOpen } from "../../../store/modal/modal.actions";
+import { Button, TextField } from "@mui/material";
+
+import { setModalAccountIsOpen } from "../../../../store/modal/modal.actions";
 import {
   signInAuthUserWithEmailAndPassword,
   signInWithGooglePopup,
-} from "../../../utils/firebase/firebase.utils";
+} from "../../../../utils/firebase/firebase.utils";
+import "./sign-in.scss";
 
 const SignIn = () => {
   const dispatch = useDispatch();
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const element = e.target;
@@ -16,10 +19,7 @@ const SignIn = () => {
     const password = element.password.value;
 
     try {
-      const response = await signInAuthUserWithEmailAndPassword(
-        email,
-        password
-      );
+      await signInAuthUserWithEmailAndPassword(email, password);
 
       dispatch(setModalAccountIsOpen(false));
     } catch (error) {
@@ -35,10 +35,12 @@ const SignIn = () => {
       }
     }
   };
+
   const signInWithGoogle = async () => {
     await signInWithGooglePopup();
     dispatch(setModalAccountIsOpen(false));
   };
+
   return (
     <div className="sign-in-container">
       <h2>Sign In</h2>

@@ -9,18 +9,6 @@
   text-align: center;
 }
 
-/* .node__root g > rect {
-  fill: #cacaca;
-}
-
-.node__branch g > rect {
-  fill: #89e3f4;
-}
-
-.node__leaf g > rect {
-  fill: #fb92c7;
-} */
-
 .tree-graph {
   grid-column-start: 2;
   grid-column-end: 3;
@@ -29,11 +17,6 @@
   margin-bottom: 20px;
   margin-top: 20px;
   border-radius: 5px;
-  /* background-size: 20px 20px;
-  background-image: linear-gradient(to right, blue 1px, transparent 1px),
-    linear-gradient(to bottom, blue 1px, transparent 1px);
-
-  margin-top: 5px; */
 }
 
 .tree-graph button {

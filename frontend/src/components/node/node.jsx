@@ -66,27 +66,7 @@ const Node = ({
           <span style={{ textAlign: "center" }}>
             <b>{nodeDatum.name}</b>
           </span>
-          {/* <ul className="node-functions">
-            {nodeDatum.functions &&
-              nodeDatum.functions.map((f, f_idx) => {
-                return (
-                  f_idx < 1 && (
-                    <div key={f.name}>
-                      <li>{f.name}</li>
-                      <ul className="node-effects">
-                        {f.failures &&
-                          f.failures.map(
-                            (e, e_idx) =>
-                              e_idx < 1 && (
-                                <li key={e.name}>{e.name ? e.name : e}</li>
-                              )
-                          )}
-                      </ul>
-                    </div>
-                  )
-                );
-              })}
-          </ul> */}
+
           <div className="node-controls">
             {nodeDatum.children && nodeDatum.children.length > 0 && (
               <button className="node-buttton expand" onClick={toggleNode}>
@@ -111,7 +91,6 @@ const Node = ({
               </div>
             )}
             {
-              //<Button onClick={toggleWindow}>Open modal</Button>
               <div
                 className="node"
                 data-toggle="tooltip"
@@ -132,12 +111,11 @@ const Node = ({
             }
 
             {
-              //<Button onClick={toggleWindow}>Open modal</Button>
               <div
                 className="node"
                 data-toggle="tooltip"
                 data-placement="top"
-                title="Mark Node"
+                title="Highlight Node"
               >
                 <button
                   className="node-buttton"

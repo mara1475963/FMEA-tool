@@ -1,27 +1,23 @@
 import React, { useEffect, useState } from "react";
-
+import { useDispatch, useSelector } from "react-redux";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 
-import "./modal-assessment.scss";
-import { useDispatch, useSelector } from "react-redux";
-import { setModalSOD_IsOpen } from "../../store/modal/modal.actions";
-import { mainSocket } from "../../socket";
-import { updateNodeData } from "../../store/fmea/fmea.actions";
-import { severity, occurence } from "../../data/dataJS";
-import { findObject } from "../../helpers";
-import { selectFMEAData } from "../../store/fmea/fmea.selectors";
+import { setModalSOD_IsOpen } from "../../../store/modal/modal.actions";
+import { mainSocket } from "../../../socket";
+import { updateNodeData } from "../../../store/fmea/fmea.actions";
+import { severity, occurence } from "../../../data/dataJS";
+import { findObject } from "../../../helpers";
+import { selectFMEAData } from "../../../store/fmea/fmea.selectors";
 import { getPFMEASeverity } from "./table-views/pfmea_severity";
 import { getPFMEAOccurance } from "./table-views/pfmea_occurance";
 import { getPFMEADetection } from "./table-views/pfmea_detection";
 import { getDFMEADetection } from "./table-views/dfmea_detection";
+import "./modal-assessment.scss";
 
 const ModalAssessment = () => {
   const dispatch = useDispatch();
-  const handleClose = () => {
-    dispatch(setModalSOD_IsOpen(false));
-    setOpen(false);
-  };
+
   const nodes = useSelector(selectFMEAData);
   const opened = useSelector((state) => state.modal.sodIsOpen);
   const element = useSelector((state) => state.modal.SODobject);
@@ -78,7 +74,7 @@ const ModalAssessment = () => {
 
       dispatch(updateNodeData(data, { ...data }));
       setData({ ...data });
-      console.log(data);
+
       socket && socket.emit("send-changes", { ...data });
     }
 
@@ -105,7 +101,7 @@ const ModalAssessment = () => {
 
     if (type.includes("initial")) {
       let SeverityValue;
-      if (S.type == "hidden") {
+      if (S.type === "hidden") {
         SeverityValue = S.dataset.value;
       } else {
         SeverityValue = S.innerHTML;
@@ -162,7 +158,6 @@ const ModalAssessment = () => {
         APproduct2 = +S2.innerHTML * +O2.innerHTML * +D2.innerHTML;
       }
       if (APproduct2) {
-        //AP2.innerHTML = APproduct2;
         data.children?.forEach((child) => {
           child.children?.forEach((ch) => {
             ch.functions?.forEach((fce) => {
@@ -223,6 +218,11 @@ const ModalAssessment = () => {
     socket && socket.emit("send-changes", data);
 
     handleClose();
+  };
+
+  const handleClose = () => {
+    dispatch(setModalSOD_IsOpen(false));
+    setOpen(false);
   };
 
   const handler2 = (e) => {

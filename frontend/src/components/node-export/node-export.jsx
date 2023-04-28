@@ -1,24 +1,11 @@
 import React from "react";
-import "./node.scss";
+import "./node-export.scss";
 import "../treeGraph/treeGraph.css";
-import { useDispatch, useSelector } from "react-redux";
-import { setModalData, setModalIsOpen } from "../../store/modal/modal.actions";
-import { setSelectedNode } from "../../store/fmea/fmea.actions";
-import { selectNodeIDs } from "../../store/fmea/fmea.selectors";
-import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
-import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
-import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
-import StarBorderIcon from "@mui/icons-material/StarBorder";
+import { useSelector } from "react-redux";
 
-const NodeToExport = ({
-  nodeDatum,
-  toggleNode,
-  foreignObjectProps,
-  addHandler,
-  deleteHandler,
-}) => {
-  const dispatch = useDispatch();
-  const opened = useSelector((state) => state.modal.isOpen);
+import { selectNodeIDs } from "../../store/fmea/fmea.selectors";
+
+const NodeToExport = ({ nodeDatum, foreignObjectProps }) => {
   const selectedNodeID = useSelector(selectNodeIDs)[0];
 
   let nodeColor = "";
@@ -36,20 +23,6 @@ const NodeToExport = ({
       nodeColor = "gray";
   }
   if (selectedNodeID === nodeDatum.id) nodeColor = "#ffd433";
-
-  const toggleWindow = () => {
-    dispatch(setModalIsOpen(!opened));
-    dispatch(setModalData(nodeDatum));
-  };
-
-  const selectNode = (e) => {
-    e.preventDefault();
-    if (selectedNodeID && selectedNodeID === nodeDatum.id) {
-      dispatch(setSelectedNode({}));
-    } else {
-      dispatch(setSelectedNode(nodeDatum));
-    }
-  };
 
   return (
     <g className="test" style={{ fill: nodeColor }}>

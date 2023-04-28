@@ -1,23 +1,24 @@
-import logo from "./logo.svg";
+import { useDispatch } from "react-redux";
+import { useEffect, useRef } from "react";
+import { fetchFMEAData } from "./store/fmea/fmea.actions";
+import { onAuthStateChangedListener } from "./utils/firebase/firebase.utils";
+
 import "./App.css";
 import Navigation from "./components/navigation/navigation";
 import Sidebar from "./components/sidebar/sidebar";
 import TreeGraph from "./components/treeGraph/treeGraph";
 import Table from "./components/table/table";
 import Header from "./components/header/header";
-import ModalWindow from "./components/modal/modal";
-import { useDispatch } from "react-redux";
-import { useEffect, useRef } from "react";
-import { fetchFMEAData, fetchFMEADataAsync } from "./store/fmea/fmea.actions";
-import ModalLoad from "./components/modal-load-analysis/modal-load";
-import ModalAssessment from "./components/modal-assessment/modal-assessment";
-import { onAuthStateChangedListener } from "./utils/firebase/firebase.utils";
+
 import { setCurrentUser } from "./store/user/user.action";
-import ModalResults from "./components/modal-results/modal-results";
-import ModalAccount from "./components/modal-account/modal-account";
-import ToastComponent from "./components/toast";
-import ModalLogger from "./components/modal-logging/modal-logging";
-import ModalSOD from "./components/modal-SOD/modal-sod";
+import ModalSOD from "./components/modal/modal-SOD/modal-sod";
+import ModalLoad from "./components/modal/modal-load-analysis/modal-load";
+import ModalLogger from "./components/modal/modal-logging/modal-logging";
+import ModalResults from "./components/modal/modal-results/modal-results";
+import ModalWindow from "./components/modal/modal-edit/modal-edit";
+import ModalAssessment from "./components/modal/modal-assessment/modal-assessment";
+import ModalAccount from "./components/modal/modal-account/modal-account";
+import ToastComponent from "./components/toast/toast";
 
 function App() {
   const dispatch = useDispatch();
@@ -25,7 +26,7 @@ function App() {
 
   useEffect(() => {
     dispatch(fetchFMEAData("DFMEA"));
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChangedListener((user) => {
@@ -33,7 +34,7 @@ function App() {
     });
 
     return unsubscribe;
-  }, []);
+  }, [dispatch]);
 
   return (
     <div className="App">
@@ -59,20 +60,3 @@ function App() {
 }
 
 export default App;
-
-{
-  /* <div className="grid-item structure1">
-          <h2> Structure 1</h2>
-          <div className="high-level">
-            <div draggable="true"> High Level</div>
-          </div>
-        </div>
-        <div className="grid-item structure2">
-          <h2> Structure 2</h2>
-          <div onDragOver={allowDrop} onDrop={drop}></div>
-        </div>
-        <div className="grid-item structure3">
-          <h2> Structure 3</h2>
-        </div>
-      </div> */
-}

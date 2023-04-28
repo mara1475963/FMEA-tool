@@ -1,7 +1,5 @@
-import { signOut } from "firebase/auth";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
 import { mainSocket } from "../../socket";
 import { fetchFMEAData, updateNodeData } from "../../store/fmea/fmea.actions";
 import {
@@ -12,14 +10,10 @@ import {
   setModalResultsIsOpen,
   setModalSODSetupUpIsOpen,
 } from "../../store/modal/modal.actions";
-import { googleSignIn, setToastVisible } from "../../store/user/user.action";
-import {
-  signInWithGooglePopup,
-  signOutUser,
-} from "../../utils/firebase/firebase.utils";
-import "./navigation.css";
+import { setToastVisible } from "../../store/user/user.action";
+import { signOutUser } from "../../utils/firebase/firebase.utils";
+import "./navigation.scss";
 
-import { TableToExcelReact } from "table-to-excel-react";
 import { useDownloadExcel } from "table-to-excel-react";
 import { Button } from "@mui/material";
 import { checkImportFormat, getNewId } from "../../helpers";
@@ -28,9 +22,9 @@ import { exportComponentAsPNG } from "react-component-export-image";
 const Navigation = ({ graphRef }) => {
   const ref = graphRef;
   const dispatch = useDispatch();
-  // const navigate = useNavigate();
+
   const mainData = useSelector((state) => state.fmea.data);
-  const opened = useSelector((state) => state.modal.analysesIsOpen);
+  const analysisOpened = useSelector((state) => state.modal.analysesIsOpen);
   const opened2 = useSelector((state) => state.modal.resultsIsOpen);
   const opened3 = useSelector((state) => state.modal.accountIsOpen);
   const opened4 = useSelector((state) => state.modal.loggingIsOpen);
@@ -38,106 +32,10 @@ const Navigation = ({ graphRef }) => {
   const currentUser = useSelector((state) => state.user.currentUser);
   const toast = useSelector((state) => state.user.showToast);
 
-  //console.log(currentUser);
-
   const [socket, setSocket] = useState();
   const [data, setData] = useState(mainData);
 
   const FILENAME = data?.name?.replaceAll(" ", "_");
-
-  const handleChange = (e) => {
-    const fileReader = new FileReader();
-    fileReader.readAsText(e.target.files[0], "UTF-8");
-    fileReader.onload = (e) => {
-      const importedData = JSON.parse(e.target.result);
-      if (!checkImportFormat(importedData)) {
-        console.log("wrong format");
-        return;
-      }
-
-      console.log("good format");
-      dispatch(updateNodeData(data, { ...importedData }));
-      setData({ ...importedData });
-    };
-  };
-
-  function copy() {
-    const el = document.createElement("input");
-    el.value = window.location.href;
-    document.body.appendChild(el);
-    el.select();
-    document.execCommand("copy");
-    document.body.removeChild(el);
-    dispatch(setToastVisible(!toast));
-  }
-
-  const createNewFMEA = (type) => {
-    dispatch(fetchFMEAData(type));
-    // navigate("/");
-  };
-
-  const saveAnalysis = () => {
-    data["ownerId"] = currentUser.uid;
-    data["dbId"] = getNewId();
-    console.log(data);
-    socket.emit("save-analysis", data);
-  };
-
-  const showResult = () => {
-    dispatch(setModalResultsIsOpen(!opened2));
-  };
-
-  const showAccount = () => {
-    dispatch(setModalAccountIsOpen(!opened3));
-  };
-
-  const showLogger = () => {
-    dispatch(setModalLoggingIsOpen(!opened4));
-  };
-
-  const showSOD = () => {
-    console.log(opened5);
-    dispatch(setModalSODSetupUpIsOpen(!opened5));
-  };
-
-  const updateAnalysis = () => {
-    data["ownerId"] = currentUser.uid;
-    socket.emit("update-analysis", data);
-  };
-
-  const uploadAnalysis = () => {
-    dispatch(setModalAnalysesIsOpen(!opened));
-    socket.emit("load-analyses", currentUser.uid);
-  };
-
-  const signOut = () => {
-    signOutUser();
-  };
-
-  const { onDownload } = useDownloadExcel({
-    fileName: FILENAME,
-    table: "table-to-xls",
-    sheet: "sheet 1",
-  });
-
-  const exportDataJSON = () => {
-    const jsonString = `data:text/json;chatset=utf-8,${encodeURIComponent(
-      JSON.stringify(data)
-    )}`;
-    const link = document.createElement("a");
-    link.href = jsonString;
-    link.download = FILENAME + ".json";
-
-    link.click();
-  };
-
-  const exportToSVG = () => {
-    const graph = document.querySelector(".hidden");
-
-    graph.style.display = "block";
-    exportComponentAsPNG(ref, { fileName: FILENAME });
-    graph.style.display = "none";
-  };
 
   useEffect(() => {
     setSocket(mainSocket);
@@ -161,7 +59,106 @@ const Navigation = ({ graphRef }) => {
     return () => {
       socket.off("receive-analyses", handler);
     };
-  }, [socket]);
+  }, [socket, dispatch]);
+
+  const handleChange = (e) => {
+    const fileReader = new FileReader();
+
+    fileReader.readAsText(e.target.files[0], "UTF-8");
+    fileReader.onload = (e) => {
+      const importedData = JSON.parse(e.target.result);
+      if (!checkImportFormat(importedData)) {
+        console.log("wrong format");
+        return;
+      }
+
+      console.log("good format");
+
+      dispatch(updateNodeData(data, { ...importedData }));
+      setData({ ...importedData });
+    };
+    e.target.value = "";
+  };
+
+  const copy = (e) => {
+    e.preventDefault();
+    const el = document.createElement("input");
+    el.value = window.location.href;
+    document.body.appendChild(el);
+    el.select();
+    document.execCommand("copy");
+    document.body.removeChild(el);
+    dispatch(setToastVisible(!toast));
+  };
+
+  const createNewFMEA = (type) => {
+    dispatch(fetchFMEAData(type));
+  };
+
+  const saveAnalysis = () => {
+    data["ownerId"] = currentUser.uid;
+    data["dbId"] = getNewId();
+
+    socket.emit("save-analysis", data);
+  };
+
+  const showResult = () => {
+    dispatch(setModalResultsIsOpen(!opened2));
+  };
+
+  const showAccount = () => {
+    dispatch(setModalAccountIsOpen(!opened3));
+  };
+
+  const showLogger = () => {
+    dispatch(setModalLoggingIsOpen(!opened4));
+  };
+
+  const showSOD = () => {
+    dispatch(setModalSODSetupUpIsOpen(!opened5));
+  };
+
+  const updateAnalysis = () => {
+    data["ownerId"] = currentUser.uid;
+    socket.emit("update-analysis", data);
+  };
+
+  const uploadAnalysis = () => {
+    dispatch(setModalAnalysesIsOpen(!analysisOpened));
+    socket.emit("load-analyses", currentUser.uid);
+  };
+
+  const signOut = (e) => {
+    e.preventDefault();
+    signOutUser();
+  };
+
+  const { onDownload } = useDownloadExcel({
+    fileName: FILENAME,
+    table: "table-to-xls",
+    sheet: "sheet 1",
+  });
+
+  const exportDataJSON = (e) => {
+    e.preventDefault();
+    const jsonString = `data:text/json;chatset=utf-8,${encodeURIComponent(
+      JSON.stringify(data)
+    )}`;
+    const link = document.createElement("a");
+    link.href = jsonString;
+    link.download = FILENAME + ".json";
+
+    link.click();
+  };
+
+  const exportToSVG = (e) => {
+    e.preventDefault();
+    const graph = document.querySelector(".hidden");
+
+    graph.style.display = "block";
+    exportComponentAsPNG(ref, { fileName: FILENAME });
+    graph.style.display = "none";
+  };
 
   return (
     <div className="navigation grid-item">
@@ -174,7 +171,7 @@ const Navigation = ({ graphRef }) => {
             <li className="nav-item dropdown">
               <a
                 className="nav-link dropdown-toggle"
-                href="#"
+                href="/#"
                 id="navbarDropdownMenuLink"
                 role="button"
                 data-mdb-toggle="dropdown"
@@ -187,15 +184,18 @@ const Navigation = ({ graphRef }) => {
                 aria-labelledby="navbarDropdownMenuLink"
               >
                 <li>
-                  <a className="dropdown-item" href="#">
+                  <a className="dropdown-item" href="/#">
                     New FMEA &raquo;
                   </a>
                   <ul className="dropdown-menu dropdown-submenu">
                     <li>
                       <a
                         className="dropdown-item"
-                        href="#"
-                        onClick={() => createNewFMEA("DFMEA")}
+                        href="/#"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          createNewFMEA("DFMEA");
+                        }}
                       >
                         DFMEA
                       </a>
@@ -203,8 +203,11 @@ const Navigation = ({ graphRef }) => {
                     <li>
                       <a
                         className="dropdown-item"
-                        href="#"
-                        onClick={() => createNewFMEA("PFMEA")}
+                        href="/#"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          createNewFMEA("PFMEA");
+                        }}
                       >
                         PFMEA
                       </a>
@@ -213,19 +216,19 @@ const Navigation = ({ graphRef }) => {
                 </li>
 
                 <li>
-                  <a className="dropdown-item" href="#" onClick={copy}>
+                  <a className="dropdown-item" href="/#" onClick={copy}>
                     Share
                   </a>
                 </li>
                 <li>
-                  <a className="dropdown-item" href="#">
+                  <a className="dropdown-item" href="/#">
                     Export &raquo;
                   </a>
                   <ul className="dropdown-menu dropdown-submenu">
                     <li>
                       <a
                         className="dropdown-item"
-                        href="#"
+                        href="/#"
                         onClick={exportDataJSON}
                       >
                         {"Analysis Data => JSON"}
@@ -234,7 +237,7 @@ const Navigation = ({ graphRef }) => {
                     <li>
                       <a
                         className="dropdown-item"
-                        href="#"
+                        href="/#"
                         onClick={exportToSVG}
                       >
                         {"Structure => PNG"}
@@ -243,8 +246,11 @@ const Navigation = ({ graphRef }) => {
                     <li>
                       <a
                         className="dropdown-item"
-                        href="#"
-                        onClick={onDownload}
+                        href="/#"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          onDownload();
+                        }}
                       >
                         {"Table => Excel"}
                       </a>
@@ -252,12 +258,12 @@ const Navigation = ({ graphRef }) => {
                   </ul>
                 </li>
                 <li>
-                  <a className="dropdown-item" href="#">
+                  <a className="dropdown-item" href="/#">
                     Import &raquo;
                   </a>
                   <ul className="dropdown-menu dropdown-submenu">
                     <li>
-                      <a className="dropdown-item" href="#">
+                      <a className="dropdown-item" href="/#">
                         <Button
                           variant="text"
                           component="label"
@@ -280,7 +286,7 @@ const Navigation = ({ graphRef }) => {
             <li className="nav-item dropdown">
               <a
                 className="nav-link dropdown-toggle"
-                href="#"
+                href="/#"
                 id="navbarDropdownMenuLink"
                 role="button"
                 data-mdb-toggle="dropdown"
@@ -295,7 +301,7 @@ const Navigation = ({ graphRef }) => {
                 <li>
                   <a
                     className="dropdown-item"
-                    href="#"
+                    href="/#"
                     onClick={(e) => {
                       e.preventDefault();
                       return showSOD();
@@ -308,7 +314,7 @@ const Navigation = ({ graphRef }) => {
                 <li>
                   <a
                     className="dropdown-item"
-                    href="#"
+                    href="/#"
                     onClick={(e) => {
                       e.preventDefault();
                       return showLogger();
@@ -320,7 +326,7 @@ const Navigation = ({ graphRef }) => {
                 <li>
                   <a
                     className="dropdown-item"
-                    href="#"
+                    href="/#"
                     onClick={(e) => {
                       e.preventDefault();
                       return showResult();
@@ -336,7 +342,7 @@ const Navigation = ({ graphRef }) => {
               <li className="nav-item dropdown">
                 <a
                   className="nav-link dropdown-toggle"
-                  href="#"
+                  href="/#"
                   id="navbarDropdownMenuLink"
                   role="button"
                   data-mdb-toggle="dropdown"
@@ -351,8 +357,11 @@ const Navigation = ({ graphRef }) => {
                   <li>
                     <a
                       className="dropdown-item"
-                      href="#"
-                      onClick={() => saveAnalysis()}
+                      href="/#"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        return saveAnalysis();
+                      }}
                     >
                       Save New
                     </a>
@@ -360,8 +369,11 @@ const Navigation = ({ graphRef }) => {
                   <li>
                     <a
                       className="dropdown-item"
-                      href="#"
-                      onClick={() => updateAnalysis()}
+                      href="/#"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        return updateAnalysis();
+                      }}
                     >
                       Save Existing
                     </a>
@@ -369,10 +381,9 @@ const Navigation = ({ graphRef }) => {
                   <li>
                     <a
                       className="dropdown-item"
-                      href="#"
+                      href="/#"
                       onClick={(e) => {
                         e.preventDefault();
-
                         return uploadAnalysis();
                       }}
                     >
@@ -388,14 +399,14 @@ const Navigation = ({ graphRef }) => {
             {currentUser ? (
               <>
                 <li className="nav-item">
-                  <a className="nav-link" href="#" style={{ cursor: "auto" }}>
+                  <a className="nav-link" href="/#" style={{ cursor: "auto" }}>
                     Welcome {currentUser.displayName}
                   </a>
                 </li>
                 <li className="nav-item">
                   <a
                     className="nav-link"
-                    href="#"
+                    href="/#"
                     id="navbarDropdownMenuLink"
                     role="button"
                     onClick={signOut}
@@ -408,10 +419,13 @@ const Navigation = ({ graphRef }) => {
               <li className="nav-item">
                 <a
                   className="nav-link"
-                  href="#"
+                  href="/#"
                   id="navbarDropdownMenuLink"
                   role="button"
-                  onClick={showAccount}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    return showAccount();
+                  }}
                 >
                   Sign In
                 </a>

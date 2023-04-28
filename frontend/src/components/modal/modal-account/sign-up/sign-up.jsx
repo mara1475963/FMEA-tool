@@ -1,16 +1,17 @@
-import { Button, TextField } from "@mui/material";
 import React from "react";
 import { useDispatch } from "react-redux";
-import { setModalAccountIsOpen } from "../../../store/modal/modal.actions";
+import { Button, TextField } from "@mui/material";
+
+import { setModalAccountIsOpen } from "../../../../store/modal/modal.actions";
 import {
   createAuthUserWithEmailAndPassword,
-  createUserDocumentFromAuth,
   setDisplayName,
-} from "../../../utils/firebase/firebase.utils";
+} from "../../../../utils/firebase/firebase.utils";
 import "./sign-up.scss";
 
 const SignUp = () => {
   const dispatch = useDispatch();
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const element = e.target;
@@ -24,18 +25,14 @@ const SignUp = () => {
       return;
     }
 
-    console.log(e.target.confirmPassword.value);
-
     try {
       const { user } = await createAuthUserWithEmailAndPassword(
         email,
         password
       );
       await setDisplayName(user, displayName);
-      console.log(user);
-      dispatch(setModalAccountIsOpen(false));
 
-      //await createUserDocumentFromAuth(user, { displayName });
+      dispatch(setModalAccountIsOpen(false));
     } catch (error) {
       if (error.code === "auth/email-already-in-use") {
         alert("Cannot create user, email already in use");

@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
 import "./table.scss";
 import { useDispatch, useSelector } from "react-redux";
-import Spinner from "../spinner/spinner.component";
+import Spinner from "../spinner/spinner";
 import parse from "html-react-parser";
-//import ScrollContainer from "react-indiana-drag-scroll";
 import { findObject } from "../../helpers";
 import { updateNodeData } from "../../store/fmea/fmea.actions";
 import { mainSocket } from "../../socket";
@@ -87,8 +86,6 @@ const Table = () => {
 
     result[element.id] = element.value;
 
-    console.log(element);
-
     if (
       element.id === "initialSeverity" ||
       element.id === "initialOccurance" ||
@@ -113,7 +110,7 @@ const Table = () => {
       if (!S.value || !O.value || !D.value) {
       } else {
         const APproduct = S.value * O.value * D.value;
-        // AP.innerHTML = APproduct;`
+
         data.children.forEach((child) => {
           child.children.forEach((ch) => {
             ch.functions.forEach((fce) => {
@@ -143,7 +140,7 @@ const Table = () => {
       if (!S2.value || !O2.value || !D2.value) {
       } else {
         const APproduct2 = S2.value * O2.value * D2.value;
-        //AP2.innerHTML = APproduct2;
+
         data.children.forEach((child) => {
           child.children.forEach((ch) => {
             ch.functions.forEach((fce) => {
@@ -208,20 +205,6 @@ const Table = () => {
     return selectedIDs.includes(id);
   };
 
-  // const test = (e) => {
-  //   let el = document.querySelector("#" + e);
-  //   if (e === "initialOccurance") {
-  //     el = document.querySelector("#currentPreventionControl");
-  //     return el?.value === "";
-  //   }
-  //   console.log(el);
-  //   //console.log(el.parentElement.previousSibling.firstChild.value === "");
-  //   return (
-  //     el?.parentElement.previousSibling.firstChild.value === "" &&
-  //     el?.parentElement.previousSibling.firstChild.innerHtml === ""
-  //   );
-  // };
-
   const generateFCform = (fc, initialSeverity) => {
     let initialAP = "";
     let finalAP = "";
@@ -281,9 +264,15 @@ const Table = () => {
     <td><input id='targetDate' type='date' value='${
       fc.targetDate ? fc.targetDate : ""
     }' ${fc.closed ? "disabled" : ""} /></td>
-    <td><input id='status' type='text' style='width:50px;' value='${
-      fc.status ? fc.status : ""
-    }' ${fc.closed ? "disabled" : ""} /></td>
+    <td>
+    <select  id='status' name="status" style='width:45px;'>
+  <option value="O">O</option>
+  <option value="DP">DP</option>
+  <option value="IP">IP</option>
+  <option value="C">C</option>
+  <option value="NP">NP</option>
+</select>
+    </td>
     <td><input id='actionTaken' type='text' value='${
       fc.actionTaken ? fc.actionTaken : ""
     }'  ${fc.closed ? "disabled" : ""} /></td>
@@ -330,8 +319,6 @@ const Table = () => {
       }
       const lvl1F = lvl2F.failures.filter((f) => f.depth === 0);
       const lvl3F = lvl2F.failures.filter((f) => f.depth === 2);
-      //console.log("lvl1", lvl1F);
-      //console.log("lvl3", lvl3F);
 
       let maxConnections = 0;
 
@@ -341,8 +328,6 @@ const Table = () => {
       if (lvl1F.length < lvl3F.length) {
         maxConnections = lvl3F.length;
       }
-
-      console.log(lvl2F.initialSeverity);
 
       result += `<tr>
       <td class="${isSelected(lvl1F[0]?.id) ? "selected" : ""}">${
@@ -386,9 +371,8 @@ const Table = () => {
                     }
                   </tr>`;
       }
-      //console.log(result);
     }
-    //console.log(result);
+
     return result;
   };
 
@@ -562,7 +546,6 @@ const Table = () => {
                       </th>
                     </tr>
                   </thead>
-                  {/* </ScrollContainer> */}
 
                   <tbody
                     className="table-form-controls"

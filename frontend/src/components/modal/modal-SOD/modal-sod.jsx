@@ -9,10 +9,10 @@ import Tab from "@mui/material/Tab";
 import "./modal-sod.scss";
 
 import { useDispatch, useSelector } from "react-redux";
-import { setModalSODSetupUpIsOpen } from "../../store/modal/modal.actions";
-import { selectFMEAData } from "../../store/fmea/fmea.selectors";
-import { mainSocket } from "../../socket";
-import { updateNodeData } from "../../store/fmea/fmea.actions";
+import { setModalSODSetupUpIsOpen } from "../../../store/modal/modal.actions";
+import { selectFMEAData } from "../../../store/fmea/fmea.selectors";
+import { mainSocket } from "../../../socket";
+import { updateNodeData } from "../../../store/fmea/fmea.actions";
 
 function TabPanel(props) {
   const dispatch = useDispatch();
@@ -31,7 +31,6 @@ function TabPanel(props) {
   }, []);
 
   useEffect(() => {
-    type = data?.header?.type?.name;
     if (type === "DFMEA") {
       if (children.includes("Severity"))
         setExamples(data.dfmeaExamples.severityExamples);
@@ -47,7 +46,7 @@ function TabPanel(props) {
       else if (children.includes("Detection"))
         setExamples(data.pfmeaExamples.detectionExamples);
     }
-  }, [data]);
+  }, [data, children, type]);
 
   const handler2 = (e) => {
     const element = e.target;
@@ -69,7 +68,6 @@ function TabPanel(props) {
         data.pfmeaExamples.detectionExamples[idx] = element.value;
     }
 
-    console.log(data);
     dispatch(updateNodeData(data, { ...data }));
     mainSocket && socket.emit("send-changes", data);
   };
@@ -217,29 +215,16 @@ const ModalSOD = () => {
   const dispatch = useDispatch();
   const handleClose = () => {
     dispatch(setModalSODSetupUpIsOpen(false));
-    setOpen(false);
   };
 
   const opened = useSelector((state) => state.modal.sodSetUpIsOpen);
 
-  const [open, setOpen] = useState(opened);
   const [value, setValue] = React.useState(0);
-  const [type, setType] = React.useState("DFMEA");
+  const [type] = React.useState("DFMEA");
   const data = useSelector(selectFMEAData);
 
   const handleChange = (event, newValue) => {
-    console.log(newValue);
     setValue(newValue);
-  };
-  useEffect(() => {
-    setOpen(opened);
-  }, [opened]);
-
-  const label = { inputProps: { "aria-label": "Switch demo" } };
-
-  const switched = (e) => {
-    e.target.checked ? setType("DFMEA") : setType("PFMEA");
-    console.log(type);
   };
 
   return (
@@ -262,17 +247,6 @@ const ModalSOD = () => {
               <Tab label="Detection" {...a11yProps(2)} />
             </Tabs>
             {data?.header.type.name}
-            {/* <div className="switch-container" style={{ marginTop: "7px" }}>
-              <span>PFMEA</span>
-
-              <Switch
-                {...label}
-                defaultChecked
-                className="switch"
-                onChange={switched}
-              />
-              <span>DFMEA</span>
-            </div> */}
           </div>
           <div className="tabs-content">
             <TabPanel value={value} index={0} type={type}>
