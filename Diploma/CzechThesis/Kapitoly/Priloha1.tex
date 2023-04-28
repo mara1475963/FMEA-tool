@@ -1,0 +1,102 @@
+\chapter{Případy užití pro testování}
+\label{sec:UC}
+\newpage
+
+\begin{longtable}{p{4cm} | p{12cm} } 
+     \caption{UC1: Tvorba FMEA}
+        \label{tab:uc1}
+\\
+Název & UC1: Tvorba FMEA \\ \hline
+Účel &   Tvorba FMEA pomocí šesti krokového postupu. \\\hline
+Hlavní aktér  & Uživatel  \\ \hline
+Prekondice & Uživatel se nachází na hlavní stránce aplikace. \\ \hline
+Úspěšné dokončení & Uživatel prošel proces tvorby analýzy a uzavřel všechny nalezené rizika pomocí kontroly úplnosti analýzy. \\ \hline
+
+        Základní scénář &  \begin{enumerate}
+     \item Uživatel zvolí akci pro vytvoření nové analýzy(DFMEA/PFMEA).
+     \item Systém inicializuje nová data se zvoleným typem analýzy.
+     \item Uživatel vyplňuje atributy v rámci 1. kroku analýzy(Planning and preparation)
+     \item Uživatel postupně vytváří strukturu produktu/procesu pomocí tlačítka uv{Add Node} pro jednotlivé objekty v rámci grafického náhledu na analýzu. (2. krok - Structure Analysis)
+     \item Uživatel přidává funkce jednotlivým objektům strukturální analýzy pomocí tlačítka uv{Edit Node} (3. krok - Function Analysis)
+     \item Uživatel přidává selhání jednotlivým funkcím pomocí tlačítka uv{Edit Node} (4. krok - Failure Analysis)
+     \item Uživatel hodnotí nalezené selhání pomocí tabulkového náhledu na analýzu(5. krok - Risk Analysis). 
+     \item Uživatel vyplňuje atributy pro optimalizaci aktuálních opatření \break (6. krok - Optimization). 
+     \item Uživatel provede opětovné hodnocení rizika pomocí atributů(Severity, Occurance, Detection). 
+     
+\end{enumerate}\\ \hline
+
+Alternativní scénář  &
+\begin{itemize}
+    \item [3.1] Uživatel zvolí možnost(Set SOD) pro určení vlastních příkladů pro určování hodnoty atributů(Severity, Occurance, Detection).
+    \item [3.2] Systém zobrazí uživateli formulář pro nastavení vlatních příkladů.
+    \item [3.3] Uživatel vyplňuje slovní hodnocení pro určení číselné hodnoty atributů(Severity, Occurance, Detection).
+\end{itemize}
+\begin{itemize}
+    \item [8.1] Uživatel zvolí možnost pro zobrazení výsledků analýzy. (Results)
+    \item [8.2] Systém zobrazí uživateli souhrn nalezených rizik a provede kontrolu úplnosti analýzy.
+    \item [8.3] Uživatel označí rizika, pro které není potřeba provést optimalizaci.  
+    \item [8.4] Systém deaktivuje řádky pro optimalizaci příslušného rizika.
+\end{itemize}
+\\ \hline
+
+\end{longtable}
+
+
+
+\begin{table}[h]
+	\caption{UC2: Přihlášení k uživatelskému účtu}
+	\label{tab:uc3}
+\begin{tabular}{p{4cm} | p{12cm} }
+Název & UC2: Přihlášení k uživatelskému účtu \\ \hline
+Účel &   Uživatel se úspěšně přihlásí ke svému uživatelskému účtu. \\\hline
+Hlavní aktér  & Uživatel  \\ \hline
+Prekondice & Uživatel je rigistrovaný v systému nebo má účet od společnosti Google. \\ \hline
+
+        Základní scénář &  \begin{enumerate}
+     \item Uživatel zvolí možnost z menu pro přihlášení.
+     \item Systém otevře modální okno s formulářem pro přihlášení.
+     \item Uživatel zadá přihlašovací údaje(Email, Password).
+     \item Systém na základě zadaných údajů provede přihlášení k uživatelskému účtu. 
+
+\end{enumerate}\\ \hline
+Alternativní scénář  & 
+
+\begin{itemize}
+    \item [3.1] Uživatel zvolí možnost pro přihlášení pomocí Google účtu. 
+    \item [3.2] Systém otevře dialogové okno s možnostmi přihlášení ke Google účtu. 
+    \item [3.3] Uživatel vybere Google účet, který chce použít pro přihlášení.
+    \item [3.4] Systém provede přihlášení na základě zvoleného účtu. 
+    \item [4.1]  Systém na základě chybně zadaných údajů zobrazí chybovou hlášku. 
+\end{itemize}
+\\ \hline
+
+\end{tabular}\  
+\end{table}
+
+\begin{table}[h]
+	\caption{UC3: Ukládání a načítání analýzy}
+	\label{tab:uc3}
+\begin{tabular}{p{4cm} | p{12cm} }
+Název & UC3: Ukládání a načítání analýzy \\ \hline
+Účel &   Uživatel si uloží vytvořenou analýzu do databáze a také ji dokáže načíst. \\\hline
+Hlavní aktér  & Uživatel  \\ \hline
+Prekondice & Uživatel je přihlášen do systému. \\ \hline
+
+        Základní scénář &  \begin{enumerate}
+     \item Uživatel zvolí možnost pro uložení analýzy jako nový záznam.
+     \item Systém provede uložení analýzy přidružené k danému uživatelskému účtu. 
+     \item Uživatel zvolí možnost pro načtení uložených analýz. 
+     \item Systém zobrazí seznam dostupných analýz.
+     \item Uživatel vybere analýzu ze seznamu.
+     \item Systém načte data vybrané analýzy. 
+\end{enumerate}\\ \hline
+Alternativní scénář  & 
+
+\begin{itemize}
+    \item [1.1] Uživatel zvolí možnost pro aktualizaci uložené analýzy. 
+    \item [1.2] Systém provede ověření, že je analýza uložena a pokud ano, provede její aktualiazci.  
+\end{itemize}
+\\ \hline
+
+\end{tabular}\  
+\end{table}

@@ -12,6 +12,8 @@
 \usepackage{longtable}
 \usepackage{xcolor}
 
+
+
 % Zadame pozadovane vstupy pro generovani titulnich stran.
 \ThesisAuthor{Marek Bauer}
 
@@ -26,9 +28,9 @@
 \ThesisAssignmentFileName{ThesisSpecification_BAU0027.pdf}
 
 % Pokud nechceme nikomu dekovat makro zapoznamkujeme.
-\Acknowledgement{Rád bych na tomto místě poděkoval všem, kteří mi s prací pomohli, protože bez nich by tato práce nevznikla.}
+\Acknowledgement{Rád bych na tomto místě poděkoval všem, kteří mě podporovali při tvorbě této práce. Konkrétně mému vedoucímu Ing. Janu Kožusznikovi, Ph.D. za konzultace, pracovníkům studovny za poskytnutí prostoru k práci a mým dvěma kamarádům Janu Bauerovi a Františkovi Šumšalovi za provedení testovacích případů.}
 
-\CzechAbstract{Tato diplomová práce se zabývá problematikou správy rizik v rámci různých fází při vývoji a výrobě nových produktů.  Konkrétně práce cílí na metodu FMEA zaměřenou na odhalení a mitigaci rizik v rámci návrhu produktu a následného výrobního procesu. Tato metoda se narozdíl od ostatních provádí před samotnou výrobou produktu ve snaze předcházet možným rizikům. V rámci této diplomové práce také vznikl nástroj, který umožňuje vypracování metody FMEA. Hlavními rysy nástroje jsou možnost souběžné práce týmu provádějící analýzu a přehledný grafický a textový režim sloužící pro náhled i tvorbu v rámci jednotlivých kroků analýzy. Dále nástroj nabízí další podpůrné funkce jako je nastavení vlastních kritérií hodnotících atributů, kontrola úplnosti analýzy, tvorba zápisů ze setkání, import a export analýzy. }
+\CzechAbstract{Tato diplomová práce se zabývá problematikou správy rizik v rámci různých fází při vývoji a výrobě nových produktů.  Konkrétně práce cílí na metodu FMEA zaměřenou na odhalení a mitigaci rizik \linebreak v rámci návrhu produktu a následného výrobního procesu. Tato metoda se narozdíl od jiných provádí před samotnou výrobou produktu ve snaze předcházet možným rizikům. V rámci této diplomové práce také vznikl nástroj, který umožňuje vypracování metody FMEA. Hlavními rysy nástroje jsou možnost souběžné práce týmu provádějící analýzu a přehledný grafický a textový režim sloužící pro náhled i tvorbu v rámci jednotlivých kroků analýzy. Dále nástroj nabízí další podpůrné funkce jako je nastavení vlastních kritérií hodnotících atributů, kontrola úplnosti analýzy, tvorba zápisů \linebreak ze setkání, import a export analýzy. }
 
 \CzechKeywords{FMEA, návrh, výrobní proces, způsoby selhání, příčiny selhání, důsledky selhání, webová aplikace}
 
@@ -43,6 +45,32 @@
 \AddAcronym{VDA}{Verband der Automobilindustrie}
 \AddAcronym{RPN}{Risk Priority Number}
 \AddAcronym{AP}{Action Priority}
+\AddAcronym{PPAP}{Production Part Approval Process}
+\AddAcronym{SPC}{Statistical Process Controll}
+\AddAcronym{MSA}{Measurement System Analysis}
+\AddAcronym{4M}{Machine, Man, Material, Milieu}
+\AddAcronym{FMEA-MSR}{Failure Mode and Effect Analysis - Monitoring and System response}
+\AddAcronym{UI}{User Interface}
+\AddAcronym{FMECA}{Failure Modes, Effects and Criticality Analysis}
+\AddAcronym{RPFMEA}{Failure Mode and Effect Analysis}
+\AddAcronym{}{}
+\AddAcronym{}{}
+\AddAcronym{}{}
+\AddAcronym{}{}
+\AddAcronym{}{}
+\AddAcronym{}{}
+\AddAcronym{}{}
+\AddAcronym{}{}
+\AddAcronym{}{}
+\AddAcronym{}{}
+\AddAcronym{}{}
+\AddAcronym{}{}
+\AddAcronym{}{}
+\AddAcronym{}{}
+\AddAcronym{}{}
+\AddAcronym{}{}
+
+
 
 
 \addbibresource{literature.bib}
@@ -76,7 +104,7 @@
 \input{Kapitoly/Nastroje}
 \input{Kapitoly/Navrh}
 \input{Kapitoly/Implementace}
-\input{Kapitoly/Testovani}
+%\input{Kapitoly/Testovani}
 \input{Kapitoly/Zaver}
 
 %\input{Chapters/Introduction.tex}
@@ -91,7 +119,8 @@
 
 % Prilohy
 \appendix
-%\input{Chapters/Appendix1.tex}
+\input{Kapitoly/Priloha2.tex}
+\input{Kapitoly/Priloha1.tex}
 %\input{Chapters/Appendix2.tex}
 
 % Priloha vlozena primo do hlavniho LaTeX souboru. Ne vsechny prilohy je nutne mit ve zvlastnich souborech.

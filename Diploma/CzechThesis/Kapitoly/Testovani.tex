@@ -1,2 +1,54 @@
 \chapter{Testovaní}
 \label{sec:testovani}
+\begin{longtable}{p{4cm} | p{12cm} } 
+        \caption{UC1:Tvorba FMEA}
+\label{tab:compare}
+\\
+Název & UC1:Tvorba FMEA \\ \hline
+Účel &  \\  \hline
+ &  \\ \hline
+ &  \\ \hline
+ &  \\ \hline
+ &  \\ \hline
+ &  \\ \hline
+ &  \\ \hline
+ &  \\ \hline
+ &  \\ \hline
+ &  \\ \hline
+ &  \\ \hline
+ &  \\ \hline
+ &  \\ \hline
+\end{longtable}
+
+\begin{table}[h]
+	\caption{UC2: Export\&Import analýzy}
+	\label{tab:uc2}
+\begin{tabular}{p{4cm} | p{12cm} }
+Název & UC2: Export\&Import analýzy \\ \hline
+Účel &   Exportování analýzy do formátů JSON, XLS, PNG a import z formátu JSON. \\\hline
+Hlavní aktér  & Uživatel  \\ \hline
+Prekondice & Uživatel se nachází na hlavní stránce aplikace \\ \hline
+
+        Základní scénář &  \begin{enumerate}
+     \item Uživatel zvolí akci pro exportování analýzy do formátu JSON.
+     \item Systém převede data analýzy do formátu JSON a otevře okno pro uložení souboru na disk.
+     \item Uživatel zvolí akci pro exportování struktury analýzy do formátu PNG.
+     \item Systém provede úpravu struktury a zobrazí okno pro uložení souboru na disk. 
+     \item Uživatel zvolí akci pro exportování tabulky analýzy do formátu XLS.
+     \item Systém provede sloučení tabulek a zobrazí okno pro uložení souboru na disk. 
+     \item Uživatel zvolí akci pro import analýzy z formátu JSON.
+     \item Systém zobrazí okno pro vybraní souboru z disku. 
+     \item Uživatel vybere soubor z disku. 
+     \item Systém převede data z JSON formátu a provede validaci vybraného souboru. 
+     \item Systém načte data analýzy.
+     
+     
+\end{enumerate}\\ \hline
+Alternativní scénář  &  
+\begin{itemize}
+    \item [11.1] Systém zobrazí informaci o chybném formátu vybraného souboru. 
+\end{itemize}
+\\ \hline
+Realizované požadavky\\ \hline
+\end{tabular}\  
+\end{table}
